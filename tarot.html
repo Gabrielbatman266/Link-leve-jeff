@@ -104,6 +104,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .upsell .ic{flex:none;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.06)}
 .upsell b{display:block}.upsell small{color:var(--soft);font-size:.82rem;font-weight:600}
 .upsell .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
+.cad{color:var(--gold2);font-weight:800;filter:drop-shadow(0 0 8px rgba(245,201,106,.5))}
 .lock .locks{list-style:none;margin-top:8px}.lock .locks li{padding:5px 0;color:var(--soft)}
 .planos{display:grid;gap:14px;margin-top:16px}
 .plano{border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.8) 60%);border-radius:22px;padding:18px}
@@ -271,7 +272,9 @@ const CFG = {
 };
 /* métricas */
 if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
-function track(ev, d) { try { window.umami && window.umami.track(ev, d) } catch (e) {} }
+/* Teste A/B da tiragem grátis: A = síntese inteira, B = síntese cortada no meio. Cada pessoa fica sempre na mesma versão. */
+let AB = 'A'; try { AB = localStorage.getItem('tarot_ab') || (Math.random() < .5 ? 'A' : 'B'); localStorage.setItem('tarot_ab', AB) } catch (e) {}
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), v: AB }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const hoje = () => new Date().toLocaleDateString('sv-SE');
@@ -339,7 +342,7 @@ $('limpar').onclick = () => { const i = S.escolhas.pop(); if (i === undefined) r
 $('go3').onclick = async () => {
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
-    const l = await api('/api/tarot/ler', { baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, fidelidade: LS.g('fid') });
+    const l = await api('/api/tarot/ler', { v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
     else { LS.s('gratis', hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
     LS.s('ultima', l); S.baralho = ''; mostrarLeitura(l);
@@ -374,7 +377,8 @@ function resultado() {
     (c.geral ? `<p>${cap(c.geral)}.</p><p class="tm">No seu tema: ${esc(c.tematico)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : `<p>${cap(c.texto)}.</p>`) + '</div>').join('');
   $('extra').innerHTML = l.extra ? extras(l.extra, l) : '';
   document.querySelectorAll('.rit input').forEach(cb => { const k = 'rit_' + cb.dataset.k; cb.checked = !!LS.g(k); cb.onchange = () => LS.s(k, cb.checked) });
-  $('sint').textContent = l.sintese;
+  $('sint').innerHTML = esc(l.sintese) + (l.cortada ? ' <span class="cad">🔒 continua na leitura completa</span><button class="btn ghost" id="desb">Desbloquear a síntese inteira</button>' : '');
+  if (l.cortada) $('desb').onclick = () => { track('tarot-desbloquear-sintese'); $('planos').scrollIntoView({ behavior: 'smooth' }) };
   $('pad').innerHTML = l.padroes.map(p => `<p style="margin-top:10px">✦ ${esc(p)}</p>`).join('');
   $('cons').textContent = l.conselho; $('chave').textContent = l.chave; $('aviso').textContent = l.aviso;
   const nomes = l.cartas.map(c => c.nome + (c.invertida ? ' (invertida)' : '')).join(', ');
