@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jeff Insane · Lei da Suposição</title>
+<meta name="description" content="Jeff Insane: lei da suposição, mentalidade e o livro Já Deu Certo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05040f;--ink:#ece8ff;--soft:#b9b2dd;--dim:#7d76a8;--gold:#f5c96a;--gold2:#ffe6a8;--lilac:#b48cff;--cyan:#7fe3ff;--pink:#ff8fd0;--card:rgba(22,16,52,.66);--line:rgba(180,140,255,.24);--wa:#25d366}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:17px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none}
+.neb{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60vmax 40vmax at 85% 5%,rgba(180,100,255,.22),transparent 60%),radial-gradient(50vmax 35vmax at 0% 60%,rgba(60,140,255,.16),transparent 60%),radial-gradient(45vmax 30vmax at 80% 100%,rgba(255,110,200,.14),transparent 60%)}
+main{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:44px 18px 60px;display:flex;flex-direction:column;align-items:center}
+.avatar{position:relative;width:112px;height:112px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:#fff;background:radial-gradient(circle at 35% 30%,#3a2a78,#140d33 70%);border:2px solid rgba(245,201,106,.6);box-shadow:0 0 50px rgba(180,140,255,.45)}
+.avatar::before,.avatar::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(127,227,255,.35);transform:rotateX(70deg) rotate(0deg);animation:orb 9s linear infinite}
+.avatar::after{inset:-22px;border-color:rgba(245,201,106,.35);animation-duration:14s;animation-direction:reverse}
+@keyframes orb{to{transform:rotateX(70deg) rotate(360deg)}}
+h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1;margin-top:26px;background:linear-gradient(180deg,#fff,var(--gold2) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center}
+.handle{color:var(--cyan);font-weight:800;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
+.bio{text-align:center;color:var(--soft);margin:12px 0 6px;max-width:360px}
+.bio em{color:var(--gold2);font-style:normal}
+.proof{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px;font-size:.8rem;color:var(--soft)}
+.proof span{padding:4px 10px;border-radius:99px;border:1px solid var(--line);background:var(--card)}
+.proof b{color:var(--gold2)}
+.links{width:100%;display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.lk{display:flex;align-items:center;gap:14px;width:100%;min-height:64px;padding:12px 16px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font:inherit;font-weight:800;text-align:left;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .15s,border-color .2s;opacity:0;animation:up .6s forwards}
+.lk:active{transform:scale(.97)}
+.lk:hover{border-color:var(--gold)}
+.lk .ic{flex:none;width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,.06)}
+.lk .tx{flex:1}.lk small{display:block;font-weight:600;color:var(--soft);font-size:.82rem;margin-top:2px}
+.lk .ar{color:var(--gold);font-size:1.4rem}
+.lk.wa .ic{background:rgba(37,211,102,.16)}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.book{width:100%;margin-top:6px;border-radius:24px;padding:16px;background:linear-gradient(160deg,rgba(245,201,106,.16),var(--card) 50%);border:1px solid rgba(245,201,106,.55);box-shadow:0 0 40px rgba(245,201,106,.08);opacity:0;animation:up .6s .1s forwards;cursor:pointer}
+.book .tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:99px;padding:3px 10px}
+.book .row{display:flex;gap:14px;margin-top:12px;align-items:center}
+.book img{width:92px;height:138px;object-fit:cover;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 0 1px rgba(245,201,106,.4)}
+.book h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;line-height:1.05;color:#fff}
+.book p{color:var(--soft);font-size:.9rem;margin-top:4px}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:8px}
+.price b{font-size:1.5rem;color:var(--gold2)}
+.price span{font-size:.8rem;color:var(--dim)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;width:100%;margin-top:14px;border:0;border-radius:99px;padding:12px 20px;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 8px 28px rgba(245,201,106,.3);text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.wa{background:linear-gradient(180deg,#5cf09a,var(--wa));color:#04260f;box-shadow:0 8px 28px rgba(37,211,102,.28)}
+.soon{width:100%;margin-top:22px;padding:14px 16px;border-radius:18px;border:1px dashed var(--line);color:var(--soft);font-size:.88rem;text-align:center;opacity:0;animation:up .6s .5s forwards}
+.soon b{color:var(--cyan)}
+footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-height:1.6}
+/* sheets */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}
+.sheet[hidden]{display:none}
+.sh{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:#120c2c;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:18px 18px 30px;animation:sl .35s ease-out}
+@keyframes sl{from{transform:translateY(40px);opacity:0}}
+.grip{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 10px}
+.x{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:16px;cursor:pointer}
+.sh h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;line-height:1.1;margin:6px 40px 4px 0;color:#fff}
+.sh .sub{color:var(--soft);font-size:.92rem}
+.opt{display:flex;gap:12px;align-items:center;width:100%;margin-top:10px;padding:14px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font:inherit;text-align:left}
+.opt .ic{font-size:24px}.opt b{display:block}.opt small{color:var(--soft);font-size:.82rem}
+.opt::after{content:'›';margin-left:auto;color:var(--wa);font-size:1.5rem;font-weight:800}
+.car{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -18px 4px;padding:0 18px 8px;scrollbar-width:none}
+.car::-webkit-scrollbar{display:none}
+.car figure{flex:0 0 62%;scroll-snap-align:center}
+.car img{width:100%;border-radius:16px;border:1px solid var(--line);display:block}
+.car figcaption{font-size:.75rem;color:var(--soft);text-align:center;margin-top:6px}
+.dots{display:flex;justify-content:center;gap:6px;margin-bottom:6px}.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--gold)}
+.sh h4{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:18px 0 8px}
+.inc{list-style:none}.inc li{padding:7px 0;border-bottom:1px solid rgba(180,140,255,.12);font-size:.95rem}.inc li:last-child{border:0}
+.fmt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fmt div{text-align:center;padding:10px 6px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:.8rem;font-weight:700;line-height:1.3}
+.fmt div span{display:block;font-size:1.4rem}
+.sample{margin-top:6px;padding:16px;border-radius:18px;background:linear-gradient(120deg,rgba(245,201,106,.14),var(--card));border:1px solid rgba(245,201,106,.5)}
+.sample p{font-size:.95rem;margin:.4em 0;color:var(--ink)}
+.sample .two{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold2);line-height:1.25}
+.guar{display:flex;gap:10px;align-items:center;margin-top:12px;font-size:.85rem;color:var(--soft)}
+.guar b{color:var(--ink)}
+.steps{list-style:none;counter-reset:s;margin:10px 0}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:8px 0;font-size:.95rem}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold))}
+.note{font-size:.8rem;color:var(--dim);margin-top:10px;text-align:center}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;opacity:1!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas><div class="neb"></div>
+<main>
+  <div class="avatar" aria-hidden="true">JI</div>
+  <h1>Jeff Insane</h1>
+  <div class="handle">Lei da suposição · Mentalidade</div>
+  <p class="bio">Eu te ensino a tirar todo mundo do pedestal e lembrar de quem você é. <em>Já deu certo.</em></p>
+  <div class="proof"><span><b>7,5 mil</b> seguidores</span><span><b>195 mil</b> curtidas</span><span>no TikTok</span></div>
+
+  <div class="links">
+    <div class="book" id="bookCard" role="button" tabindex="0" aria-label="Ver o livro Já Deu Certo">
+      <span class="tag">✦ Meu livro</span>
+      <div class="row">
+        <img src="img/capa.jpg" alt="Capa do livro Já Deu Certo">
+        <div>
+          <h2>Já Deu Certo</h2>
+          <p>A lei da suposição em 7 passos, com o Método, uma jornada de 21 dias e lições de 8 mestres.</p>
+          <div class="price"><b>R$ 19,90</b><span>Pix · 3 formatos</span></div>
+        </div>
+      </div>
+      <button class="btn" id="bookBtn">Ver prévia e comprar</button>
+    </div>
+
+    <a class="lk wa" id="lkWa" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
+    <a class="lk" id="lkTt" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
+  </div>
+
+  <div class="soon">📱 Em breve: <b>o app do Jeff Insane</b> pra ler os livros, fazer a jornada e ouvir os áudios guiados.</div>
+  <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.</footer>
+</main>
+
+<!-- WhatsApp: escolher o assunto -->
+<div class="sheet" id="waSheet" hidden><div class="sh" role="dialog" aria-label="Falar com o Jeff">
+  <div class="grip"></div><button class="x" data-close aria-label="Fechar">✕</button>
+  <h3>Como eu posso te ajudar?</h3>
+  <p class="sub">Escolha o assunto. A mensagem já vai pronta no WhatsApp, é só enviar.</p>
+  <div id="waOpts"></div>
+</div></div>
+
+<!-- Livro: prévia e compra -->
+<div class="sheet" id="bookSheet" hidden><div class="sh" role="dialog" aria-label="Livro Já Deu Certo">
+  <div class="grip"></div><button class="x" data-close aria-label="Fechar">✕</button>
+  <h3>Já Deu Certo</h3>
+  <p class="sub">Um livro pra viver, não só ler. Interativo, feito pro celular.</p>
+  <div class="car" id="car">
+    <figure><img src="img/p1.jpg" alt="Capa interativa do livro" loading="lazy"><figcaption>A capa: escolha ler rolando ou folheando</figcaption></figure>
+    <figure><img src="img/p2.jpg" alt="O Método Já Deu Certo" loading="lazy"><figcaption>O Método: duas frases, um ritual guiado</figcaption></figure>
+    <figure><img src="img/p3.jpg" alt="Cena da história da Pina" loading="lazy"><figcaption>A história da Pina em cada passo</figcaption></figure>
+    <figure><img src="img/p4.jpg" alt="Mapa da mão interativo" loading="lazy"><figcaption>Simpatias e gestos de poder</figcaption></figure>
+    <figure><img src="img/p5.jpg" alt="Jornada de 21 dias" loading="lazy"><figcaption>A Jornada de 21 dias</figcaption></figure>
+    <figure><img src="img/p6.jpg" alt="Técnicas de 1 minuto" loading="lazy"><figcaption>Técnicas de 1 minuto pra fazer agora</figcaption></figure>
+  </div>
+  <div class="dots" id="dots"></div>
+
+  <h4>Amostra grátis</h4>
+  <div class="sample">
+    <p class="two">“Já deu certo.”<br>“Lembre de quem você é.”</p>
+    <p>Duas frases. Se você esquecer todo o resto do livro, leve só elas. A primeira fecha a porta da dúvida. A segunda devolve o seu poder: você não está começando do zero. Você já conquistou coisas, já atravessou dias difíceis. Quem fez tudo isso continua aqui.</p>
+  </div>
+
+  <h4>O que tem dentro</h4>
+  <ul class="inc">
+    <li>✨ <b>O Método Já Deu Certo</b>, com ritual guiado de 2 minutos</li>
+    <li>🪜 <b>7 passos práticos</b>, com exemplos da vida real</li>
+    <li>🎬 <b>A história da Pina</b> do começo ao fim</li>
+    <li>🗓️ <b>Jornada de 21 dias</b> que salva as suas respostas</li>
+    <li>💗💰 <b>Dossiês completos</b> de pessoa específica e de dinheiro</li>
+    <li>📚 <b>Lições de 8 mestres</b>: Neville, Murphy, Haanel, Hill e mais</li>
+    <li>🕯️ <b>Simpatias e gestos de poder</b>, + SOS e glossário</li>
+    <li>🔎 Busca, letra grande, modo folhear e leitura em voz alta</li>
+  </ul>
+
+  <h4>Você recebe em 3 formatos</h4>
+  <div class="fmt"><div><span>📱</span>Interativo<br>no celular</div><div><span>📄</span>PDF<br>pra imprimir</div><div><span>📘</span>EPUB<br>pra leitores</div></div>
+
+  <h4>Como comprar</h4>
+  <ol class="steps">
+    <li>Toque em “Comprar” e a mensagem vai pronta pro meu WhatsApp.</li>
+    <li>Eu te mando a chave Pix de R$ 19,90.</li>
+    <li>Você manda o comprovante e recebe o livro na mesma conversa.</li>
+  </ol>
+  <a class="btn wa" id="buyBtn" href="#" target="_blank" rel="noopener">Comprar por R$ 19,90 no Pix</a>
+  <div class="guar">🛡️ <span><b>Garantia de 7 dias.</b> Não gostou? Devolvo o seu dinheiro.</span></div>
+  <p class="note">Pagamento automático com entrega imediata chega em breve.</p>
+</div></div>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO: troque aqui os seus links
+   ========================================================= */
+const CFG = {
+  tiktok:   'https://www.tiktok.com/@jeffinsane',
+  whatsapp: '5537999459674',
+  preco:    'R$ 19,90',
+};
+const MSG = {
+  sessao:      'Oi, Jeff! Vim pelo seu TikTok e quero agendar uma sessão individual com você. Como funciona e quais são os horários?',
+  mentoria:    'Oi, Jeff! Vim pelo seu TikTok e tenho interesse na sua mentoria. Pode me contar como funciona e os valores?',
+  consultoria: 'Oi, Jeff! Vim pelo seu TikTok e quero uma consultoria. O que eu quero resolver é: ',
+  duvida:      'Oi, Jeff! Vim pelo seu TikTok e tenho uma dúvida: ',
+  livro:       'Oi, Jeff! Quero comprar o livro *Já Deu Certo* (' + CFG.preco + ') pelo Pix. Pode me mandar a chave?',
+};
+/* ========================================================= */
+
+const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
+document.getElementById('lkTt').href = CFG.tiktok;
+document.getElementById('buyBtn').href = wa(MSG.livro);   // futuramente: trocar pelo pagamento automático do bot
+
+const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','sessao'],
+  ['🚀','Mentoria','Acompanhamento pra mudar de vez','mentoria'],
+  ['🎯','Consultoria','Um objetivo específico, um plano claro','consultoria'],
+  ['❓','Só uma dúvida','Pergunta rápida','duvida']];
+document.getElementById('waOpts').innerHTML = OPTS.map(o =>
+  `<a class="opt" href="${wa(MSG[o[3]])}" target="_blank" rel="noopener"><span class="ic">${o[0]}</span><span><b>${o[1]}</b><small>${o[2]}</small></span></a>`).join('');
+
+/* folhas (sheets) */
+function openSheet(id){const s=document.getElementById(id);s.hidden=false;document.body.style.overflow='hidden';s.querySelector('.x').focus()}
+function closeSheet(s){s.hidden=true;document.body.style.overflow=''}
+document.querySelectorAll('.sheet').forEach(s=>{s.addEventListener('click',e=>{if(e.target===s||e.target.closest('[data-close]'))closeSheet(s)})});
+addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.sheet').forEach(s=>!s.hidden&&closeSheet(s))});
+document.getElementById('lkWa').addEventListener('click',e=>{e.preventDefault();openSheet('waSheet')});
+const ob=e=>{e.stopPropagation();openSheet('bookSheet')};
+document.getElementById('bookCard').addEventListener('click',ob);
+document.getElementById('bookCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ob(e)}});
+
+/* carrossel: pontinhos */
+const car=document.getElementById('car'),dots=document.getElementById('dots'),n=car.children.length;
+dots.innerHTML='<i></i>'.repeat(n);
+const pd=()=>{const i=Math.round(car.scrollLeft/(car.children[0].offsetWidth+10));[...dots.children].forEach((d,j)=>d.classList.toggle('on',j===i))};
+car.addEventListener('scroll',pd,{passive:true});pd();
+
+/* céu */
+const cv=document.getElementById('sky'),cx=cv.getContext('2d');let st=[];
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function sz(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;st=Array.from({length:Math.round(innerWidth*innerHeight/3200)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:(Math.random()*1.3+.3)*d,p:Math.random()*6,s:Math.random()*.02+.005}))}
+sz();addEventListener('resize',sz);
+(function dr(){cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='#fff';for(const s of st){if(!still)s.p+=s.s;cx.globalAlpha=.3+.7*Math.abs(Math.sin(s.p));cx.beginPath();cx.arc(s.x,s.y,s.r,0,7);cx.fill()}if(!still)requestAnimationFrame(dr)})();
+</script>
+</body>
+</html>
