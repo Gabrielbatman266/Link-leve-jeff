@@ -36,6 +36,7 @@ h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1;margin-
 .lk.wa .ic{background:rgba(37,211,102,.16)}
 .lk.grp{border-color:rgba(37,211,102,.55);background:linear-gradient(120deg,rgba(37,211,102,.16),var(--card) 60%)}
 .lk.grp .ic{background:rgba(37,211,102,.22)}
+.gimg{flex:none;width:52px;height:52px;border-radius:14px;object-fit:cover;box-shadow:0 0 18px rgba(245,201,106,.35);border:1px solid rgba(245,201,106,.5)}
 .free{flex:none;font-size:.7rem;font-weight:800;letter-spacing:.1em;color:#04260f;background:linear-gradient(180deg,#5cf09a,var(--wa));padding:5px 10px;border-radius:99px}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .book{width:100%;margin-top:6px;border-radius:24px;padding:16px;background:linear-gradient(160deg,rgba(245,201,106,.16),var(--card) 50%);border:1px solid rgba(245,201,106,.55);box-shadow:0 0 40px rgba(245,201,106,.08);opacity:0;animation:up .6s .1s forwards;cursor:pointer}
@@ -121,7 +122,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
       <button class="btn" id="bookBtn">Ver prévia e comprar</button>
     </div>
 
-    <a class="lk grp" id="lkGrp" data-ev="clicou-grupo-gratis" href="#" target="_blank" rel="noopener" style="animation-delay:.15s"><span class="ic">👥</span><span class="tx">Grupo grátis no WhatsApp<small>Entre pra comunidade de quem já sabe que deu certo</small></span><span class="free">GRÁTIS</span></a>
+    <a class="lk grp" id="lkGrp" data-ev="clicou-grupo-gratis" href="#" target="_blank" rel="noopener" style="animation-delay:.15s"><img class="gimg" src="img/grupo.jpg" alt="Jeff · Estrela da Manhã"><span class="tx">Grupo grátis · Estrela da Manhã<small>Entre na comunidade no WhatsApp</small></span><span class="free">GRÁTIS</span></a>
     <a class="lk wa" id="lkWa" data-ev="abriu-menu-whatsapp" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
     <a class="lk" id="lkTt" data-ev="clicou-tiktok" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
   </div>
