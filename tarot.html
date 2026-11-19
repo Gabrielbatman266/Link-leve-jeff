@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tarot do Jeff · 3 cartas grátis</title>
+<title>Oráculo do Jeff · Tarot, Cigano e Carta do dia</title>
 <meta name="description" content="Faça sua pergunta, respire e escolha 3 cartas com a intuição. Leitura grátis com síntese, do Jeff Insane.">
 <meta property="og:title" content="Tarot do Jeff · 3 cartas grátis">
 <meta property="og:description" content="Pergunte. Respire. Escolha com a intuição.">
@@ -58,7 +58,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 /* mesa de cartas */
 .mesa{position:relative;margin:14px -18px 0;height:250px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .mesa::-webkit-scrollbar{display:none}
-.trilho{position:relative;height:100%;width:calc(78 * 26px + 120px)}
+.trilho{position:relative;height:100%;width:calc(var(--n,78) * 26px + 120px)}
 .mesa .cb{position:absolute;bottom:30px;width:78px;height:124px;cursor:pointer;transition:transform .25s,box-shadow .25s,bottom .25s;-webkit-tap-highlight-color:transparent}
 .mesa .cb.sel{bottom:90px;box-shadow:0 0 24px rgba(245,201,106,.9),inset 0 0 0 4px rgba(5,4,15,.6),inset 0 0 0 5px rgba(245,201,106,.7)}
 .mesa .cb.sel::before{content:attr(data-n);position:absolute;top:6px;left:8px;z-index:2;font-weight:800;color:#1c1203;background:var(--gold);border-radius:99px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.8rem}
@@ -119,6 +119,15 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .rit input:checked+span{text-decoration:line-through;opacity:.6}
 .guia{display:flex;gap:14px;align-items:center}.guia .sy{flex:none;width:64px;height:96px;border-radius:10px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold2);background:linear-gradient(170deg,#1d1450,#09061c)}
 .ci .tm{color:var(--gold2);font-size:.95rem;margin-top:4px}
+.diaMini{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;border:1px solid rgba(245,201,106,.45);background:linear-gradient(120deg,rgba(245,201,106,.12),var(--card) 60%);color:var(--ink);text-decoration:none;margin-bottom:14px}
+.diaMini span:first-child{font-size:1.6rem}.diaMini small{display:block;color:var(--soft);font-size:.82rem}.diaMini .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
+.cred{border-color:rgba(37,211,102,.5)}
+.mais{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mais a{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-weight:800;font-size:.95rem}
+.mais a span{font-size:1.6rem}.mais a small{color:var(--soft);font-weight:600;font-size:.78rem}
+.streak{text-align:center;color:var(--gold2);font-weight:800;margin-top:8px}
+.cf.cig{background:radial-gradient(circle at 50% 40%,rgba(255,143,208,.25),transparent 45%),linear-gradient(170deg,#3a1440,#09061c)}
+.cf.cig .sy{font-size:2rem;text-shadow:none}
 /* folha de pagamento */
 .sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.65)}
 .sh{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:#120c2c;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:18px 18px 30px;animation:sl .35s ease-out}
@@ -138,14 +147,16 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 <body>
 <canvas id="sky"></canvas><div class="neb"></div>
 <main>
-  <div class="top"><a href="./">‹ Jeff Insane</a><span class="kick">Tarot do Jeff</span></div>
+  <div class="top"><a href="./">‹ Jeff Insane</a><span class="kick">Oráculo do Jeff</span></div>
 
   <!-- 0 · gancho -->
   <section id="s0" class="fade">
     <div class="heroCards"><div class="cb"></div><div class="cb"></div><div class="cb"></div></div>
-    <span class="pill free">GRÁTIS · 3 CARTAS</span>
-    <h1>O que as cartas querem te mostrar hoje?</h1>
-    <p>Faça a sua pergunta, respire e escolha <b>3 cartas com a intuição</b>. Você recebe a leitura de cada uma e uma <b>síntese</b> do que saiu.</p>
+    <a class="diaMini" id="diaMini" href="?m=dia"><span>🌅</span><span><b>Sua carta do dia</b><small id="diaMiniT">Uma carta grátis todo dia. Toque pra ver.</small></span><span class="ar">›</span></a>
+    <div class="box cred" id="credBox" hidden><p>✨ Você tem <b id="credN">0</b> leituras completas do pacote.</p><button class="btn" id="credUsar">Usar uma agora</button></div>
+    <span class="pill free" id="pill0">GRÁTIS · 3 CARTAS</span>
+    <h1 id="h0">O que as cartas querem te mostrar hoje?</h1>
+    <p id="p0">Faça a sua pergunta, respire e escolha <b>3 cartas com a intuição</b>. Você recebe a leitura de cada uma e uma <b>síntese</b> do que saiu.</p>
     <div class="steps3"><div><b>1</b>Pergunte</div><div><b>2</b>Respire</div><div><b>3</b>Escolha</div></div>
     <button class="btn" id="go0">✦ Tirar minhas cartas grátis</button>
     <div id="jaFez" class="box" hidden>
@@ -158,14 +169,15 @@ label.f input:focus{outline:none;border-color:var(--gold)}
   <!-- 1 · tema e pergunta -->
   <section id="s1" hidden class="fade">
     <span class="kick">Passo 1 de 3</span>
-    <h2>Sobre o que você quer perguntar?</h2>
+    <h2 id="h1t">Sobre o que você quer perguntar?</h2>
     <div class="temas" id="temas">
       <button class="tema" data-t="amor"><span>💞</span><div>Amor e pessoa específica<small>Relação, reconciliação, alguém especial</small></div></button>
       <button class="tema" data-t="dinheiro"><span>💰</span><div>Dinheiro e trabalho<small>Prosperidade, carreira, decisões</small></div></button>
       <button class="tema" data-t="caminho"><span>🧭</span><div>O meu caminho<small>Momento de vida, propósito, o que fazer</small></div></button>
     </div>
+    <label class="f" id="pessoaL" hidden>Nome da pessoa<input id="pessoa" maxlength="40" placeholder="Só o primeiro nome"></label>
     <label class="f">Sua pergunta (opcional)<input id="perg" maxlength="140" placeholder="Ex.: O que eu preciso saber sobre..."></label>
-    <label class="f">Seu primeiro nome (opcional)<input id="nome" maxlength="40" autocomplete="given-name"></label>
+    <label class="f"><span id="nomeL">Seu primeiro nome (opcional)</span><input id="nome" maxlength="40" autocomplete="given-name"></label>
     <button class="btn" id="go1" disabled>Continuar</button>
   </section>
 
@@ -185,8 +197,26 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <p>Passe o dedo pelas cartas e toque nas que <b>te chamarem</b>. Não pense, sinta. A primeira que vier é a certa.</p>
     <div class="mesa" id="mesa"><div class="trilho" id="trilho"></div></div>
     <div class="esc"><span id="escN">0 de 3 escolhidas</span><button class="link" style="width:auto;margin:0" id="limpar">Desfazer</button></div>
-    <p class="hint">↔ deslize pro lado pra ver todas as 78 cartas</p>
+    <p class="hint">↔ deslize pro lado pra ver todas as <span id="totC">78</span> cartas</p>
     <button class="btn" id="go3" disabled>Revelar as cartas</button>
+  </section>
+
+  <!-- 5 · carta do dia -->
+  <section id="s5" hidden class="fade">
+    <span class="kick">Carta do dia</span>
+    <h2 id="diaData">Sua carta de hoje</h2>
+    <p>Respire uma vez, pense no seu dia e toque na carta.</p>
+    <div class="spread"><div class="slot" style="width:150px"><div class="flip" id="diaFlip" style="width:150px;height:236px"><div class="in"><div class="cb"></div><div id="diaFace" class="cf"></div></div></div></div></div>
+    <p class="streak" id="streak"></p>
+    <div id="diaRes" hidden>
+      <div class="ci"><div class="ps" id="diaFoco"></div><div class="nm" id="diaNome"></div><p id="diaTxt"></p></div>
+      <div class="box"><p><b>Pra hoje:</b> <span id="diaCons"></span></p></div>
+      <div class="box chave"><p>Afirmação do dia: <b id="diaAf"></b></p></div>
+      <div class="box"><p>Volte amanhã pra sua próxima carta. A sequência de dias vai crescendo ✦</p></div>
+      <a class="btn" href="?m=tarot" id="diaTarot">🔮 Tirar 3 cartas grátis sobre a sua pergunta</a>
+      <h3>Explore mais</h3>
+      <div class="mais" id="maisDia"></div>
+    </div>
   </section>
 
   <!-- 4 · leitura -->
@@ -212,7 +242,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <!-- funil -->
       <div id="teaser" class="box lock">
         <p><b>A leitura grátis mostra o rumo. A completa responde o resto:</b></p>
-        <ul class="locks"><li>🔒 Sim ou não? A tendência pra sua pergunta</li><li>🔒 Quando? A tendência de tempo</li><li>🔒 O que te trava e onde se apoiar</li><li>🔒 A carta que guia você + afirmação</li><li>🔒 Ritual de 7 dias da lei da suposição pro seu caso</li></ul>
+        <ul class="locks" id="locks"></ul>
       </div>
       <div class="planos" id="planos">
         <div class="plano" id="plCompleta">
@@ -221,6 +251,20 @@ label.f input:focus{outline:none;border-color:var(--gold)}
           <ul><li>Onde você está, o que te trava, o que te ajuda, o que fazer e pra onde vai</li><li>Sim ou não, quando, energia dominante</li><li>Carta-guia, o que evitar e ritual de 7 dias</li></ul>
           <div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix</small></div>
           <button class="btn" data-comprar="completa">Quero a completa</button>
+        </div>
+        <div class="plano" id="plPacote">
+          <span class="pill">PACOTE · 3 LEITURAS COMPLETAS</span>
+          <h3>3 × 5 cartas</h3>
+          <ul><li>Três leituras completas pra usar quando quiser</li><li>Sai R$ 4 cada</li><li>Fica guardado aqui no seu celular</li></ul>
+          <div class="preco"><b class="pc" data-t="pacote">R$ 12,00</b><small>no Pix</small></div>
+          <button class="btn" data-comprar="pacote">Quero o pacote</button>
+        </div>
+        <div class="plano top" id="plCigano">
+          <span class="pill roxo">MESA CIGANA · PESSOA ESPECÍFICA</span>
+          <h3>9 cartas sobre vocês dois</h3>
+          <ul><li>Como você está e como ele(a) está</li><li>O que ele(a) sente e o que ele(a) pensa</li><li>O que atrapalha, o que ajuda e o que vem por aí</li><li>Sim ou não, quando, combinações das cartas</li><li>Ritual de 7 dias pro amor</li></ul>
+          <div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix</small></div>
+          <button class="btn" data-comprar="cigano">Quero a mesa cigana</button>
         </div>
         <div class="plano top" id="plProfunda">
           <span class="pill roxo">MAIS COMPLETA · CRUZ CELTA</span>
@@ -232,6 +276,8 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       </div>
       <div class="box" id="calma" hidden><p><b>Já foram 3 leituras pagas hoje.</b> O tarot funciona melhor com espaço: deixe a resposta assentar e volte amanhã com a cabeça leve.</p></div>
 
+      <h3>Explore mais</h3>
+      <div class="mais" id="mais"></div>
       <h3>Pra transformar a leitura em realidade</h3>
       <a class="upsell" id="upLivro" href="./#livro"><span class="ic">📖</span><span><b>Livro Já Deu Certo · R$ 19,90</b><small>O método passo a passo pra assumir o resultado e viver ele</small></span><span class="ar">›</span></a>
       <a class="upsell" id="upSessao" href="#" target="_blank" rel="noopener"><span class="ic">🔮</span><span><b>Leitura ao vivo comigo</b><small>Sessão individual no WhatsApp, pro seu caso</small></span><span class="ar">›</span></a>
@@ -274,7 +320,8 @@ const CFG = {
 if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
 /* Teste A/B da tiragem grátis: A = síntese inteira, B = síntese cortada no meio. Cada pessoa fica sempre na mesma versão. */
 let AB = 'A'; try { AB = localStorage.getItem('tarot_ab') || (Math.random() < .5 ? 'A' : 'B'); localStorage.setItem('tarot_ab', AB) } catch (e) {}
-function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), v: AB }) } catch (e) {} }
+const MODO = ['cigano', 'dia'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), v: AB, modo: MODO }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const hoje = () => new Date().toLocaleDateString('sv-SE');
@@ -285,20 +332,30 @@ async function copy(t, ok) { try { await navigator.clipboard.writeText(t); toast
 const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
 
 /* estado */
-const S = { tema: '', perg: '', nome: '', tipo: 'gratis', baralho: '', escolhas: [], leitura: null };
-function tela(n) { ['s0', 's1', 's2', 's3', 's4'].forEach((s, i) => $(s).hidden = i !== n); scrollTo(0, 0) }
+const S = { tema: MODO === 'cigano' ? 'amor' : '', perg: '', nome: '', pessoa: '', tipo: 'gratis', baralho: '', escolhas: [], leitura: null };
+function tela(n) { ['s0', 's1', 's2', 's3', 's4', 's5'].forEach((s, i) => $(s).hidden = i !== n); scrollTo(0, 0) }
 track('tarot-abriu', { origem: new URLSearchParams(location.search).get('utm_source') || '' });
 
 /* 0 · gancho */
-function gratisUsada() { return LS.g('gratis') === hoje() }
-if (gratisUsada()) { $('go0').textContent = '✦ Fazer a leitura completa (5 cartas)'; $('jaFez').hidden = !LS.g('ultima') }
-$('go0').onclick = () => { if (gratisUsada()) { abrirPagamento('completa'); return } S.tipo = 'gratis'; tela(1); track('tarot-comecou') };
+const KG = MODO === 'cigano' ? 'gratis_cigano' : 'gratis';
+function gratisUsada() { return LS.g(KG) === hoje() }
+const PAGO_MODO = MODO === 'cigano' ? 'cigano' : 'completa';
+if (MODO === 'cigano') {
+  document.title = 'Baralho Cigano do Jeff · amor e pessoa específica';
+  $('h0').textContent = 'O que está acontecendo entre você e essa pessoa?'; $('pill0').textContent = 'GRÁTIS · BARALHO CIGANO';
+  $('p0').innerHTML = 'Pense na pessoa, respire e escolha <b>3 cartas do Baralho Cigano</b>. Veja a energia entre vocês, o que ele(a) sente e a tendência.';
+  $('h1t').textContent = 'Sobre quem é a sua pergunta?'; $('temas').hidden = true; $('pessoaL').hidden = false; $('nomeL').textContent = 'Seu primeiro nome (opcional)';
+  $('go1').disabled = false; $('perg').placeholder = 'Ex.: Ele(a) ainda pensa em mim?'; $('totC').textContent = '36';
+  document.querySelector('.top .kick').textContent = 'Baralho Cigano';
+}
+if (gratisUsada()) { $('go0').textContent = MODO === 'cigano' ? '✦ Fazer a mesa cigana completa (9 cartas)' : '✦ Fazer a leitura completa (5 cartas)'; $('jaFez').hidden = !LS.g('ultima') }
+$('go0').onclick = () => { if (gratisUsada()) { abrirPagamento(PAGO_MODO); return } S.tipo = 'gratis'; tela(1); track('tarot-comecou') };
 $('verUltima').onclick = () => { const u = LS.g('ultima'); if (u) mostrarLeitura(u, true) };
 if ((LS.g('leituras') || []).length) { const b = document.createElement('button'); b.className = 'link'; b.textContent = '📜 Minhas leituras pagas'; b.onclick = () => mostrarLeitura(LS.g('leituras')[0], true); $('s0').appendChild(b) }
 
 /* 1 · tema */
 document.querySelectorAll('.tema').forEach(b => b.onclick = () => { document.querySelectorAll('.tema').forEach(x => x.classList.toggle('on', x === b)); S.tema = b.dataset.t; $('go1').disabled = false });
-$('go1').onclick = () => { S.perg = $('perg').value.trim(); S.nome = $('nome').value.trim(); track('tarot-tema', { tema: S.tema }); respirar() };
+$('go1').onclick = () => { S.perg = $('perg').value.trim(); S.nome = $('nome').value.trim(); S.pessoa = $('pessoa').value.trim(); if (!S.tema) return; track('tarot-tema', { tema: S.tema }); respirar() };
 
 /* 2 · respiração (3 ciclos de 4s inspira / 4s solta) */
 let bTimer = [];
@@ -315,21 +372,23 @@ function respirar() {
 $('pular').onclick = () => { bTimer.forEach(clearTimeout); escolher() };
 
 /* 3 · mesa com 78 cartas */
-const QTD = { gratis: 3, completa: 5, profunda: 10 };
+const QTD = { gratis: 3, completa: 5, profunda: 10, cigano: 9 };
+const TOTAL = () => S.modo === 'cigano' || (MODO === 'cigano' && S.tipo !== 'completa' && S.tipo !== 'profunda') ? 36 : 78;
 const N = () => QTD[S.tipo] || 3;
 async function escolher() {
   tela(3); S.escolhas = []; $('t3').textContent = 'Escolha ' + N() + ' cartas'; atualizaEsc();
   const tr = $('trilho'); tr.innerHTML = '';
-  for (let i = 0; i < 78; i++) {
+  const T = TOTAL(); $('totC').textContent = T; tr.style.setProperty('--n', T);
+  for (let i = 0; i < T; i++) {
     const c = document.createElement('div'); c.className = 'cb'; c.dataset.i = i;
-    const t = i / 77, x = 30 + i * 26, rot = (t - .5) * 18, lift = Math.sin(t * Math.PI) * 26;
+    const t = i / (T - 1), x = 30 + i * 26, rot = (t - .5) * 18, lift = Math.sin(t * Math.PI) * 26;
     c.style.left = x + 'px'; c.style.transform = `rotate(${rot}deg) translateY(${-lift}px)`; c.style.zIndex = i;
     c.style.setProperty('--dx', ((i % 7) - 3) * 9 + 'px'); c.style.setProperty('--dr', ((i % 5) - 2) * 4 + 'deg');
     c.onclick = () => toca(c); tr.appendChild(c);
   }
   $('mesa').classList.add('shuffle'); setTimeout(() => $('mesa').classList.remove('shuffle'), 1600);
   $('mesa').scrollLeft = (tr.scrollWidth - $('mesa').clientWidth) / 2;
-  if (S.tipo === 'gratis' && !S.baralho) { try { S.baralho = (await api('/api/tarot/embaralhar', {})).baralho } catch (e) { toast('Sem conexão. Tente de novo.') } }
+  if (S.tipo === 'gratis' && !S.baralho) { try { S.baralho = (await api('/api/tarot/embaralhar', { modo: MODO === 'cigano' ? 'cigano' : 'tarot' })).baralho } catch (e) { toast('Sem conexão. Tente de novo.') } }
 }
 function toca(c) {
   const i = +c.dataset.i, k = S.escolhas.indexOf(i);
@@ -342,9 +401,9 @@ $('limpar').onclick = () => { const i = S.escolhas.pop(); if (i === undefined) r
 $('go3').onclick = async () => {
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
-    const l = await api('/api/tarot/ler', { v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, fidelidade: LS.g('fid') });
+    const l = await api('/api/tarot/ler', { v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
-    else { LS.s('gratis', hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
+    else { LS.s(KG, hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
     LS.s('ultima', l); S.baralho = ''; mostrarLeitura(l);
   } catch (e) { toast(e.message || 'Não deu certo. Tente de novo.') }
   finally { $('go3').disabled = false; $('go3').textContent = 'Revelar as cartas' }
@@ -353,11 +412,11 @@ $('go3').onclick = async () => {
 /* 4 · revelação e leitura */
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const ROM = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
-function face(c) { return `<div class="cf ${c.naipe || ''} ${c.invertida ? 'inv' : ''}"><span class="nu">${c.tipo === 'maior' ? ROM[c.num] : ''}</span><span class="sy">${esc(c.s)}</span><span class="no">${esc(c.nome)}</span></div>` }
+function face(c) { return `<div class="cf ${c.tipo === 'cigano' ? 'cig' : c.naipe || ''} ${c.invertida ? 'inv' : ''}"><span class="nu">${c.tipo === 'maior' ? ROM[c.num] : c.tipo === 'cigano' ? c.num : ''}</span><span class="sy">${esc(c.s)}</span><span class="no">${esc(c.nome)}</span></div>` }
 let virar = [];
 function mostrarLeitura(l, direto) {
   S.leitura = l; tela(4); virar.forEach(clearTimeout); virar = [];
-  $('k4').textContent = { completa: 'Leitura completa · 5 cartas', profunda: 'Leitura mais completa · Cruz Celta · 10 cartas', gratis: 'Leitura grátis · 3 cartas' }[l.tipo];
+  $('k4').textContent = { completa: 'Leitura completa · 5 cartas', profunda: 'Leitura mais completa · Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', gratis: l.modo === 'cigano' ? 'Baralho Cigano grátis · 3 cartas' : 'Leitura grátis · 3 cartas' }[l.tipo];
   $('spread').innerHTML = l.cartas.map((c, i) => `<div class="slot"><div class="flip" data-i="${i}"><div class="in"><div class="cb"></div>${face(c)}</div></div><small>${esc(c.posicao)}</small></div>`).join('');
   $('res').hidden = true; $('h4').hidden = !!direto; $('intuTxt').hidden = true;
   const flips = [...document.querySelectorAll('.flip')]; let viradas = 0;
@@ -374,7 +433,7 @@ function resultado() {
   document.querySelectorAll('.flip').forEach(f => f.classList.add('pulse')); setTimeout(() => document.querySelectorAll('.flip').forEach(f => f.classList.remove('pulse')), 2600);
   const cap = t => esc(t.charAt(0).toUpperCase() + t.slice(1));
   $('lista').innerHTML = l.cartas.map(c => `<div class="ci"><div class="ps">${esc(c.posicao)}</div><div class="nm">${esc(c.nome)}${c.invertida ? '<span class="tagInv">invertida</span>' : ''}</div>` +
-    (c.geral ? `<p>${cap(c.geral)}.</p><p class="tm">No seu tema: ${esc(c.tematico)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : `<p>${cap(c.texto)}.</p>`) + '</div>').join('');
+    (c.tipo === 'cigano' && l.extra ? `<p>${cap(c.texto)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : c.geral ? `<p>${cap(c.geral)}.</p><p class="tm">No seu tema: ${esc(c.tematico)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : `<p>${cap(c.texto)}.</p>`) + '</div>').join('');
   $('extra').innerHTML = l.extra ? extras(l.extra, l) : '';
   document.querySelectorAll('.rit input').forEach(cb => { const k = 'rit_' + cb.dataset.k; cb.checked = !!LS.g(k); cb.onchange = () => LS.s(k, cb.checked) });
   $('sint').innerHTML = esc(l.sintese) + (l.cortada ? ' <span class="cad">🔒 continua na leitura completa</span><button class="btn ghost" id="desb">Desbloquear a síntese inteira</button>' : '');
@@ -382,22 +441,29 @@ function resultado() {
   $('pad').innerHTML = l.padroes.map(p => `<p style="margin-top:10px">✦ ${esc(p)}</p>`).join('');
   $('cons').textContent = l.conselho; $('chave').textContent = l.chave; $('aviso').textContent = l.aviso;
   const nomes = l.cartas.map(c => c.nome + (c.invertida ? ' (invertida)' : '')).join(', ');
-  $('upSessao').href = wa('Oi, Jeff! Fiz o tarot no seu site e saiu: ' + nomes + '. Quero uma leitura ao vivo com você.');
+  $('upSessao').href = wa('Oi, Jeff! Fiz o ' + (l.modo === 'cigano' ? 'Baralho Cigano' : 'tarot') + ' no seu site e saiu: ' + nomes + '. Quero uma leitura ao vivo com você.');
+  $('mais').innerHTML = maisHTML(l.modo === 'cigano' ? 'cigano' : 'tarot');
   $('upGrupo').href = CFG.grupo;
   $('novaGratis').hidden = gratisUsada();
   // funil: grátis → completa ou profunda; completa → profunda; profunda → livro/sessão
   const pagasHoje = (LS.g('pagas') || {})[hoje()] || 0, limite = pagasHoje >= 3;
   $('calma').hidden = !limite;
+  const cig = l.modo === 'cigano';
+  $('locks').innerHTML = (cig ? ['🔒 Como ele(a) está e o que ele(a) pensa', '🔒 O que atrapalha e o que ajuda vocês', '🔒 Sim ou não? A tendência', '🔒 Quando? A tendência de tempo', '🔒 Combinações das cartas + ritual de 7 dias']
+    : ['🔒 Sim ou não? A tendência pra sua pergunta', '🔒 Quando? A tendência de tempo', '🔒 O que te trava e onde se apoiar', '🔒 A carta que guia você + afirmação', '🔒 Ritual de 7 dias da lei da suposição pro seu caso']).map(t => '<li>' + t + '</li>').join('');
   $('teaser').hidden = l.tipo !== 'gratis' || limite;
-  $('planos').hidden = limite || l.tipo === 'profunda';
-  $('plCompleta').hidden = l.tipo !== 'gratis';
+  // tarot grátis → completa/pacote/profunda · completa → profunda (+ cigano se tema amor) · cigano grátis → mesa cigana · pagas de cigano → tarot profunda
+  const vis = { plCompleta: !cig && l.tipo === 'gratis', plPacote: !cig && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda', plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'gratis') };
+  Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
+  $('planos').hidden = limite || !Object.values(vis).some(Boolean);
   precosAtuais().then(p => document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])));
   if (!$('planos').hidden) track('tarot-viu-oferta', { depois: l.tipo });
 }
 function extras(x, l) {
   let h = `<h3>Sim ou não?</h3><div class="box sim"><span class="r">${esc(x.sim.r)}</span><p>${esc(x.sim.t)}</p></div>`;
   h += `<h3>Quando?</h3><div class="box"><p>${esc(x.quando)}</p></div>`;
-  h += `<h3>Energia da leitura</h3><div class="box">${x.energia.map(e => `<div class="eln"><span>${esc(e.el)}</span><span>${e.pct}%</span></div><div class="bar"><i style="width:${e.pct}%"></i></div>`).join('')}<p style="font-size:.85rem">Fogo = ação · Água = emoção · Ar = mente · Terra = matéria · Espírito = Arcanos Maiores, as grandes lições.</p></div>`;
+  if (x.combos) h += `<h3>Combinações das cartas</h3><div class="box">${x.combos.map(t => `<p style="margin-bottom:8px">✦ ${esc(t)}</p>`).join('')}</div>`;
+  if (x.energia) h += `<h3>Energia da leitura</h3><div class="box">${x.energia.map(e => `<div class="eln"><span>${esc(e.el)}</span><span>${e.pct}%</span></div><div class="bar"><i style="width:${e.pct}%"></i></div>`).join('')}<p style="font-size:.85rem">Fogo = ação · Água = emoção · Ar = mente · Terra = matéria · Espírito = Arcanos Maiores, as grandes lições.</p></div>`;
   h += `<h3>A carta que guia você</h3><div class="box guia"><span class="sy">${esc(x.guia.s)}</span><p>${esc(x.guia.texto)}<br><b style="color:var(--gold2)">“${esc(x.guia.afirmacao)}”</b></p></div>`;
   h += `<h3>O que evitar</h3><div class="box"><p>${esc(x.evitar)}</p></div>`;
   h += `<h3>Onde se apoiar</h3><div class="box"><p>${esc(x.ajuda)}</p></div>`;
@@ -407,10 +473,15 @@ function extras(x, l) {
   h += `<h3>Ritual de 7 dias</h3><div class="box rit"><p style="margin-bottom:6px">Marque cada dia que fizer. Fica salvo aqui.</p>${x.ritual.map((t, i) => `<label><input type="checkbox" data-k="${esc(key)}_${i}"><span>${esc(t)}</span></label>`).join('')}</div>`;
   return h;
 }
-async function precosAtuais() { try { return await api('/api/tarot/precos?f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9 } } }
+async function precosAtuais() { try { return await api('/api/tarot/precos?f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9, cigano: 9.9, pacote: 12, numero: 9.9 } } }
+function maisHTML(atual) {
+  const T = [['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', '?m=cigano'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
+  return T.filter(t => t[0] !== atual).map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
+}
+document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }) });
 $('novaGratis').onclick = () => { S.tipo = 'gratis'; tela(1) };
 $('share').onclick = async () => {
-  const l = S.leitura; const t = 'Tirei no Tarot do Jeff: ' + l.cartas.map(c => c.nome).join(' · ') + '. Tira as suas grátis:';
+  const l = S.leitura; const t = (l.modo === 'cigano' ? 'Tirei no Baralho Cigano do Jeff: ' : 'Tirei no Tarot do Jeff: ') + l.cartas.map(c => c.nome).join(' · ') + '. Tira as suas grátis:';
   const u = location.origin + location.pathname + '?utm_source=compartilhar';
   track('tarot-compartilhou');
   if (navigator.share) { try { await navigator.share({ title: 'Tarot do Jeff', text: t, url: u }) } catch (e) {} } else copy(t + ' ' + u, 'Copiado ✦ Cole onde quiser');
@@ -422,8 +493,9 @@ let compraTipo = 'completa';
 function abrirPagamento(tipo) {
   const pend = LS.g('pend'); $('pay').hidden = false; document.body.style.overflow = 'hidden';
   if (pend && Date.now() - pend.t < 3600e3) { mostrarPix(pend); return }
-  compraTipo = tipo === 'profunda' ? 'profunda' : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
-  $('pn').textContent = compraTipo === 'profunda' ? 'Cruz Celta · 10 cartas' : 'Leitura completa'; $('pq').textContent = QTD[compraTipo];
+  compraTipo = ['profunda', 'cigano', 'pacote'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
+  $('pn').textContent = { completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
+  $('pq').parentElement.innerHTML = compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
   $('p1').hidden = false; $('p2').hidden = true; precosAtuais().then(p => $('pv').textContent = brl(p[compraTipo]));
   $('email').value = LS.g('email') || '';
 }
@@ -434,7 +506,7 @@ $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail.'; return }
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo. Tente de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
@@ -447,14 +519,52 @@ function mostrarPix(o) {
     if (Date.now() - t0 > 40 * 60e3) { clearInterval(poll); $('w').textContent = 'O Pix expirou. Feche e gere outro.'; LS.s('pend', null); return }
     try { const j = await api('/api/pedido/' + o.id);
       if (j.status === 'pago') { clearInterval(poll); track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = '';
-        S.tipo = o.tipo || 'completa'; S.baralho = o.baralho; S.tema = S.tema || o.tema; S.perg = S.perg || o.perg; S.nome = S.nome || o.nome;
-        toast('Pagamento confirmado ✦ Agora escolha ' + N() + ' cartas'); if (!S.tema) tela(1); else respirar() }
+        if (o.tipo === 'pacote') { LS.s('pend', null); ativarPacote(o.chave); return }
+        S.tipo = o.tipo || 'completa'; S.modo = o.tipo === 'cigano' ? 'cigano' : 'tarot'; S.baralho = o.baralho; S.tema = o.tipo === 'cigano' ? 'amor' : (S.tema || o.tema); S.perg = S.perg || o.perg; S.nome = S.nome || o.nome; S.pessoa = S.pessoa || o.pessoa || '';
+        toast('Pagamento confirmado ✦ Agora escolha ' + N() + ' cartas'); if (!S.tema || (o.tipo === 'cigano' && !S.pessoa)) { if (o.tipo === 'cigano') { $('temas').hidden = true; $('pessoaL').hidden = false; $('go1').disabled = false } tela(1) } else respirar() }
       else if (['failed', 'refunded'].includes(j.status)) { clearInterval(poll); LS.s('pend', null); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.' } } catch (e) {}
   }, 4000);
 }
 $('copiar').onclick = () => { copy($('code').textContent, 'Código Pix copiado ✦ Cole no app do banco'); track('tarot-pix-copiado') };
 // voltou depois de pagar? continua de onde parou
-(function () { const p = LS.g('pend'); if (p && Date.now() - p.t < 3600e3) { S.tema = p.tema; S.perg = p.perg; S.nome = p.nome; abrirPagamento() } })();
+(function () { const p = LS.g('pend'); if (p && Date.now() - p.t < 3600e3) { S.tema = p.tema; S.perg = p.perg; S.nome = p.nome; S.pessoa = p.pessoa || ''; abrirPagamento() } })();
+
+/* pacote de 3 leituras: créditos */
+async function ativarPacote(chave) {
+  try { const j = await api('/api/creditos/ativar', { pacote: chave }); LS.s('creditos', j.creditos); toast('3 leituras completas liberadas ✦'); track('tarot-pacote-ativado'); credUI(); usarCredito() }
+  catch (e) { toast(e.message) }
+}
+async function credUI() {
+  const c = LS.g('creditos'); if (!c) return;
+  try { const j = await api('/api/creditos?c=' + encodeURIComponent(c)); $('credN').textContent = j.restantes; $('credBox').hidden = !j.restantes || MODO !== 'tarot' } catch (e) {}
+}
+async function usarCredito() {
+  try { const j = await api('/api/creditos/usar', { creditos: LS.g('creditos'), fidelidade: LS.g('fid') }); track('tarot-usou-credito');
+    S.tipo = 'completa'; S.modo = 'tarot'; S.baralho = j.baralho; $('credN').textContent = j.restantes; tela(1) }
+  catch (e) { toast(e.message); credUI() }
+}
+$('credUsar').onclick = usarCredito;
+credUI();
+
+/* carta do dia */
+const uid = LS.g('uid') || (() => { const u = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).slice(0, 18); LS.s('uid', u); return u })();
+async function cartaDia() {
+  tela(5); track('dia-abriu');
+  $('diaData').textContent = 'Sua carta de ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const ont = new Date(Date.now() - 864e5).toLocaleDateString('sv-SE');
+  let seq = LS.g('dia_seq') || 0; const ult = LS.g('dia_ult');
+  if (ult !== hoje()) { seq = ult === ont ? seq + 1 : 1; LS.s('dia_seq', seq); LS.s('dia_ult', hoje()) }
+  $('streak').textContent = seq > 1 ? `🔥 ${seq} dias seguidos` : '✦ Primeiro dia da sua sequência';
+  $('maisDia').innerHTML = maisHTML('dia');
+  let c; try { c = await api('/api/dia?u=' + uid + '&d=' + hoje()) } catch (e) { toast('Sem conexão agora.'); return }
+  $('diaFace').outerHTML = face(c);
+  $('diaFlip').onclick = () => { if ($('diaFlip').classList.contains('on')) return; $('diaFlip').classList.add('on'); navigator.vibrate && navigator.vibrate(20); track('dia-virou');
+    setTimeout(() => { $('diaRes').hidden = false; $('diaFoco').textContent = c.foco; $('diaNome').innerHTML = esc(c.nome) + (c.invertida ? '<span class="tagInv">invertida</span>' : '');
+      $('diaTxt').textContent = c.texto.charAt(0).toUpperCase() + c.texto.slice(1) + '. ' + c.intuicao; $('diaCons').textContent = c.conselho; $('diaAf').textContent = '“' + c.afirmacao + '”' }, 900) };
+  if (LS.g('dia_visto') === hoje()) $('diaFlip').click(); else LS.s('dia_visto', hoje());
+}
+if (MODO === 'dia') cartaDia();
+if (LS.g('dia_visto') === hoje()) $('diaMiniT').textContent = 'Você já viu a de hoje. Toque pra rever.';
 
 /* céu */
 (function () { const c = $('sky'), x = c.getContext('2d'); let w, h, st = []; const rs = () => { w = c.width = innerWidth * devicePixelRatio; h = c.height = innerHeight * devicePixelRatio; st = Array.from({ length: 140 }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.4 * devicePixelRatio, p: Math.random() * 6 })) }; rs(); addEventListener('resize', rs);
