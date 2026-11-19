@@ -403,7 +403,7 @@ let poll=null;
 function showPix(o){step(2);document.getElementById('payCode').textContent=o.pix;
   document.getElementById('payHelp').href=wa('Oi, Jeff! Paguei o Pix do livro e ainda não liberou. Meu pedido: '+o.id.slice(0,8).toUpperCase());
   const box=document.getElementById('payQr');box.innerHTML='';
-  loadQr().then(q=>{if(!q)return;const qr=q(0,'M');qr.addData(o.pix);qr.make();box.innerHTML=qr.createImgTag(6,0)});
+  if(o.qr){box.innerHTML='<img alt="QR Code do Pix" src="data:image/png;base64,'+o.qr+'">'}else loadQr().then(q=>{if(!q)return;const qr=q(0,'M');qr.addData(o.pix);qr.make();box.innerHTML=qr.createImgTag(6,0)});
   clearInterval(poll);const t0=Date.now();
   poll=setInterval(async()=>{if(Date.now()-t0>40*60e3){clearInterval(poll);document.getElementById('payWait').textContent='O Pix expirou. Feche e gere outro.';return}
     try{const r=await fetch(LOJA+'/api/pedido/'+o.id);const j=await r.json();
@@ -416,7 +416,7 @@ pf.addEventListener('submit',async e=>{e.preventDefault();const err=document.get
   go.disabled=true;go.textContent='Gerando o Pix…';
   try{const r=await fetch(LOJA+'/api/pedido',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});const j=await r.json();
     if(!r.ok){err.textContent=j.erros?Object.values(j.erros).join(' '):(j.erro||'Não deu certo agora. Tente de novo.');Object.keys(j.erros||{}).forEach(k=>pf[k]&&pf[k].classList.add('bad'));return}
-    const o={id:j.pedido,pix:j.pix_code,t:Date.now()};LS.s('pend',o);track('pix-gerado');showPix(o)}
+    const o={id:j.pedido,pix:j.pix_code,qr:j.qr_base64||'',t:Date.now()};LS.s('pend',o);track('pix-gerado');showPix(o)}
   catch(x){err.textContent='Sem conexão com o pagamento agora. Tente de novo ou compre pelo WhatsApp.'}
   finally{go.disabled=false;go.textContent='Gerar Pix de R$ 19,90'}});
 document.getElementById('payCopy').onclick=()=>{copy(document.getElementById('payCode').textContent,'Código Pix copiado ✦ Agora cole no app do banco');track('pix-copiado')};
