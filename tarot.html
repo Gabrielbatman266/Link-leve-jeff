@@ -106,10 +106,15 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .upsell .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
 .cad{color:var(--gold2);font-weight:800;filter:drop-shadow(0 0 8px rgba(245,201,106,.5))}
 .lock .locks{list-style:none;margin-top:8px}.lock .locks li{padding:5px 0;color:var(--soft)}
-.planos{display:grid;gap:14px;margin-top:16px}
-.plano{border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.8) 60%);border-radius:22px;padding:18px}
-.plano.top{border-color:rgba(180,140,255,.8);background:linear-gradient(160deg,rgba(180,140,255,.22),rgba(22,16,52,.85) 60%);box-shadow:0 0 30px rgba(180,140,255,.18)}
-.plano h3{margin:10px 0 4px}.plano ul{list-style:none}.plano li{padding:4px 0 4px 24px;position:relative;color:var(--soft);font-size:.95rem}.plano li::before{content:'✦';position:absolute;left:2px;color:var(--gold)}
+.planos{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.plano{display:block;border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.85) 60%);border-radius:22px;padding:16px}
+.plano.destaque{border-color:rgba(180,140,255,.8);background:linear-gradient(160deg,rgba(180,140,255,.22),rgba(22,16,52,.88) 60%);box-shadow:0 0 30px rgba(180,140,255,.18)}
+.phead{display:flex;gap:12px;align-items:center}.pico{flex:none;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(255,255,255,.07)}
+.phead h3{margin:6px 0 0;font-size:1.45rem;line-height:1.1}
+.gancho{margin:10px 0 4px;font-style:italic;color:var(--gold2)}
+.lks{list-style:none;margin:6px 0 0}.lks li{padding:5px 0;color:var(--soft);font-size:.95rem;border-bottom:1px dashed rgba(180,140,255,.15)}.lks li:last-child{border:0}
+.pfoot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.pfoot .preco{margin:0}
 .pill.roxo{background:var(--lilac);color:#1a0b3a}
 .sim{display:flex;gap:14px;align-items:center}.sim .r{flex:none;font-weight:800;font-size:.95rem;padding:10px 14px;border-radius:14px;background:var(--gold);color:#1c1203;text-align:center;line-height:1.1}
 .bar{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lilac),var(--gold))}
@@ -246,32 +251,32 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       </div>
       <div class="planos" id="planos">
         <div class="plano" id="plCompleta">
-          <span class="pill">LEITURA COMPLETA</span>
-          <h3>5 cartas</h3>
-          <ul><li>Onde você está, o que te trava, o que te ajuda, o que fazer e pra onde vai</li><li>Sim ou não, quando, energia dominante</li><li>Carta-guia, o que evitar e ritual de 7 dias</li></ul>
-          <div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix</small></div>
-          <button class="btn" data-comprar="completa">Quero a completa</button>
+          <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>O que te trava e o que fazer</h3></div></div>
+          <p class="gancho">A grátis mostrou o rumo. A completa mostra o resto da história.</p>
+          <ul class="lks"><li>🔒 Sim ou não pra sua pergunta</li><li>🔒 Quando isso tende a acontecer</li><li>🔒 O que te trava e onde se apoiar</li><li>🔒 Sua carta-guia + ritual de 7 dias</li></ul>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix · libera na hora</small></div></div>
+          <button class="btn" data-comprar="completa">Abrir a leitura completa</button>
         </div>
         <div class="plano" id="plPacote">
-          <span class="pill">PACOTE · 3 LEITURAS COMPLETAS</span>
-          <h3>3 × 5 cartas</h3>
-          <ul><li>Três leituras completas pra usar quando quiser</li><li>Sai R$ 4 cada</li><li>Fica guardado aqui no seu celular</li></ul>
-          <div class="preco"><b class="pc" data-t="pacote">R$ 12,00</b><small>no Pix</small></div>
-          <button class="btn" data-comprar="pacote">Quero o pacote</button>
+          <div class="phead"><span class="pico">🎁</span><div><span class="pill">PACOTE · 3 LEITURAS</span><h3>3 leituras completas</h3></div></div>
+          <p class="gancho">Pra perguntar sobre amor, dinheiro e caminho, quando quiser.</p>
+          <ul class="lks"><li>✦ 3 leituras de 5 cartas guardadas no seu celular</li><li>✦ Sai R$ 4 cada</li></ul>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="pacote">R$ 12,00</b><small>no Pix</small></div></div>
+          <button class="btn ghost" data-comprar="pacote">Quero o pacote</button>
         </div>
-        <div class="plano top" id="plCigano">
-          <span class="pill roxo">MESA CIGANA · PESSOA ESPECÍFICA</span>
-          <h3>9 cartas sobre vocês dois</h3>
-          <ul><li>Como você está e como ele(a) está</li><li>O que ele(a) sente e o que ele(a) pensa</li><li>O que atrapalha, o que ajuda e o que vem por aí</li><li>Sim ou não, quando, combinações das cartas</li><li>Ritual de 7 dias pro amor</li></ul>
-          <div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix</small></div>
-          <button class="btn" data-comprar="cigano">Quero a mesa cigana</button>
+        <div class="plano destaque" id="plCigano">
+          <div class="phead"><span class="pico">💞</span><div><span class="pill roxo">MESA CIGANA · 9 CARTAS</span><h3>O que ele(a) sente e pensa</h3></div></div>
+          <p class="gancho">As 9 cartas mostram vocês dois: você, a pessoa e pra onde isso vai.</p>
+          <ul class="lks"><li>🔒 Como ele(a) está e o que pensa de você</li><li>🔒 O que atrapalha e o que ajuda vocês</li><li>🔒 Sim ou não + quando</li><li>🔒 Combinações das cartas + ritual do amor</li></ul>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix · libera na hora</small></div></div>
+          <button class="btn" data-comprar="cigano">Abrir a mesa cigana</button>
         </div>
-        <div class="plano top" id="plProfunda">
-          <span class="pill roxo">MAIS COMPLETA · CRUZ CELTA</span>
-          <h3>10 cartas</h3>
-          <ul><li><b>Tudo da completa</b>, com 10 posições em vez de 5</li><li>Consciente × resultado: se a sua mente está alinhada com o que vem</li><li>Medos e esperanças, influência das outras pessoas</li><li>Carta-sombra: o que age escondido</li><li>Plano de 21 dias pro seu caso</li></ul>
-          <div class="preco"><b class="pc" data-t="profunda">R$ 14,90</b><small>no Pix</small></div>
-          <button class="btn" data-comprar="profunda">Quero a mais completa</button>
+        <div class="plano destaque" id="plProfunda">
+          <div class="phead"><span class="pico">✨</span><div><span class="pill roxo">CRUZ CELTA · 10 CARTAS</span><h3>A leitura mais completa</h3></div></div>
+          <p class="gancho">Tudo da completa, e mais o que está escondido.</p>
+          <ul class="lks"><li>🔒 A carta-sombra: o que age sem você ver</li><li>🔒 Seus medos e esperanças</li><li>🔒 Se a sua mente está alinhada com o resultado</li><li>🔒 Plano de 21 dias pro seu caso</li></ul>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="profunda">R$ 14,90</b><small>no Pix · libera na hora</small></div></div>
+          <button class="btn" data-comprar="profunda">Abrir a Cruz Celta</button>
         </div>
       </div>
       <div class="box" id="calma" hidden><p><b>Já foram 3 leituras pagas hoje.</b> O tarot funciona melhor com espaço: deixe a resposta assentar e volte amanhã com a cabeça leve.</p></div>
@@ -451,7 +456,7 @@ function resultado() {
   const cig = l.modo === 'cigano';
   $('locks').innerHTML = (cig ? ['🔒 Como ele(a) está e o que ele(a) pensa', '🔒 O que atrapalha e o que ajuda vocês', '🔒 Sim ou não? A tendência', '🔒 Quando? A tendência de tempo', '🔒 Combinações das cartas + ritual de 7 dias']
     : ['🔒 Sim ou não? A tendência pra sua pergunta', '🔒 Quando? A tendência de tempo', '🔒 O que te trava e onde se apoiar', '🔒 A carta que guia você + afirmação', '🔒 Ritual de 7 dias da lei da suposição pro seu caso']).map(t => '<li>' + t + '</li>').join('');
-  $('teaser').hidden = l.tipo !== 'gratis' || limite;
+  $('teaser').hidden = true; // os cadeados agora ficam dentro de cada plano
   // tarot grátis → completa/pacote/profunda · completa → profunda (+ cigano se tema amor) · cigano grátis → mesa cigana · pagas de cigano → tarot profunda
   const vis = { plCompleta: !cig && l.tipo === 'gratis', plPacote: !cig && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda', plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'gratis') };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);

@@ -104,10 +104,15 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .upsell .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
 .cad{color:var(--gold2);font-weight:800;filter:drop-shadow(0 0 8px rgba(245,201,106,.5))}
 .lock .locks{list-style:none;margin-top:8px}.lock .locks li{padding:5px 0;color:var(--soft)}
-.planos{display:grid;gap:14px;margin-top:16px}
-.plano{border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.8) 60%);border-radius:22px;padding:18px}
-.plano.top{border-color:rgba(180,140,255,.8);background:linear-gradient(160deg,rgba(180,140,255,.22),rgba(22,16,52,.85) 60%);box-shadow:0 0 30px rgba(180,140,255,.18)}
-.plano h3{margin:10px 0 4px}.plano ul{list-style:none}.plano li{padding:4px 0 4px 24px;position:relative;color:var(--soft);font-size:.95rem}.plano li::before{content:'✦';position:absolute;left:2px;color:var(--gold)}
+.planos{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.plano{display:block;border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.85) 60%);border-radius:22px;padding:16px}
+.plano.destaque{border-color:rgba(180,140,255,.8);background:linear-gradient(160deg,rgba(180,140,255,.22),rgba(22,16,52,.88) 60%);box-shadow:0 0 30px rgba(180,140,255,.18)}
+.phead{display:flex;gap:12px;align-items:center}.pico{flex:none;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(255,255,255,.07)}
+.phead h3{margin:6px 0 0;font-size:1.45rem;line-height:1.1}
+.gancho{margin:10px 0 4px;font-style:italic;color:var(--gold2)}
+.lks{list-style:none;margin:6px 0 0}.lks li{padding:5px 0;color:var(--soft);font-size:.95rem;border-bottom:1px dashed rgba(180,140,255,.15)}.lks li:last-child{border:0}
+.pfoot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.pfoot .preco{margin:0}
 .pill.roxo{background:var(--lilac);color:#1a0b3a}
 .sim{display:flex;gap:14px;align-items:center}.sim .r{flex:none;font-weight:800;font-size:.95rem;padding:10px 14px;border-radius:14px;background:var(--gold);color:#1c1203;text-align:center;line-height:1.1}
 .bar{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lilac),var(--gold))}
@@ -172,11 +177,11 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <p><b>O mapa completo revela:</b></p>
       <ul class="locks" id="nLocks"></ul>
     </div>
-    <div class="plano top" id="nOferta" style="margin-top:16px">
-      <span class="pill roxo">MAPA COMPLETO</span>
-      <h3>Numerologia + Arcanos</h3>
-      <ul><li>Expressão, Alma e Personalidade</li><li>Amor e dinheiro pelos seus números</li><li>Ano pessoal e mês pessoal de agora</li><li>Desafio de vida e a sombra a vencer</li><li>Arcano do ano + afirmação pessoal</li></ul>
-      <div class="preco"><b class="pc" data-t="numero">R$ 9,90</b><small>no Pix</small></div>
+    <div class="plano destaque" id="nOferta" style="margin-top:16px">
+      <div class="phead"><span class="pico">🔢</span><div><span class="pill roxo">MAPA COMPLETO</span><h3>Tudo o que os seus números dizem</h3></div></div>
+      <p class="gancho">O caminho de vida é só o começo do seu mapa.</p>
+      <ul class="lks"><li>🔒 Seu talento, o desejo da sua alma e como te veem</li><li>🔒 Amor e dinheiro pelos seus números</li><li>🔒 O que este ano reserva: ano e mês pessoal</li><li>🔒 Seu desafio de vida + Arcano do ano</li></ul>
+      <div class="pfoot"><div class="preco"><b class="pc" data-t="numero">R$ 9,90</b><small>no Pix · libera na hora</small></div></div>
       <button class="btn" id="nComprar">Quero o mapa completo</button>
     </div>
     <button class="btn ghost" id="nShare">📤 Compartilhar o meu Arcano</button>
@@ -249,7 +254,7 @@ function mostrar(m) {
   $('nSecoes').innerHTML = (m.secoes || []).map(x => `<div class="sec"><b>${esc(x.t)}</b><p>${esc(x.x)}</p></div>`).join('');
   $('nAfBox').hidden = !m.afirmacao; $('nAf').textContent = m.afirmacao || '';
   $('nLocks').innerHTML = (m.trancado || []).map(t => '<li>🔒 ' + esc(t) + '</li>').join('');
-  $('nLock').hidden = $('nOferta').hidden = !!m.completo; $('nAviso').textContent = m.aviso;
+  $('nLock').hidden = true; $('nOferta').hidden = !!m.completo; $('nAviso').textContent = m.aviso;
   $('upSessao').href = wa('Oi, Jeff! Fiz a numerologia no seu site: caminho de vida ' + m.caminho.n + ' e arcano ' + m.arcano.nome + '. Quero uma sessão com você.');
   $('nMais').innerHTML = [['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', 'tarot.html?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', 'tarot.html?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', 'tarot.html?m=cigano']].map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
   if (!m.completo) { track('numero-viu-oferta'); api('/api/tarot/precos?f=' + encodeURIComponent(LS.g('fid') || '')).then(p => { $('pv').textContent = brl(p.numero); document.querySelector('.pc').textContent = brl(p.numero) }).catch(() => {}) }
