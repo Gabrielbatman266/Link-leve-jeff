@@ -189,7 +189,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <div class="mais" id="nMais"></div>
     <h3>Pra viver o que os números mostram</h3>
     <a class="upsell" href="./#livro" id="upLivro"><span class="ic">📖</span><span><b>Livro Já Deu Certo · R$ 19,90</b><small>O método passo a passo da lei da suposição</small></span><span class="ar">›</span></a>
-    <a class="upsell" id="upSessao" hidden href="#" target="_blank" rel="noopener"><span class="ic">🔮</span><span><b>Leitura ao vivo comigo</b><small>Sessão individual no WhatsApp</small></span><span class="ar">›</span></a>
+    <a class="upsell" id="upSessao" href="./?utm_source=oraculo#whatsapp"><span class="ic">💬</span><span><b>Sessões, mentoria e consultoria</b><small>Fale comigo no WhatsApp, a mensagem já vai pronta</small></span><span class="ar">›</span></a>
     <p class="aviso" id="nAviso"></p>
     <button class="link" id="nOutro">Calcular pra outra pessoa</button>
   </section>
@@ -255,7 +255,6 @@ function mostrar(m) {
   $('nAfBox').hidden = !m.afirmacao; $('nAf').textContent = m.afirmacao || '';
   $('nLocks').innerHTML = (m.trancado || []).map(t => '<li>🔒 ' + esc(t) + '</li>').join('');
   $('nLock').hidden = true; $('nOferta').hidden = !!m.completo; $('nAviso').textContent = m.aviso;
-  $('upSessao').href = wa('Oi, Jeff! Fiz a numerologia no seu site: caminho de vida ' + m.caminho.n + ' e arcano ' + m.arcano.nome + '. Quero uma sessão com você.');
   $('nMais').innerHTML = [['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', 'tarot.html?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', 'tarot.html?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', 'tarot.html?m=cigano']].map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
   if (!m.completo) { track('numero-viu-oferta'); api('/api/tarot/precos?f=' + encodeURIComponent(LS.g('fid') || '')).then(p => { $('pv').textContent = brl(p.numero); document.querySelector('.pc').textContent = brl(p.numero) }).catch(() => {}) }
 }

@@ -285,7 +285,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <div class="mais" id="mais"></div>
       <h3>Pra transformar a leitura em realidade</h3>
       <a class="upsell" id="upLivro" href="./#livro"><span class="ic">📖</span><span><b>Livro Já Deu Certo · R$ 19,90</b><small>O método passo a passo pra assumir o resultado e viver ele</small></span><span class="ar">›</span></a>
-      <a class="upsell" id="upSessao" hidden href="#" target="_blank" rel="noopener"><span class="ic">🔮</span><span><b>Leitura ao vivo comigo</b><small>Sessão individual no WhatsApp, pro seu caso</small></span><span class="ar">›</span></a>
+      <a class="upsell" id="upSessao" href="./?utm_source=oraculo#whatsapp"><span class="ic">💬</span><span><b>Sessões, mentoria e consultoria</b><small>Fale comigo no WhatsApp, a mensagem já vai pronta</small></span><span class="ar">›</span></a>
       <a class="upsell" id="upGrupo" href="#" target="_blank" rel="noopener"><span class="ic">🌌</span><span><b>Grupo grátis · Os Maiores</b><small>Comunidade no WhatsApp</small></span><span class="ar">›</span></a>
       <button class="link" id="novaGratis" hidden>Nova tiragem grátis</button>
       <p class="aviso" id="aviso"></p>
@@ -446,7 +446,6 @@ function resultado() {
   $('pad').innerHTML = l.padroes.map(p => `<p style="margin-top:10px">✦ ${esc(p)}</p>`).join('');
   $('cons').textContent = l.conselho; $('chave').textContent = l.chave; $('aviso').textContent = l.aviso;
   const nomes = l.cartas.map(c => c.nome + (c.invertida ? ' (invertida)' : '')).join(', ');
-  $('upSessao').href = wa('Oi, Jeff! Fiz o ' + (l.modo === 'cigano' ? 'Baralho Cigano' : 'tarot') + ' no seu site e saiu: ' + nomes + '. Quero uma leitura ao vivo com você.');
   $('mais').innerHTML = maisHTML(l.modo === 'cigano' ? 'cigano' : 'tarot');
   $('upGrupo').href = CFG.grupo;
   $('novaGratis').hidden = gratisUsada();

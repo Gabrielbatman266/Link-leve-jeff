@@ -358,6 +358,7 @@ function closeSheet(s){s.hidden=true;document.body.style.overflow=''}
 document.querySelectorAll('.sheet').forEach(s=>{s.addEventListener('click',e=>{if(e.target===s||e.target.closest('[data-close]'))closeSheet(s)})});
 addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.sheet').forEach(s=>!s.hidden&&closeSheet(s))});
 document.getElementById('lkWa').addEventListener('click',e=>{e.preventDefault();openSheet('waSheet')});
+if(location.hash==='#whatsapp'){setTimeout(()=>{track('abriu-menu-whatsapp',{origem:'oraculo'});openSheet('waSheet')},400)}
 
 /* ---------- dentro do TikTok / Instagram: o WhatsApp não abre ---------- */
 const UA=navigator.userAgent||'';
