@@ -107,6 +107,18 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 .copyrow{display:flex;gap:10px;align-items:center;margin-top:10px;padding:12px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
 .copyrow div{flex:1;min-width:0}.copyrow small{display:block;color:var(--soft);font-size:.75rem}.copyrow b{font-size:1.05rem}.copyrow span{display:block;font-size:.82rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .copyrow .btn{width:auto;margin:0;min-height:44px;padding:8px 14px;font-size:.85rem;flex:none}
+.pf{display:block;font-size:.85rem;font-weight:800;color:var(--soft);margin:10px 0}
+.pf input{display:block;width:100%;margin-top:6px;font:inherit;font-size:16px;font-weight:600;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(5,4,15,.6);color:var(--ink)}
+.pf input:focus{outline:none;border-color:var(--gold)}.pf input.bad{border-color:#ff6b8b}
+.perr{color:#ff9db2;font-size:.85rem;min-height:1.2em;margin:4px 0 0}
+.qr{display:flex;justify-content:center;margin:14px 0}.qr img,.qr canvas{width:210px;height:210px;border-radius:14px;background:#fff;padding:10px}
+.pixbox{max-height:84px;overflow:auto;padding:10px 12px;border-radius:12px;background:rgba(5,4,15,.6);border:1px solid var(--line);font-size:.72rem;word-break:break-all;color:var(--soft)}
+.wait{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;font-size:.88rem;color:var(--soft);text-align:left}
+.spin{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--gold);animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.okk{font-size:3rem;text-align:center;color:var(--gold);text-shadow:0 0 30px rgba(245,201,106,.7)}
+#pay3 h3{text-align:center;margin-right:0}#pay3 .sub{text-align:center}
+.note a{color:var(--gold)}
+.lk.meus{border-color:rgba(245,201,106,.55)}
 .tryany{display:block;text-align:center;margin-top:14px;color:var(--soft);font-size:.85rem}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:40;background:#120c2c;border:1px solid var(--gold);color:var(--ink);border-radius:99px;padding:10px 18px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none}#toast.show{opacity:1}
 :focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
@@ -148,6 +160,8 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
     <a class="lk dep-cta" id="depCta" data-ev="clicou-mandar-depoimento" href="#" target="_blank" rel="noopener"><span class="ic">✨</span><span class="tx">Deu certo pra você também?<small>Me conta no WhatsApp. Com print, se quiser.</small></span><span class="ar">›</span></a>
   </section>
 
+  <a class="lk meus" id="meus" hidden href="#" target="_blank" rel="noopener"><span class="ic">📚</span><span class="tx">Meus livros<small>Baixar de novo o Já Deu Certo</small></span><span class="ar">›</span></a>
+
   <div class="soon">📱 Em breve: <b>o app do Jeff Insane</b> pra ler os livros, fazer a jornada e ouvir os áudios guiados.</div>
   <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.<br>Este site usa estatísticas anônimas, sem cookies.</footer>
 </main>
@@ -175,6 +189,40 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   <div class="copyrow"><div><small>Meu WhatsApp</small><b id="zapNum"></b></div><button class="btn ghost" id="copyNum">Copiar número</button></div>
   <div class="copyrow"><div><small id="pendLbl">Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
   <a class="tryany" id="tryAny" href="#" target="_blank" rel="noopener">Tentar abrir o WhatsApp mesmo assim</a>
+</div></div>
+
+<!-- Checkout Pix -->
+<div class="sheet" id="paySheet" hidden><div class="sh" role="dialog" aria-label="Comprar o livro">
+  <div class="grip"></div><button class="x" data-close aria-label="Fechar">✕</button>
+  <div id="pay1">
+    <h3>Comprar · R$ 19,90</h3>
+    <p class="sub">Pague no Pix e baixe o livro na hora, nos 4 formatos.</p>
+    <form id="payForm" novalidate>
+      <label class="pf">Nome completo<input name="nome" autocomplete="name" required></label>
+      <label class="pf">CPF<input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
+      <label class="pf">E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label class="pf">WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(37) 99999-9999" required></label>
+      <p class="perr" id="payErr" role="alert"></p>
+      <button class="btn" id="payGo" type="submit">Gerar Pix de R$ 19,90</button>
+      <p class="note">🔒 O banco exige nome e CPF pra gerar o Pix. Seus dados vão só pro processador do pagamento e pra eu te ajudar se precisar.</p>
+    </form>
+  </div>
+  <div id="pay2" hidden>
+    <h3>Pague com Pix</h3>
+    <p class="sub">Abra o app do seu banco → <b>Pix</b> → <b>Pix Copia e Cola</b> e cole o código. Ou leia o QR Code de outro celular.</p>
+    <div class="qr" id="payQr"></div>
+    <div class="pixbox"><code id="payCode"></code></div>
+    <button class="btn" id="payCopy">📋 Copiar código Pix</button>
+    <div class="wait"><span class="spin"></span><span id="payWait">Aguardando o pagamento… pode voltar pra cá depois de pagar.</span></div>
+    <p class="note">Pagou e não liberou em 2 minutos? <a id="payHelp" href="#" target="_blank" rel="noopener">Fale comigo no WhatsApp</a>.</p>
+  </div>
+  <div id="pay3" hidden>
+    <div class="okk">✦</div>
+    <h3>Já deu certo!</h3>
+    <p class="sub">Pagamento confirmado. Seu livro está pronto pra baixar.</p>
+    <a class="btn" id="payDl" href="#" target="_blank" rel="noopener">📥 Baixar meu livro</a>
+    <p class="note">Guarde esse link: ele é só seu e as atualizações do livro aparecem nele. Ele também fica salvo aqui, em “Meus livros”.</p>
+  </div>
 </div></div>
 
 <!-- Livro: prévia e compra -->
@@ -233,6 +281,7 @@ const CFG = {
   tiktok:   'https://www.tiktok.com/@jeffinsane',
   whatsapp: '5537999459674',
   grupo:    'https://chat.whatsapp.com/HomCRj9bpIPGOVkDhafjMh',   // ← grupo grátis
+  loja:     '',                                   // ← endereço do servidor do Pix (vazio = compra pelo WhatsApp)
   preco:    'R$ 19,90',
   umami:    'c77e97b7-a4ea-4600-8a2a-b5ac09d91243',  // ID do site no Umami
 };
@@ -273,7 +322,7 @@ fetch('depoimentos.json',{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(list
   more();document.getElementById('quem').hidden=false;
   box.addEventListener('click',e=>{const im=e.target.closest('.dcard img');if(!im)return;const z=document.getElementById('zoom');z.querySelector('img').src=im.src;z.hidden=false});
 }).catch(()=>{});
-document.getElementById('buyBtn').href = wa(MSG.livro);   // futuramente: trocar pelo pagamento automático do bot
+document.getElementById('buyBtn').href = wa(MSG.livro);   // com CFG.loja preenchido, vira checkout Pix automático
 
 const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','sessao'],
   ['🚀','Mentoria','Acompanhamento pra mudar de vez','mentoria'],
@@ -328,6 +377,50 @@ car.addEventListener('scroll',pd,{passive:true});pd();
 let maxSlide=0,slT;car.addEventListener('scroll',()=>{clearTimeout(slT);slT=setTimeout(()=>{if(maxSlide<1&&car.scrollLeft+car.clientWidth>=car.scrollWidth-8){maxSlide=1;track('viu-todos-os-prints')}},400)},{passive:true});
 if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){track(e.target.dataset.seen);io.unobserve(e.target)}}),{threshold:.6});
   document.querySelectorAll('[data-seen]').forEach(x=>io.observe(x))}
+
+
+/* ---------- checkout Pix automático (SyncPay) ---------- */
+const LS={g:k=>{try{return JSON.parse(localStorage.getItem('jeff_'+k))}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem('jeff_'+k,JSON.stringify(v))}catch(e){}}};
+const LOJA=(CFG.loja||'').replace(/\/$/,'');
+function paintMeus(){const m=LS.g('meus');const a=document.getElementById('meus');if(m&&m.url){a.href=m.url;a.hidden=false}}
+paintMeus();
+if(LOJA){
+  const buy=document.getElementById('buyBtn');buy.textContent='Comprar por R$ 19,90 no Pix';buy.removeAttribute('target');
+  buy.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();track('abriu-checkout');openPay()},true);
+  const st=document.querySelector('#bookSheet .steps');if(st)st.innerHTML='<li>Toque em “Comprar” e preencha nome, CPF, e-mail e WhatsApp.</li><li>Pague o Pix de R$ 19,90 no app do seu banco.</li><li>O livro libera na hora pra baixar, nos 4 formatos.</li>';
+  const nt=document.querySelector('#bookSheet .note');if(nt)nt.textContent='Pagamento por Pix com confirmação automática.';
+}
+const fmtCpf=v=>v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+const fmtTel=v=>{const d=v.replace(/\D/g,'').slice(0,11);return d.length>10?d.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'):d.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3')};
+const pf=document.getElementById('payForm');
+pf.cpf.addEventListener('input',e=>e.target.value=fmtCpf(e.target.value));
+pf.telefone.addEventListener('input',e=>e.target.value=fmtTel(e.target.value));
+function step(n){[1,2,3].forEach(i=>document.getElementById('pay'+i).hidden=i!==n)}
+function openPay(){document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);const pend=LS.g('pend');
+  if(pend&&Date.now()-pend.t<3600e3){showPix(pend)}else step(1);openSheet('paySheet')}
+let qrLib=null;function loadQr(){return qrLib||(qrLib=new Promise(ok=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';sc.onload=()=>ok(window.qrcode);sc.onerror=()=>ok(null);document.head.appendChild(sc)}))}
+let poll=null;
+function showPix(o){step(2);document.getElementById('payCode').textContent=o.pix;
+  document.getElementById('payHelp').href=wa('Oi, Jeff! Paguei o Pix do livro e ainda não liberou. Meu pedido: '+o.id.slice(0,8).toUpperCase());
+  const box=document.getElementById('payQr');box.innerHTML='';
+  loadQr().then(q=>{if(!q)return;const qr=q(0,'M');qr.addData(o.pix);qr.make();box.innerHTML=qr.createImgTag(6,0)});
+  clearInterval(poll);const t0=Date.now();
+  poll=setInterval(async()=>{if(Date.now()-t0>40*60e3){clearInterval(poll);document.getElementById('payWait').textContent='O Pix expirou. Feche e gere outro.';return}
+    try{const r=await fetch(LOJA+'/api/pedido/'+o.id);const j=await r.json();
+      if(j.status==='pago'&&j.download){clearInterval(poll);LS.s('pend',null);LS.s('meus',{url:j.download,t:Date.now()});paintMeus();
+        document.getElementById('payDl').href=j.download;step(3);track('pagamento-confirmado')}
+      else if(['failed','refunded','med'].includes(j.status)){clearInterval(poll);LS.s('pend',null);document.getElementById('payWait').textContent='Esse pagamento não foi concluído. Gere um Pix novo.'}}catch(e){}},4000)}
+pf.addEventListener('submit',async e=>{e.preventDefault();const err=document.getElementById('payErr'),go=document.getElementById('payGo');err.textContent='';
+  [...pf.elements].forEach(x=>x.classList&&x.classList.remove('bad'));
+  const dados={nome:pf.nome.value,cpf:pf.cpf.value,email:pf.email.value,telefone:pf.telefone.value,origem:new URLSearchParams(location.search).get('utm_source')||''};
+  go.disabled=true;go.textContent='Gerando o Pix…';
+  try{const r=await fetch(LOJA+'/api/pedido',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)});const j=await r.json();
+    if(!r.ok){err.textContent=j.erros?Object.values(j.erros).join(' '):(j.erro||'Não deu certo agora. Tente de novo.');Object.keys(j.erros||{}).forEach(k=>pf[k]&&pf[k].classList.add('bad'));return}
+    const o={id:j.pedido,pix:j.pix_code,t:Date.now()};LS.s('pend',o);track('pix-gerado');showPix(o)}
+  catch(x){err.textContent='Sem conexão com o pagamento agora. Tente de novo ou compre pelo WhatsApp.'}
+  finally{go.disabled=false;go.textContent='Gerar Pix de R$ 19,90'}});
+document.getElementById('payCopy').onclick=()=>{copy(document.getElementById('payCode').textContent,'Código Pix copiado ✦ Agora cole no app do banco');track('pix-copiado')};
+if(LOJA&&LS.g('pend')&&Date.now()-LS.g('pend').t<3600e3){openPay()}
 
 /* céu */
 const cv=document.getElementById('sky'),cx=cv.getContext('2d');let st=[];
