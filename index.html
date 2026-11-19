@@ -82,12 +82,21 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 .steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:8px 0;font-size:.95rem}
 .steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold))}
 .note{font-size:.8rem;color:var(--dim);margin-top:10px;text-align:center}
+#iaBar[hidden]{display:none}
+#iaBar{position:sticky;top:0;z-index:15;display:flex;gap:10px;align-items:center;padding:10px 14px;background:linear-gradient(90deg,#1b5e3a,#25d366);color:#04260f;font-weight:800;font-size:.85rem;line-height:1.3}
+#iaBar span{flex:1}#iaBar button{flex:none;border:0;border-radius:99px;padding:9px 14px;font:inherit;font-weight:800;background:#fff;color:#04260f;cursor:pointer}
+.copyrow{display:flex;gap:10px;align-items:center;margin-top:10px;padding:12px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.copyrow div{flex:1;min-width:0}.copyrow small{display:block;color:var(--soft);font-size:.75rem}.copyrow b{font-size:1.05rem}.copyrow span{display:block;font-size:.82rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copyrow .btn{width:auto;margin:0;min-height:44px;padding:8px 14px;font-size:.85rem;flex:none}
+.tryany{display:block;text-align:center;margin-top:14px;color:var(--soft);font-size:.85rem}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:40;background:#120c2c;border:1px solid var(--gold);color:var(--ink);border-radius:99px;padding:10px 18px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none}#toast.show{opacity:1}
 :focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;opacity:1!important}}
 </style>
 </head>
 <body>
-<canvas id="sky"></canvas><div class="neb"></div>
+<canvas id="sky"></canvas><div id="toast" role="status"></div><div class="neb"></div>
+<div id="iaBar" hidden><span>📲 Pra falar comigo no WhatsApp, abra esta página no navegador.</span><button id="iaBtn">Abrir no navegador</button></div>
 <main>
   <div class="avatar" aria-hidden="true">JI</div>
   <h1>Jeff Insane</h1>
@@ -123,6 +132,23 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   <h3>Como eu posso te ajudar?</h3>
   <p class="sub">Escolha o assunto. A mensagem já vai pronta no WhatsApp, é só enviar.</p>
   <div id="waOpts"></div>
+</div></div>
+
+<!-- Dentro do TikTok/Instagram: abrir no navegador -->
+<div class="sheet" id="navSheet" hidden><div class="sh" role="dialog" aria-label="Abrir no navegador">
+  <div class="grip"></div><button class="x" data-close aria-label="Fechar">✕</button>
+  <h3>Abra no navegador</h3>
+  <p class="sub">O TikTok não deixa abrir o WhatsApp por aqui. É rapidinho:</p>
+  <a class="btn" id="navGo" href="#">🌐 Abrir no navegador</a>
+  <ol class="steps" id="navSteps">
+    <li><span>Toque nos <b>três pontinhos ⋯</b> no canto de cima da tela.</span></li>
+    <li><span>Escolha <b>“Abrir no navegador”</b> (ou “Abrir no Chrome / Safari”).</span></li>
+    <li><span>Toque de novo no botão do WhatsApp. Agora vai abrir.</span></li>
+  </ol>
+  <h4>Ou fale comigo direto</h4>
+  <div class="copyrow"><div><small>Meu WhatsApp</small><b id="zapNum"></b></div><button class="btn ghost" id="copyNum">Copiar número</button></div>
+  <div class="copyrow"><div><small>Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
+  <a class="tryany" id="tryAny" href="#" target="_blank" rel="noopener">Tentar abrir o WhatsApp mesmo assim</a>
 </div></div>
 
 <!-- Livro: prévia e compra -->
@@ -218,6 +244,33 @@ function closeSheet(s){s.hidden=true;document.body.style.overflow=''}
 document.querySelectorAll('.sheet').forEach(s=>{s.addEventListener('click',e=>{if(e.target===s||e.target.closest('[data-close]'))closeSheet(s)})});
 addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.sheet').forEach(s=>!s.hidden&&closeSheet(s))});
 document.getElementById('lkWa').addEventListener('click',e=>{e.preventDefault();openSheet('waSheet')});
+
+/* ---------- dentro do TikTok / Instagram: o WhatsApp não abre ---------- */
+const UA=navigator.userAgent||'';
+const IN_APP=/musical_ly|bytedance|tiktok|trill|aweme|instagram|fban|fbav|fb_iab/i.test(UA);
+const ANDROID=/android/i.test(UA);
+const toast=t=>{const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)};
+const fmtZap=n=>{const d=n.replace(/^55/,'');return '('+d.slice(0,2)+') '+d.slice(2,7)+'-'+d.slice(7)};
+const openOutside=()=>{track('abriu-no-navegador');
+  const here=location.href;
+  if(ANDROID){location.href='intent://'+location.host+location.pathname+location.search+'#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url='+encodeURIComponent(here)+';end'}
+  else{openSheet('navSheet')}};
+async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(ok)}catch(_){toast('Toque e segure pra copiar')}ta.remove()}}
+let pend='';
+function showNav(msg,url){pend=msg;document.getElementById('pendMsg').textContent=msg;document.getElementById('tryAny').href=url;
+  document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);openSheet('navSheet');track('whatsapp-bloqueado-no-app')}
+document.getElementById('zapNum').textContent=fmtZap(CFG.whatsapp);
+document.getElementById('copyNum').onclick=()=>copy(fmtZap(CFG.whatsapp),'Número copiado ✦');
+document.getElementById('copyMsg').onclick=()=>copy(pend||MSG.duvida,'Mensagem copiada ✦');
+document.getElementById('navGo').addEventListener('click',e=>{e.preventDefault();openOutside()});
+if(IN_APP){
+  document.getElementById('iaBar').hidden=false;
+  document.getElementById('iaBtn').onclick=openOutside;
+  if(!ANDROID)document.getElementById('navGo').style.display='none';
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="https://wa.me/"]');if(!a)return;
+    if(e.target.closest('#navSheet'))return;
+    e.preventDefault();const m=decodeURIComponent((a.href.split('text=')[1]||''));showNav(m,a.href)},true);
+}
 const ob=e=>{e.stopPropagation();track('abriu-previa');openSheet('bookSheet')};
 document.getElementById('bookCard').addEventListener('click',ob);
 document.getElementById('bookCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ob(e)}});
