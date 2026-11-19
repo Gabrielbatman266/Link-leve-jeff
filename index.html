@@ -109,12 +109,12 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
       <button class="btn" id="bookBtn">Ver prévia e comprar</button>
     </div>
 
-    <a class="lk wa" id="lkWa" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
-    <a class="lk" id="lkTt" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
+    <a class="lk wa" id="lkWa" data-ev="abriu-menu-whatsapp" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
+    <a class="lk" id="lkTt" data-ev="clicou-tiktok" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
   </div>
 
   <div class="soon">📱 Em breve: <b>o app do Jeff Insane</b> pra ler os livros, fazer a jornada e ouvir os áudios guiados.</div>
-  <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.</footer>
+  <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.<br>Este site usa estatísticas anônimas, sem cookies.</footer>
 </main>
 
 <!-- WhatsApp: escolher o assunto -->
@@ -141,7 +141,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   <div class="dots" id="dots"></div>
 
   <h4>Amostra grátis</h4>
-  <div class="sample">
+  <div class="sample" data-seen="leu-amostra-gratis">
     <p class="two">“Já deu certo.”<br>“Lembre de quem você é.”</p>
     <p>Duas frases. Se você esquecer todo o resto do livro, leve só elas. A primeira fecha a porta da dúvida. A segunda devolve o seu poder: você não está começando do zero. Você já conquistou coisas, já atravessou dias difíceis. Quem fez tudo isso continua aqui.</p>
   </div>
@@ -167,7 +167,8 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
     <li>Eu te mando a chave Pix de R$ 19,90.</li>
     <li>Você manda o comprovante e recebe o livro na mesma conversa.</li>
   </ol>
-  <a class="btn wa" id="buyBtn" href="#" target="_blank" rel="noopener">Comprar por R$ 19,90 no Pix</a>
+  <div data-seen="chegou-no-botao-comprar"></div>
+  <a class="btn wa" id="buyBtn" data-ev="clicou-comprar-livro" href="#" target="_blank" rel="noopener">Comprar por R$ 19,90 no Pix</a>
   <div class="guar">🛡️ <span><b>Garantia de 7 dias.</b> Não gostou? Devolvo o seu dinheiro.</span></div>
   <p class="note">Pagamento automático com entrega imediata chega em breve.</p>
 </div></div>
@@ -180,6 +181,7 @@ const CFG = {
   tiktok:   'https://www.tiktok.com/@jeffinsane',
   whatsapp: '5537999459674',
   preco:    'R$ 19,90',
+  umami:    'COLE_AQUI_O_WEBSITE_ID',                // ← ID do site no Umami (cloud.umami.is)
 };
 const MSG = {
   sessao:      'Oi, Jeff! Vim pelo seu TikTok e quero agendar uma sessão individual com você. Como funciona e quais são os horários?',
@@ -190,6 +192,15 @@ const MSG = {
 };
 /* ========================================================= */
 
+/* ---------- métricas (Umami: sem cookies) ---------- */
+if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) {
+  const sc = document.createElement('script'); sc.defer = true;
+  sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami;
+  document.head.appendChild(sc);
+}
+function track(ev, data) { try { if (window.umami) window.umami.track(ev, data); } catch (e) {} }
+document.addEventListener('click', e => { const t = e.target.closest('[data-ev]'); if (t) track(t.dataset.ev, t.dataset.evd ? { tipo: t.dataset.evd } : undefined); });
+
 const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
 document.getElementById('lkTt').href = CFG.tiktok;
 document.getElementById('buyBtn').href = wa(MSG.livro);   // futuramente: trocar pelo pagamento automático do bot
@@ -199,7 +210,7 @@ const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','
   ['🎯','Consultoria','Um objetivo específico, um plano claro','consultoria'],
   ['❓','Só uma dúvida','Pergunta rápida','duvida']];
 document.getElementById('waOpts').innerHTML = OPTS.map(o =>
-  `<a class="opt" href="${wa(MSG[o[3]])}" target="_blank" rel="noopener"><span class="ic">${o[0]}</span><span><b>${o[1]}</b><small>${o[2]}</small></span></a>`).join('');
+  `<a class="opt" data-ev="whatsapp-${o[3]}" href="${wa(MSG[o[3]])}" target="_blank" rel="noopener"><span class="ic">${o[0]}</span><span><b>${o[1]}</b><small>${o[2]}</small></span></a>`).join('');
 
 /* folhas (sheets) */
 function openSheet(id){const s=document.getElementById(id);s.hidden=false;document.body.style.overflow='hidden';s.querySelector('.x').focus()}
@@ -207,7 +218,7 @@ function closeSheet(s){s.hidden=true;document.body.style.overflow=''}
 document.querySelectorAll('.sheet').forEach(s=>{s.addEventListener('click',e=>{if(e.target===s||e.target.closest('[data-close]'))closeSheet(s)})});
 addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.sheet').forEach(s=>!s.hidden&&closeSheet(s))});
 document.getElementById('lkWa').addEventListener('click',e=>{e.preventDefault();openSheet('waSheet')});
-const ob=e=>{e.stopPropagation();openSheet('bookSheet')};
+const ob=e=>{e.stopPropagation();track('abriu-previa');openSheet('bookSheet')};
 document.getElementById('bookCard').addEventListener('click',ob);
 document.getElementById('bookCard').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ob(e)}});
 
@@ -216,6 +227,9 @@ const car=document.getElementById('car'),dots=document.getElementById('dots'),n=
 dots.innerHTML='<i></i>'.repeat(n);
 const pd=()=>{const i=Math.round(car.scrollLeft/(car.children[0].offsetWidth+10));[...dots.children].forEach((d,j)=>d.classList.toggle('on',j===i))};
 car.addEventListener('scroll',pd,{passive:true});pd();
+let maxSlide=0,slT;car.addEventListener('scroll',()=>{clearTimeout(slT);slT=setTimeout(()=>{if(maxSlide<1&&car.scrollLeft+car.clientWidth>=car.scrollWidth-8){maxSlide=1;track('viu-todos-os-prints')}},400)},{passive:true});
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){track(e.target.dataset.seen);io.unobserve(e.target)}}),{threshold:.6});
+  document.querySelectorAll('[data-seen]').forEach(x=>io.observe(x))}
 
 /* céu */
 const cv=document.getElementById('sky'),cx=cv.getContext('2d');let st=[];
