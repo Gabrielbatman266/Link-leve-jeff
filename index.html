@@ -349,7 +349,8 @@ const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','
   ['🚀','Mentoria','Acompanhamento pra mudar de vez','mentoria'],
   ['🎯','Consultoria','Um objetivo específico, um plano claro','consultoria'],
   ['❓','Só uma dúvida','Pergunta rápida','duvida']];
-document.getElementById('waOpts').innerHTML = OPTS.map(o =>
+const DO_ORACULO = location.hash==='#whatsapp';   // vindo do oráculo: só sessões e mentoria
+document.getElementById('waOpts').innerHTML = OPTS.filter(o => !DO_ORACULO || ['sessao','mentoria'].includes(o[3])).map(o =>
   `<a class="opt" data-ev="whatsapp-${o[3]}" href="${wa(MSG[o[3]])}" target="_blank" rel="noopener"><span class="ic">${o[0]}</span><span><b>${o[1]}</b><small>${o[2]}</small></span></a>`).join('');
 
 /* folhas (sheets) */
