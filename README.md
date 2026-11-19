@@ -12,3 +12,24 @@ Página de links do Jeff Insane (TikTok @jeffinsane): livro **Já Deu Certo**, s
 3. Use na bio do TikTok o link com origem: `https://gabrielbatman266.github.io/Link-leve-jeff/?utm_source=tiktok&utm_medium=bio`
 
 Eventos registrados: `abriu-previa`, `viu-todos-os-prints`, `leu-amostra-gratis`, `chegou-no-botao-comprar`, `clicou-comprar-livro`, `abriu-menu-whatsapp`, `whatsapp-sessao`, `whatsapp-mentoria`, `whatsapp-consultoria`, `whatsapp-duvida`, `clicou-tiktok`.
+
+## Depoimentos ("Quem já viveu")
+
+Os relatos ficam em `depoimentos.json`. A seção só aparece quando tem pelo menos 1 relato.
+
+```json
+[
+  {
+    "texto": "O que a pessoa contou (só com autorização dela).",
+    "nome": "Primeiro nome ou deixe vazio para Anônimo",
+    "cidade": "Opcional",
+    "print": "img/depoimentos/nome-do-arquivo.jpg",
+    "destaque": true,
+    "data": "2026-11-20"
+  }
+]
+```
+
+- `destaque: true` → aparece primeiro, com estrelas.
+- `print` é opcional: suba a imagem em `img/depoimentos/` (apague dados pessoais antes).
+- `"publicar": false` → guarda o relato sem mostrar.

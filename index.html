@@ -51,6 +51,21 @@ h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1;margin-
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;width:100%;margin-top:14px;border:0;border-radius:99px;padding:12px 20px;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 8px 28px rgba(245,201,106,.3);text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
 .btn.wa{background:linear-gradient(180deg,#5cf09a,var(--wa));color:#04260f;box-shadow:0 8px 28px rgba(37,211,102,.28)}
+#quem{width:100%;margin-top:26px}
+.qh{font-family:'Cormorant Garamond',serif;font-size:1.7rem;line-height:1.15;text-align:center;color:#fff;margin-bottom:14px}
+.qh em{color:var(--gold2);font-style:italic}
+.dcard{position:relative;margin:0 0 12px;padding:16px 16px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);opacity:0;animation:up .6s forwards}
+.dcard.top{border-color:rgba(245,201,106,.6);background:linear-gradient(160deg,rgba(245,201,106,.14),var(--card) 55%)}
+.dcard .stars{color:var(--gold);font-size:.8rem;letter-spacing:.15em;margin-bottom:6px}
+.dcard blockquote{font-size:.98rem;line-height:1.5;color:var(--ink)}
+.dcard blockquote::before{content:'“';font-family:'Cormorant Garamond',serif;font-size:2.4rem;line-height:0;vertical-align:-.45em;color:var(--gold);margin-right:2px}
+.dcard .who{margin-top:10px;font-size:.82rem;color:var(--soft)}
+.dcard .who b{color:var(--gold2)}
+.dcard img{display:block;width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-top:10px;border:1px solid var(--line);cursor:zoom-in}
+.dmore{display:block;margin:4px auto 12px;background:none;border:0;color:var(--cyan);font:inherit;font-weight:800;cursor:pointer;padding:10px}
+.dep-cta{border-color:rgba(37,211,102,.55)!important;opacity:1!important;animation:none!important}
+#zoom{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:16px}
+#zoom[hidden]{display:none}#zoom img{max-width:100%;max-height:100%;border-radius:12px}
 .soon{width:100%;margin-top:22px;padding:14px 16px;border-radius:18px;border:1px dashed var(--line);color:var(--soft);font-size:.88rem;text-align:center;opacity:0;animation:up .6s .5s forwards}
 .soon b{color:var(--cyan)}
 footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-height:1.6}
@@ -99,7 +114,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 </style>
 </head>
 <body>
-<canvas id="sky"></canvas><div id="toast" role="status"></div><div class="neb"></div>
+<canvas id="sky"></canvas><div id="zoom" hidden onclick="this.hidden=true"><img alt="Print ampliado"></div><div id="toast" role="status"></div><div class="neb"></div>
 <div id="iaBar" hidden><span>📲 Pra falar comigo no WhatsApp, abra esta página no navegador.</span><button id="iaBtn">Abrir no navegador</button></div>
 <main>
   <div class="avatar" aria-hidden="true">JI</div>
@@ -126,6 +141,12 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
     <a class="lk wa" id="lkWa" data-ev="abriu-menu-whatsapp" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
     <a class="lk" id="lkTt" data-ev="clicou-tiktok" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
   </div>
+
+  <section id="quem" hidden>
+    <h2 class="qh">Quem já viveu o <em>“já deu certo”</em></h2>
+    <div id="depList"></div>
+    <a class="lk dep-cta" id="depCta" data-ev="clicou-mandar-depoimento" href="#" target="_blank" rel="noopener"><span class="ic">✨</span><span class="tx">Deu certo pra você também?<small>Me conta no WhatsApp. Com print, se quiser.</small></span><span class="ar">›</span></a>
+  </section>
 
   <div class="soon">📱 Em breve: <b>o app do Jeff Insane</b> pra ler os livros, fazer a jornada e ouvir os áudios guiados.</div>
   <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.<br>Este site usa estatísticas anônimas, sem cookies.</footer>
@@ -236,6 +257,22 @@ document.addEventListener('click', e => { const t = e.target.closest('[data-ev]'
 const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
 document.getElementById('lkTt').href = CFG.tiktok;
 document.getElementById('lkGrp').href = CFG.grupo;
+document.getElementById('depCta').href = wa('Oi, Jeff! Li o livro *Já Deu Certo* e quero contar o que aconteceu:\n\n✨ O que deu certo: \n🙋 Meu nome (ou anônimo): \n📍 Cidade: \n\n✅ Autorizo publicar no seu site: sim / não');
+
+/* ---------- depoimentos (depoimentos.json) ---------- */
+const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+fetch('depoimentos.json',{cache:'no-cache'}).then(r=>r.ok?r.json():[]).then(list=>{
+  list=(list||[]).filter(d=>d&&d.texto&&d.publicar!==false);
+  if(!list.length)return;
+  list.sort((a,b)=>(b.destaque?1:0)-(a.destaque?1:0)||String(b.data||'').localeCompare(String(a.data||'')));
+  const box=document.getElementById('depList');let shown=0;
+  const card=(d,i)=>`<figure class="dcard${d.destaque?' top':''}" style="animation-delay:${i*.08}s">${d.destaque?'<div class="stars">★★★★★ DESTAQUE</div>':''}<blockquote>${esc(d.texto)}</blockquote>${d.print?`<img src="${esc(d.print)}" alt="Print enviado por quem viveu" loading="lazy">`:''}<figcaption class="who"><b>${esc(d.nome||'Anônimo')}</b>${d.cidade?' · '+esc(d.cidade):''}</figcaption></figure>`;
+  const more=()=>{const next=list.slice(shown,shown+3);box.insertAdjacentHTML('beforeend',next.map((d,i)=>card(d,i)).join(''));shown+=next.length;
+    const old=document.getElementById('dMore');if(old)old.remove();
+    if(shown<list.length){box.insertAdjacentHTML('beforeend','<button class="dmore" id="dMore">Ver mais relatos ('+(list.length-shown)+')</button>');document.getElementById('dMore').onclick=()=>{track('viu-mais-depoimentos');more()}}};
+  more();document.getElementById('quem').hidden=false;
+  box.addEventListener('click',e=>{const im=e.target.closest('.dcard img');if(!im)return;const z=document.getElementById('zoom');z.querySelector('img').src=im.src;z.hidden=false});
+}).catch(()=>{});
 document.getElementById('buyBtn').href = wa(MSG.livro);   // futuramente: trocar pelo pagamento automático do bot
 
 const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','sessao'],
