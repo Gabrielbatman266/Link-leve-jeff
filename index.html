@@ -34,6 +34,9 @@ h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1;margin-
 .lk .tx{flex:1}.lk small{display:block;font-weight:600;color:var(--soft);font-size:.82rem;margin-top:2px}
 .lk .ar{color:var(--gold);font-size:1.4rem}
 .lk.wa .ic{background:rgba(37,211,102,.16)}
+.lk.grp{border-color:rgba(37,211,102,.55);background:linear-gradient(120deg,rgba(37,211,102,.16),var(--card) 60%)}
+.lk.grp .ic{background:rgba(37,211,102,.22)}
+.free{flex:none;font-size:.7rem;font-weight:800;letter-spacing:.1em;color:#04260f;background:linear-gradient(180deg,#5cf09a,var(--wa));padding:5px 10px;border-radius:99px}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .book{width:100%;margin-top:6px;border-radius:24px;padding:16px;background:linear-gradient(160deg,rgba(245,201,106,.16),var(--card) 50%);border:1px solid rgba(245,201,106,.55);box-shadow:0 0 40px rgba(245,201,106,.08);opacity:0;animation:up .6s .1s forwards;cursor:pointer}
 .book .tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#1a1200;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:99px;padding:3px 10px}
@@ -118,6 +121,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
       <button class="btn" id="bookBtn">Ver prévia e comprar</button>
     </div>
 
+    <a class="lk grp" id="lkGrp" data-ev="clicou-grupo-gratis" href="#" target="_blank" rel="noopener" style="animation-delay:.15s"><span class="ic">👥</span><span class="tx">Grupo grátis no WhatsApp<small>Entre pra comunidade de quem já sabe que deu certo</small></span><span class="free">GRÁTIS</span></a>
     <a class="lk wa" id="lkWa" data-ev="abriu-menu-whatsapp" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões, mentoria e consultoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
     <a class="lk" id="lkTt" data-ev="clicou-tiktok" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
   </div>
@@ -147,7 +151,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   </ol>
   <h4>Ou fale comigo direto</h4>
   <div class="copyrow"><div><small>Meu WhatsApp</small><b id="zapNum"></b></div><button class="btn ghost" id="copyNum">Copiar número</button></div>
-  <div class="copyrow"><div><small>Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
+  <div class="copyrow"><div><small id="pendLbl">Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
   <a class="tryany" id="tryAny" href="#" target="_blank" rel="noopener">Tentar abrir o WhatsApp mesmo assim</a>
 </div></div>
 
@@ -206,6 +210,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 const CFG = {
   tiktok:   'https://www.tiktok.com/@jeffinsane',
   whatsapp: '5537999459674',
+  grupo:    'https://chat.whatsapp.com/HomCRj9bpIPGOVkDhafjMh',   // ← grupo grátis
   preco:    'R$ 19,90',
   umami:    'c77e97b7-a4ea-4600-8a2a-b5ac09d91243',  // ID do site no Umami
 };
@@ -229,6 +234,7 @@ document.addEventListener('click', e => { const t = e.target.closest('[data-ev]'
 
 const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
 document.getElementById('lkTt').href = CFG.tiktok;
+document.getElementById('lkGrp').href = CFG.grupo;
 document.getElementById('buyBtn').href = wa(MSG.livro);   // futuramente: trocar pelo pagamento automático do bot
 
 const OPTS = [['🧘','Sessão individual','Uma conversa só sobre o seu caso','sessao'],
@@ -257,19 +263,20 @@ const openOutside=()=>{track('abriu-no-navegador');
   else{openSheet('navSheet')}};
 async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(ok)}catch(_){toast('Toque e segure pra copiar')}ta.remove()}}
 let pend='';
-function showNav(msg,url){pend=msg;document.getElementById('pendMsg').textContent=msg;document.getElementById('tryAny').href=url;
+function showNav(msg,url,grp){pend=msg;document.getElementById('pendMsg').textContent=msg;
+  document.getElementById('pendLbl').textContent=grp?'Link do grupo':'Sua mensagem';document.getElementById('copyMsg').textContent=grp?'Copiar link':'Copiar mensagem';document.getElementById('tryAny').href=url;
   document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);openSheet('navSheet');track('whatsapp-bloqueado-no-app')}
 document.getElementById('zapNum').textContent=fmtZap(CFG.whatsapp);
 document.getElementById('copyNum').onclick=()=>copy(fmtZap(CFG.whatsapp),'Número copiado ✦');
-document.getElementById('copyMsg').onclick=()=>copy(pend||MSG.duvida,'Mensagem copiada ✦');
+document.getElementById('copyMsg').onclick=()=>copy(pend||MSG.duvida,'Copiado ✦');
 document.getElementById('navGo').addEventListener('click',e=>{e.preventDefault();openOutside()});
 if(IN_APP){
   document.getElementById('iaBar').hidden=false;
   document.getElementById('iaBtn').onclick=openOutside;
   if(!ANDROID)document.getElementById('navGo').style.display='none';
-  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="https://wa.me/"]');if(!a)return;
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="https://wa.me/"],a[href^="https://chat.whatsapp.com/"]');if(!a)return;
     if(e.target.closest('#navSheet'))return;
-    e.preventDefault();const m=decodeURIComponent((a.href.split('text=')[1]||''));showNav(m,a.href)},true);
+    e.preventDefault();const grp=a.href.includes('chat.whatsapp.com');const m=grp?a.href:decodeURIComponent((a.href.split('text=')[1]||''));showNav(m,a.href,grp)},true);
 }
 const ob=e=>{e.stopPropagation();track('abriu-previa');openSheet('bookSheet')};
 document.getElementById('bookCard').addEventListener('click',ob);
