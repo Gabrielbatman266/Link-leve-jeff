@@ -133,6 +133,13 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .streak{text-align:center;color:var(--gold2);font-weight:800;margin-top:8px}
 .cf.cig{background:radial-gradient(circle at 50% 40%,rgba(255,143,208,.25),transparent 45%),linear-gradient(170deg,#3a1440,#09061c)}
 .cf.cig .sy{font-size:2rem;text-shadow:none}
+.lemb{border-color:rgba(245,201,106,.6)}
+.contador{text-align:center;color:var(--gold2);font-weight:800;margin:6px 0 10px}
+.plano.degrau{border-color:rgba(37,211,102,.6);background:linear-gradient(160deg,rgba(37,211,102,.14),rgba(22,16,52,.88) 60%)}
+.blur{margin:10px 0 2px;padding:14px;border-radius:14px;background:rgba(5,4,15,.55);text-align:center;filter:blur(3px);user-select:none}
+.blur span{display:block;font-weight:800;font-size:1.3rem;color:var(--gold2);letter-spacing:.1em}.blur small{color:var(--soft)}
+.resp{border-color:rgba(37,211,102,.6)}.resp .r{display:inline-block;font-weight:800;padding:8px 14px;border-radius:12px;background:var(--gold);color:#1c1203;margin-bottom:8px}
+.indica{border-color:rgba(180,140,255,.6)}.indn{color:var(--cyan);font-weight:800;margin-top:6px}
 /* folha de pagamento */
 .sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.65)}
 .sh{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:#120c2c;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:18px 18px 30px;animation:sl .35s ease-out}
@@ -159,6 +166,8 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <div class="heroCards"><div class="cb"></div><div class="cb"></div><div class="cb"></div></div>
     <a class="diaMini" id="diaMini" href="?m=dia"><span>🌅</span><span><b>Sua carta do dia</b><small id="diaMiniT">Uma carta grátis todo dia. Toque pra ver.</small></span><span class="ar">›</span></a>
     <div class="box cred" id="credBox" hidden><p>✨ Você tem <b id="credN">0</b> leituras completas do pacote.</p><button class="btn" id="credUsar">Usar uma agora</button></div>
+    <div class="box lemb" id="lembBox" hidden><p>🔒 <b>A sua última leitura ainda tem a resposta trancada.</b> Sim ou não + quando, sobre aquelas mesmas cartas.</p><button class="btn" id="lembBtn">Ver a minha resposta</button></div>
+    <p class="contador" id="contador" hidden></p>
     <span class="pill free" id="pill0">GRÁTIS · 3 CARTAS</span>
     <h1 id="h0">O que as cartas querem te mostrar hoje?</h1>
     <p id="p0">Faça a sua pergunta, respire e escolha <b>3 cartas com a intuição</b>. Você recebe a leitura de cada uma e uma <b>síntese</b> do que saiu.</p>
@@ -249,7 +258,15 @@ label.f input:focus{outline:none;border-color:var(--gold)}
         <p><b>A leitura grátis mostra o rumo. A completa responde o resto:</b></p>
         <ul class="locks" id="locks"></ul>
       </div>
+      <div class="box resp" id="respBox" hidden></div>
       <div class="planos" id="planos">
+        <div class="plano degrau" id="plResposta">
+          <div class="phead"><span class="pico">⚡</span><div><span class="pill">A SUA RESPOSTA JÁ SAIU</span><h3>Sim ou não? E quando?</h3></div></div>
+          <p class="gancho">Sobre essas mesmas cartas que você acabou de tirar.</p>
+          <div class="blur"><span>SIM · NÃO · DEPENDE</span><small>tendência de tempo: ██████████</small></div>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="resposta">R$ 1,99</b><small>no Pix · libera na hora</small></div></div>
+          <button class="btn" data-comprar="resposta">Ver a minha resposta</button>
+        </div>
         <div class="plano" id="plCompleta">
           <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>O que te trava e o que fazer</h3></div></div>
           <p class="gancho">A grátis mostrou o rumo. A completa mostra o resto da história.</p>
@@ -281,6 +298,13 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       </div>
       <div class="box" id="calma" hidden><p><b>Já foram 3 leituras pagas hoje.</b> O tarot funciona melhor com espaço: deixe a resposta assentar e volte amanhã com a cabeça leve.</p></div>
 
+      <div class="box indica" id="indBox">
+        <p><b>🎁 Ganhe leituras completas de graça</b></p>
+        <p>Mande o seu link pra uma amiga. Quando ela fizer a leitura grátis dela, você ganha <b>1 leitura completa</b>. Sem limite.</p>
+        <p class="indn" id="indN"></p>
+        <button class="btn" id="indShare">📤 Mandar o meu link</button>
+        <button class="btn ghost" id="indUsar" hidden>Usar uma leitura grátis</button>
+      </div>
       <h3>Explore mais</h3>
       <div class="mais" id="mais"></div>
       <h3>Pra transformar a leitura em realidade</h3>
@@ -330,6 +354,9 @@ function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || 
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const hoje = () => new Date().toLocaleDateString('sv-SE');
+const uid = LS.g('uid') || (() => { const u = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).slice(0, 18); LS.s('uid', u); return u })();
+// indicação: quem chegou pelo link de alguém (só conta se é a primeira vez neste aparelho)
+(function () { const r = new URLSearchParams(location.search).get('ref'); if (r && !LS.g('ultima') && !LS.g('ref')) LS.s('ref', r) })();
 const brl = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
 const toast = t => { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2200) };
 async function api(p, body) { const r = await fetch(CFG.loja + p, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}); const j = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(j.erro || 'Erro'), { j }); return j }
@@ -406,9 +433,10 @@ $('limpar').onclick = () => { const i = S.escolhas.pop(); if (i === undefined) r
 $('go3').onclick = async () => {
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
-    const l = await api('/api/tarot/ler', { v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
+    const l = await api('/api/tarot/ler', { u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
     else { LS.s(KG, hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
+    if (l.tipo === 'gratis') Object.assign(l, { _b: S.baralho, _e: S.escolhas.slice(0, 3), _tema: S.tema, _pessoa: S.pessoa, _d: hoje() });
     LS.s('ultima', l); S.baralho = ''; mostrarLeitura(l);
   } catch (e) { toast(e.message || 'Não deu certo. Tente de novo.') }
   finally { $('go3').disabled = false; $('go3').textContent = 'Revelar as cartas' }
@@ -424,18 +452,20 @@ function mostrarLeitura(l, direto) {
   $('k4').textContent = { completa: 'Leitura completa · 5 cartas', profunda: 'Leitura mais completa · Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', gratis: l.modo === 'cigano' ? 'Baralho Cigano grátis · 3 cartas' : 'Leitura grátis · 3 cartas' }[l.tipo];
   $('spread').innerHTML = l.cartas.map((c, i) => `<div class="slot"><div class="flip" data-i="${i}"><div class="in"><div class="cb"></div>${face(c)}</div></div><small>${esc(c.posicao)}</small></div>`).join('');
   $('res').hidden = true; $('h4').hidden = !!direto; $('intuTxt').hidden = true;
-  const flips = [...document.querySelectorAll('.flip')]; let viradas = 0;
+  const flips = [...document.querySelectorAll('#spread .flip')]; let viradas = 0;
   const vira = f => { if (f.classList.contains('on')) { if (!$('res').hidden) intuicao(f); return } f.classList.add('on'); navigator.vibrate && navigator.vibrate(20); if (++viradas === flips.length) virar.push(setTimeout(resultado, 900)) };
   flips.forEach(f => f.onclick = () => vira(f));
   if (direto) flips.forEach(vira); else flips.forEach((f, i) => virar.push(setTimeout(() => vira(f), 900 + i * 900)));
+  // garantia: a leitura sempre aparece, mesmo se alguma carta não virar
+  virar.push(setTimeout(() => { if ($('res').hidden && S.leitura === l) { flips.forEach(f => f.classList.add('on')); resultado() } }, (direto ? 1500 : 900 + flips.length * 900 + 2500)));
 }
 function intuicao(f) {
-  const c = S.leitura.cartas[+f.dataset.i]; document.querySelectorAll('.flip').forEach(x => x.classList.remove('pulse')); f.classList.add('pulse');
+  const c = S.leitura.cartas[+f.dataset.i]; document.querySelectorAll('#spread .flip').forEach(x => x.classList.remove('pulse')); f.classList.add('pulse');
   $('intuTxt').hidden = false; $('intuTxt').innerHTML = '<b>' + esc(c.nome) + ':</b> ' + esc(c.intuicao); track('tarot-intuicao');
 }
 function resultado() {
   const l = S.leitura; $('h4').hidden = true; $('res').hidden = false;
-  document.querySelectorAll('.flip').forEach(f => f.classList.add('pulse')); setTimeout(() => document.querySelectorAll('.flip').forEach(f => f.classList.remove('pulse')), 2600);
+  document.querySelectorAll('#spread .flip').forEach(f => f.classList.add('pulse')); setTimeout(() => document.querySelectorAll('#spread .flip').forEach(f => f.classList.remove('pulse')), 2600);
   const cap = t => esc(t.charAt(0).toUpperCase() + t.slice(1));
   $('lista').innerHTML = l.cartas.map(c => `<div class="ci"><div class="ps">${esc(c.posicao)}</div><div class="nm">${esc(c.nome)}${c.invertida ? '<span class="tagInv">invertida</span>' : ''}</div>` +
     (c.tipo === 'cigano' && l.extra ? `<p>${cap(c.texto)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : c.geral ? `<p>${cap(c.geral)}.</p><p class="tm">No seu tema: ${esc(c.tematico)}.</p><p style="margin-top:4px">👉 ${esc(c.conselho)}</p>` : `<p>${cap(c.texto)}.</p>`) + '</div>').join('');
@@ -457,11 +487,14 @@ function resultado() {
     : ['🔒 Sim ou não? A tendência pra sua pergunta', '🔒 Quando? A tendência de tempo', '🔒 O que te trava e onde se apoiar', '🔒 A carta que guia você + afirmação', '🔒 Ritual de 7 dias da lei da suposição pro seu caso']).map(t => '<li>' + t + '</li>').join('');
   $('teaser').hidden = true; // os cadeados agora ficam dentro de cada plano
   // tarot grátis → completa/pacote/profunda · completa → profunda (+ cigano se tema amor) · cigano grátis → mesa cigana · pagas de cigano → tarot profunda
-  const vis = { plCompleta: !cig && l.tipo === 'gratis', plPacote: !cig && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda', plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'gratis') };
+  const temResp = !!l.resposta;
+  $('respBox').hidden = !temResp; if (temResp) $('respBox').innerHTML = `<span class="r">${esc(l.resposta.sim.r)}</span><p>${esc(l.resposta.sim.t)}</p><p style="margin-top:8px">⏳ ${esc(l.resposta.quando)}</p>`;
+  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plCompleta: !cig && l.tipo === 'gratis', plPacote: !cig && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda', plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'gratis') };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
   $('planos').hidden = limite || !Object.values(vis).some(Boolean);
   precosAtuais().then(p => document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])));
   if (!$('planos').hidden) track('tarot-viu-oferta', { depois: l.tipo });
+  indicacaoUI();
 }
 function extras(x, l) {
   let h = `<h3>Sim ou não?</h3><div class="box sim"><span class="r">${esc(x.sim.r)}</span><p>${esc(x.sim.t)}</p></div>`;
@@ -497,9 +530,9 @@ let compraTipo = 'completa';
 function abrirPagamento(tipo) {
   const pend = LS.g('pend'); $('pay').hidden = false; document.body.style.overflow = 'hidden';
   if (pend && Date.now() - pend.t < 3600e3) { mostrarPix(pend); return }
-  compraTipo = ['profunda', 'cigano', 'pacote'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
-  $('pn').textContent = { completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
-  $('pq').parentElement.innerHTML = compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
+  compraTipo = ['profunda', 'cigano', 'pacote', 'resposta'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
+  $('pn').textContent = { resposta: 'Sim ou não + quando', completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
+  $('pq').parentElement.innerHTML = compraTipo === 'resposta' ? 'Pague no Pix e a resposta sobre as suas cartas aparece na hora.' : compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
   $('p1').hidden = false; $('p2').hidden = true; precosAtuais().then(p => $('pv').textContent = brl(p[compraTipo]));
   $('email').value = LS.g('email') || '';
 }
@@ -510,7 +543,7 @@ $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail.'; return }
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: compraTipo === 'resposta' && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo. Tente de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
@@ -524,6 +557,7 @@ function mostrarPix(o) {
     try { const j = await api('/api/pedido/' + o.id);
       if (j.status === 'pago') { clearInterval(poll); track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = '';
         if (o.tipo === 'pacote') { LS.s('pend', null); ativarPacote(o.chave); return }
+        if (o.tipo === 'resposta') { LS.s('pend', null); abrirResposta(o); return }
         S.tipo = o.tipo || 'completa'; S.modo = o.tipo === 'cigano' ? 'cigano' : 'tarot'; S.baralho = o.baralho; S.tema = o.tipo === 'cigano' ? 'amor' : (S.tema || o.tema); S.perg = S.perg || o.perg; S.nome = S.nome || o.nome; S.pessoa = S.pessoa || o.pessoa || '';
         toast('Pagamento confirmado ✦ Agora escolha ' + N() + ' cartas'); if (!S.tema || (o.tipo === 'cigano' && !S.pessoa)) { if (o.tipo === 'cigano') { $('temas').hidden = true; $('pessoaL').hidden = false; $('go1').disabled = false } tela(1) } else respirar() }
       else if (['failed', 'refunded'].includes(j.status)) { clearInterval(poll); LS.s('pend', null); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.' } } catch (e) {}
@@ -532,6 +566,36 @@ function mostrarPix(o) {
 $('copiar').onclick = () => { copy($('code').textContent, 'Código Pix copiado ✦ Cole no app do banco'); track('tarot-pix-copiado') };
 // voltou depois de pagar? continua de onde parou
 (function () { const p = LS.g('pend'); if (p && Date.now() - p.t < 3600e3) { S.tema = p.tema; S.perg = p.perg; S.nome = p.nome; S.pessoa = p.pessoa || ''; abrirPagamento() } })();
+
+/* degrau R$ 1,99: resposta sobre as mesmas cartas */
+async function abrirResposta(o) {
+  try { const j = await api('/api/tarot/resposta', { pedido: o.id, baralho: o.leit.b, escolhas: o.leit.e, tema: o.leit.tema, pessoa: o.leit.pessoa });
+    if (j.fidelidade && !LS.g('fid')) LS.s('fid', j.fidelidade);
+    const u = LS.g('ultima'); if (u && u._b === o.leit.b) { u.resposta = j; LS.s('ultima', u); mostrarLeitura(u, true) }
+    track('tarot-resposta-liberada'); toast('Resposta liberada ✦'); setTimeout(() => $('respBox').scrollIntoView({ behavior: 'smooth', block: 'center' }), 1800) }
+  catch (e) { toast(e.message) }
+}
+/* indique e ganhe */
+async function indicacaoUI() {
+  try { const j = await api('/api/indicacao?u=' + uid); S.ref = j.code;
+    $('indN').textContent = j.amigas ? `Amigas que vieram pelo seu link: ${j.amigas} · leituras pra usar: ${j.disponiveis}` : '';
+    $('indUsar').hidden = !j.disponiveis } catch (e) { $('indBox').hidden = true }
+}
+$('indShare').onclick = async () => {
+  if (!S.ref) await indicacaoUI();
+  const u = location.origin + location.pathname + '?m=' + (MODO === 'dia' ? 'tarot' : MODO) + '&ref=' + S.ref + '&utm_source=indicacao';
+  const t = MODO === 'cigano' ? 'Tira as suas 3 cartas do Baralho Cigano grátis aqui, é muito certeiro 💞' : 'Tira as suas 3 cartas do tarot grátis aqui, é muito certeiro 🔮';
+  track('indicacao-compartilhou');
+  if (navigator.share) { try { await navigator.share({ title: 'Oráculo do Jeff', text: t, url: u }) } catch (e) {} } else copy(t + ' ' + u, 'Link copiado ✦ Mande pra uma amiga');
+};
+$('indUsar').onclick = async () => {
+  try { const j = await api('/api/indicacao/usar', { u: uid, fidelidade: LS.g('fid') }); track('indicacao-usou');
+    S.tipo = 'completa'; S.modo = 'tarot'; S.baralho = j.baralho; toast('Leitura completa liberada ✦'); tela(1) } catch (e) { toast(e.message) }
+};
+/* contador real e lembrete */
+api('/api/contador').then(j => { if (j.hoje >= 5) { $('contador').hidden = false; $('contador').textContent = `🔥 ${j.hoje} leituras feitas hoje` } }).catch(() => {});
+(function () { const u = LS.g('ultima'); if (u && u.tipo === 'gratis' && u._b && !u.resposta && u._d && u._d !== hoje() && MODO !== 'dia') { $('lembBox').hidden = false; track('lembrete-viu') } })();
+$('lembBtn').onclick = () => { track('lembrete-clicou'); mostrarLeitura(LS.g('ultima'), true); setTimeout(() => $('plResposta').scrollIntoView({ behavior: 'smooth', block: 'center' }), 1800) };
 
 /* pacote de 3 leituras: créditos */
 async function ativarPacote(chave) {
@@ -551,7 +615,6 @@ $('credUsar').onclick = usarCredito;
 credUI();
 
 /* carta do dia */
-const uid = LS.g('uid') || (() => { const u = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).slice(0, 18); LS.s('uid', u); return u })();
 async function cartaDia() {
   tela(5); track('dia-abriu');
   $('diaData').textContent = 'Sua carta de ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
