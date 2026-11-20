@@ -200,7 +200,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
   <div id="p1">
     <h2 style="font-size:1.7rem">Mapa completo · <span id="pv">R$ 9,90</span></h2>
     <p>Pague no Pix e o seu mapa completo abre na hora, aqui mesmo.</p>
-    <label class="f">Seu e-mail (pro comprovante)<input id="email" type="email" autocomplete="email"></label>
+    <label class="f">Seu e-mail (opcional, pro comprovante)<input id="email" type="email" autocomplete="email" placeholder="pode deixar em branco"></label>
     <p class="perr" id="perr"></p>
     <button class="btn" id="gerar">Gerar Pix</button>
   </div>
@@ -256,7 +256,7 @@ function mostrar(m) {
   $('nAfBox').hidden = !m.afirmacao; $('nAf').textContent = m.afirmacao || '';
   $('nLocks').innerHTML = (m.trancado || []).map(t => '<li>🔒 ' + esc(t) + '</li>').join('');
   $('nLock').hidden = true; $('nOferta').hidden = !!m.completo; $('nAviso').textContent = m.aviso;
-  $('nMais').innerHTML = [['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', 'tarot.html?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', 'tarot.html?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', 'tarot.html?m=cigano']].map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
+  $('nMais').innerHTML = [['sim', '❓', 'Sim ou não', 'Pergunta rápida', 'tarot.html?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', 'tarot.html?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', 'tarot.html?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', 'tarot.html?m=cigano']].map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
   if (!m.completo) { track('numero-viu-oferta'); api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')).then(p => { $('pv').textContent = brl(p.numero); document.querySelector('.pc').textContent = brl(p.numero) }).catch(() => {}) }
 }
 document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }) });
@@ -272,7 +272,7 @@ $('nComprar').onclick = () => { const pend = LS.g('num_pend'); $('pay').hidden =
 document.querySelector('[data-close]').onclick = fechar; $('pay').onclick = e => { if (e.target.id === 'pay') fechar() };
 $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail.'; return }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail (ou deixe em branco).'; return }
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
   try { const j = await api('/api/tarot/pedido', { v: FUNIL, email, tipo: 'numero', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, nome: D.nome, nasc: D.nasc, t: Date.now() }; LS.s('num_pend', o); track('numero-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo.' }

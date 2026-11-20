@@ -39,7 +39,8 @@ h1{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1;margin-
 .orT{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:10px}
 .orG{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .orG a{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:16px;background:rgba(5,4,15,.45);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:800;font-size:.92rem}
-.orG a span{font-size:1.5rem}.orG a small{color:var(--soft);font-weight:600;font-size:.76rem}
+.orG a span{font-size:1.5rem}
+.orG a.destaque{grid-column:1/-1;flex-direction:row;align-items:center;gap:10px;border-color:rgba(245,201,106,.6);background:linear-gradient(120deg,rgba(245,201,106,.14),rgba(5,4,15,.45))}.orG a.destaque small{margin-left:auto}.orG a small{color:var(--soft);font-weight:600;font-size:.76rem}
 .orG a:active{transform:scale(.97)}
 .lk.tarot{border-color:rgba(180,140,255,.6);background:linear-gradient(120deg,rgba(180,140,255,.2),var(--card) 60%)}
 .lk.grp .ic{background:rgba(37,211,102,.22)}
@@ -164,6 +165,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
     <div class="oraculo" style="animation-delay:.12s">
       <div class="orT">🔮 Oráculo do Jeff <span class="free">GRÁTIS</span></div>
       <div class="orG">
+        <a href="tarot.html?m=sim&utm_source=bio" data-ev="clicou-sim-ou-nao" class="destaque"><span>❓</span>Sim ou não?<small>Pergunte e tire 1 carta</small></a>
         <a href="tarot.html?m=dia&utm_source=bio" data-ev="clicou-carta-do-dia"><span>🌅</span>Carta do dia<small>Uma por dia</small></a>
         <a href="tarot.html?m=tarot&utm_source=bio" data-ev="clicou-tarot"><span>🃏</span>Tarot<small>3 cartas grátis</small></a>
         <a href="tarot.html?m=cigano&utm_source=bio" data-ev="clicou-cigano"><span>💞</span>Baralho Cigano<small>Pessoa específica</small></a>
@@ -220,12 +222,12 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
     <p class="sub">Pague no Pix e baixe o livro na hora, nos 4 formatos.</p>
     <form id="payForm" novalidate>
       <label class="pf">Nome completo<input name="nome" autocomplete="name" required></label>
-      <label class="pf">CPF<input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
-      <label class="pf">E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label class="pf">CPF (opcional)<input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" required></label>
+      <label class="pf">E-mail (opcional, pro comprovante)<input name="email" type="email" autocomplete="email"></label>
       <label class="pf">WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(37) 99999-9999" required></label>
       <p class="perr" id="payErr" role="alert"></p>
       <button class="btn" id="payGo" type="submit">Gerar Pix de R$ 19,90</button>
-      <p class="note">🔒 O banco exige nome e CPF pra gerar o Pix. Seus dados vão só pro processador do pagamento e pra eu te ajudar se precisar.</p>
+      <p class="note">🔒 Só o nome e o WhatsApp são obrigatórios. Seus dados vão só pro processador do pagamento e pra eu te ajudar se precisar.</p>
     </form>
   </div>
   <div id="pay2" hidden>

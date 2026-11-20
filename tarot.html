@@ -267,6 +267,14 @@ label.f input:focus{outline:none;border-color:var(--gold)}
           <div class="pfoot"><div class="preco"><b class="pc" data-t="resposta">R$ 1,99</b><small>no Pix · libera na hora</small></div></div>
           <button class="btn" data-comprar="resposta">Ver a minha resposta</button>
         </div>
+        <div class="plano" id="plSim3">
+          <div class="phead"><span class="pico">❓</span><div><span class="pill">3 PERGUNTAS · SIM OU NÃO</span><h3>Tem mais de uma dúvida?</h3></div></div>
+          <p class="gancho">Abra esta resposta e mais 2 perguntas quando quiser.</p>
+          <ul class="lks"><li>✦ 3 respostas: sim ou não + quando</li><li>✦ <span id="sim3Cada">Sai R$ 1,63 cada</span></li></ul>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="sim3">R$ 4,90</b><small>no Pix</small></div></div>
+          <button class="btn ghost" data-comprar="sim3">Quero 3 perguntas</button>
+        </div>
+        <div class="box" id="simCredBox" hidden><p>✨ Você tem <b id="simCredN">0</b> perguntas pagas.</p><button class="btn" id="simCredUsar">Usar uma nesta pergunta</button></div>
         <div class="plano" id="plCompleta">
           <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>O que te trava e o que fazer</h3></div></div>
           <p class="gancho">A grátis mostrou o rumo. A completa mostra o resto da história.</p>
@@ -323,7 +331,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
   <div id="p1">
     <h2 style="font-size:1.7rem"><span id="pn">Leitura completa</span> · <span id="pv">R$ 5,00</span></h2>
     <p>Pague no Pix e escolha suas <span id="pq">5</span> cartas na hora.</p>
-    <label class="f">Seu e-mail (pro comprovante)<input id="email" type="email" autocomplete="email"></label>
+    <label class="f">Seu e-mail (opcional, pro comprovante)<input id="email" type="email" autocomplete="email" placeholder="pode deixar em branco"></label>
     <p class="perr" id="perr"></p>
     <button class="btn" id="gerar">Gerar Pix</button>
   </div>
@@ -351,7 +359,7 @@ if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('scr
 const AB = 'B';   // o teste da síntese terminou: todos veem a síntese cortada (curiosidade aberta)
 /* Teste A/B/C de funis (sorteio por aparelho, fica sempre no mesmo): A atual · B preço de mercado · C pessoa específica primeiro */
 let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')) || 'ABC'[Math.floor(Math.random() * 3)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {}
-const MODO = ['cigano', 'dia'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
+const MODO = ['cigano', 'dia', 'sim'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
 function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, modo: MODO }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
@@ -373,8 +381,20 @@ track('tarot-abriu', { origem: new URLSearchParams(location.search).get('utm_sou
 
 /* 0 · gancho */
 const KG = MODO === 'cigano' ? 'gratis_cigano' : 'gratis';
-function gratisUsada() { return LS.g(KG) === hoje() }
+function gratisUsada() { return MODO !== 'sim' && LS.g(KG) === hoje() }   // no sim ou não, tirar a carta é sempre grátis
 const PAGO_MODO = MODO === 'cigano' ? 'cigano' : 'completa';
+// perguntas prontas pros links dos vídeos (?p=volta etc.)
+const PERG = { volta: 'Ele(a) vai voltar pra mim?', pensa: 'Ele(a) pensa em mim?', gosta: 'Ele(a) gosta de mim?', certo: 'Vai dar certo entre nós?', procura: 'Ele(a) vai me procurar?', dinheiro: 'O dinheiro vai chegar?', emprego: 'Vou conseguir esse emprego?' };
+const pURL = new URLSearchParams(location.search).get('p');
+if (pURL) { const q = PERG[pURL] || pURL.slice(0, 140); setTimeout(() => { $('perg').value = q }, 0); if (PERG[pURL] && !['dinheiro', 'emprego'].includes(pURL)) S.tema = 'amor' }
+if (MODO === 'sim') {
+  document.title = 'Sim ou não? · Oráculo do Jeff';
+  $('h0').textContent = 'Faça a sua pergunta. A carta responde.'; $('pill0').textContent = 'SIM OU NÃO · CARTA GRÁTIS';
+  $('p0').innerHTML = 'Pense na pergunta, respire e tire <b>1 carta</b>. Você vê a carta e o significado de graça, e pode abrir a <b>resposta: sim ou não + quando</b>.';
+  $('h1t').textContent = 'Qual é a sua pergunta?'; $('perg').parentElement.firstChild.textContent = 'A sua pergunta';
+  $('perg').placeholder = 'Ex.: Ele(a) vai voltar pra mim?'; document.querySelector('.top .kick').textContent = 'Sim ou não';
+  if (S.tema) { document.querySelector('.tema[data-t="' + S.tema + '"]').classList.add('on'); $('go1').disabled = false }
+}
 if (MODO === 'cigano') {
   document.title = 'Baralho Cigano do Jeff · amor e pessoa específica';
   $('h0').textContent = 'O que está acontecendo entre você e essa pessoa?'; $('pill0').textContent = 'GRÁTIS · BARALHO CIGANO';
@@ -389,8 +409,9 @@ $('verUltima').onclick = () => { const u = LS.g('ultima'); if (u) mostrarLeitura
 if ((LS.g('leituras') || []).length) { const b = document.createElement('button'); b.className = 'link'; b.textContent = '📜 Minhas leituras pagas'; b.onclick = () => mostrarLeitura(LS.g('leituras')[0], true); $('s0').appendChild(b) }
 
 /* 1 · tema */
+if (S.tema && MODO !== 'cigano') { const tb = document.querySelector('.tema[data-t="' + S.tema + '"]'); if (tb) { tb.classList.add('on'); $('go1').disabled = false } }
 document.querySelectorAll('.tema').forEach(b => b.onclick = () => { document.querySelectorAll('.tema').forEach(x => x.classList.toggle('on', x === b)); S.tema = b.dataset.t; $('go1').disabled = false });
-$('go1').onclick = () => { S.perg = $('perg').value.trim(); S.nome = $('nome').value.trim(); S.pessoa = $('pessoa').value.trim(); if (!S.tema) return; track('tarot-tema', { tema: S.tema }); respirar() };
+$('go1').onclick = () => { if (MODO === 'sim' && $('perg').value.trim().length < 4) { toast('Escreva a sua pergunta ✦'); $('perg').focus(); return } S.perg = $('perg').value.trim(); S.nome = $('nome').value.trim(); S.pessoa = $('pessoa').value.trim(); if (!S.tema) return; track('tarot-tema', { tema: S.tema }); respirar() };
 
 /* 2 · respiração (3 ciclos de 4s inspira / 4s solta) */
 let bTimer = [];
@@ -409,7 +430,7 @@ $('pular').onclick = () => { bTimer.forEach(clearTimeout); escolher() };
 /* 3 · mesa com 78 cartas */
 const QTD = { gratis: 3, completa: 5, profunda: 10, cigano: 9 };
 const TOTAL = () => S.modo === 'cigano' || (MODO === 'cigano' && S.tipo !== 'completa' && S.tipo !== 'profunda') ? 36 : 78;
-const N = () => QTD[S.tipo] || 3;
+const N = () => MODO === 'sim' && S.tipo === 'gratis' ? 1 : (QTD[S.tipo] || 3);
 async function escolher() {
   tela(3); S.escolhas = []; $('t3').textContent = 'Escolha ' + N() + ' cartas'; atualizaEsc();
   const tr = $('trilho'); tr.innerHTML = '';
@@ -423,7 +444,7 @@ async function escolher() {
   }
   $('mesa').classList.add('shuffle'); setTimeout(() => $('mesa').classList.remove('shuffle'), 1600);
   $('mesa').scrollLeft = (tr.scrollWidth - $('mesa').clientWidth) / 2;
-  if (S.tipo === 'gratis' && !S.baralho) { try { S.baralho = (await api('/api/tarot/embaralhar', { modo: MODO === 'cigano' ? 'cigano' : 'tarot' })).baralho } catch (e) { toast('Sem conexão. Tente de novo.') } }
+  if (S.tipo === 'gratis' && !S.baralho) { try { S.baralho = (await api('/api/tarot/embaralhar', { modo: MODO === 'cigano' || MODO === 'sim' ? MODO : 'tarot' })).baralho } catch (e) { toast('Sem conexão. Tente de novo.') } }
 }
 function toca(c) {
   const i = +c.dataset.i, k = S.escolhas.indexOf(i);
@@ -439,7 +460,7 @@ $('go3').onclick = async () => {
     const l = await api('/api/tarot/ler', { fv: FUNIL, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
     else { LS.s(KG, hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
-    if (l.tipo === 'gratis') Object.assign(l, { _b: S.baralho, _e: S.escolhas.slice(0, 3), _tema: S.tema, _pessoa: S.pessoa, _d: hoje() });
+    if (l.tipo === 'gratis') Object.assign(l, { pergunta: S.perg, modo: MODO === 'sim' ? 'sim' : l.modo, _b: S.baralho, _e: S.escolhas.slice(0, 3), _tema: S.tema, _pessoa: S.pessoa, _d: hoje() });
     LS.s('ultima', l); S.baralho = ''; mostrarLeitura(l);
   } catch (e) { toast(e.message || 'Não deu certo. Tente de novo.') }
   finally { $('go3').disabled = false; $('go3').textContent = 'Revelar as cartas' }
@@ -452,7 +473,7 @@ function face(c) { return `<div class="cf ${c.tipo === 'cigano' ? 'cig' : c.naip
 let virar = [];
 function mostrarLeitura(l, direto) {
   S.leitura = l; tela(4); virar.forEach(clearTimeout); virar = [];
-  $('k4').textContent = { completa: 'Leitura completa · 5 cartas', profunda: 'Leitura mais completa · Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', gratis: l.modo === 'cigano' ? 'Baralho Cigano grátis · 3 cartas' : 'Leitura grátis · 3 cartas' }[l.tipo];
+  $('k4').textContent = { completa: 'Leitura completa · 5 cartas', profunda: 'Leitura mais completa · Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', gratis: l.modo === 'cigano' ? 'Baralho Cigano grátis · 3 cartas' : l.modo === 'sim' ? 'Sim ou não · a sua carta' : 'Leitura grátis · 3 cartas' }[l.tipo];
   $('spread').innerHTML = l.cartas.map((c, i) => `<div class="slot"><div class="flip" data-i="${i}"><div class="in"><div class="cb"></div>${face(c)}</div></div><small>${esc(c.posicao)}</small></div>`).join('');
   $('res').hidden = true; $('h4').hidden = !!direto; $('intuTxt').hidden = true;
   const flips = [...document.querySelectorAll('#spread .flip')]; let viradas = 0;
@@ -479,7 +500,7 @@ function resultado() {
   $('pad').innerHTML = l.padroes.map(p => `<p style="margin-top:10px">✦ ${esc(p)}</p>`).join('');
   $('cons').textContent = l.conselho; $('chave').textContent = l.chave; $('aviso').textContent = l.aviso;
   const nomes = l.cartas.map(c => c.nome + (c.invertida ? ' (invertida)' : '')).join(', ');
-  $('mais').innerHTML = maisHTML(l.modo === 'cigano' ? 'cigano' : 'tarot');
+  $('mais').innerHTML = maisHTML(l.modo === 'cigano' ? 'cigano' : l.modo === 'sim' ? 'sim' : 'tarot');
   $('upGrupo').href = CFG.grupo;
   $('novaGratis').hidden = gratisUsada();
   // funil: grátis → completa ou profunda; completa → profunda; profunda → livro/sessão
@@ -492,12 +513,18 @@ function resultado() {
   // tarot grátis → completa/pacote/profunda · completa → profunda (+ cigano se tema amor) · cigano grátis → mesa cigana · pagas de cigano → tarot profunda
   const temResp = !!l.resposta;
   $('respBox').hidden = !temResp; if (temResp) $('respBox').innerHTML = `<span class="r">${esc(l.resposta.sim.r)}</span><p>${esc(l.resposta.sim.t)}</p><p style="margin-top:8px">⏳ ${esc(l.resposta.quando)}</p>`;
-  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plCompleta: !cig && l.tipo === 'gratis', plPacote: !cig && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda', plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && (l.tipo !== 'gratis' || FUNIL === 'C')) };
+  const simM = l.modo === 'sim', amorish = cig || l.tema === 'amor';
+  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: !cig && !simM && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda' && !simM,
+    plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && (l.tipo !== 'gratis' || FUNIL === 'C' || temResp)) };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
   $('planos').hidden = limite || !Object.values(vis).some(Boolean);
   // funil C: pessoa específica primeiro (mesa cigana logo depois do degrau, texto focado no amor)
-  if (FUNIL === 'C' && (cig || l.tema === 'amor')) { $('plResposta').after($('plCigano')); $('plResposta').querySelector('h3').textContent = 'Vai dar certo com ele(a)? Sim ou não + quando' }
-  precosAtuais().then(p => { document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])); $('pacCada').textContent = 'Sai ' + brl(p.pacote / 3) + ' cada' });
+  if (FUNIL === 'C' && amorish) { $('plResposta').after($('plCigano')); $('plResposta').querySelector('h3').textContent = 'Vai dar certo com ele(a)? Sim ou não + quando' }
+  if (simM) { $('plResposta').querySelector('h3').textContent = 'A resposta da sua pergunta'; $('plResposta').querySelector('.gancho').textContent = l.pergunta ? '“' + l.pergunta + '”' : 'Sobre a carta que você acabou de tirar.'; $('plResposta').after($('plSim3')) }
+  // logo depois de pagar a resposta: a oferta seguinte vem primeiro, com o preço de cliente
+  if (temResp && amorish && l.tipo === 'gratis') { $('planos').prepend($('plCigano')); $('plCigano').querySelector('.gancho').textContent = 'Você já sabe a resposta. Agora veja o que ele(a) sente e pensa, com o seu preço de cliente.' }
+  simCredUI(simM && !temResp && l.tipo === 'gratis');
+  precosAtuais().then(p => { document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])); $('pacCada').textContent = 'Sai ' + brl(p.pacote / 3) + ' cada'; $('sim3Cada').textContent = 'Sai ' + brl(p.sim3 / 3) + ' cada' });
   if (!$('planos').hidden) track('tarot-viu-oferta', { depois: l.tipo });
   indicacaoUI();
 }
@@ -517,7 +544,7 @@ function extras(x, l) {
 }
 async function precosAtuais() { try { return await api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9, cigano: 9.9, pacote: 12, numero: 9.9 } } }
 function maisHTML(atual) {
-  const T = [['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', '?m=cigano'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
+  const T = [['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', '?m=cigano'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
   return T.filter(t => t[0] !== atual).map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
 }
 document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }) });
@@ -535,9 +562,9 @@ let compraTipo = 'completa';
 function abrirPagamento(tipo) {
   const pend = LS.g('pend'); $('pay').hidden = false; document.body.style.overflow = 'hidden';
   if (pend && Date.now() - pend.t < 3600e3) { mostrarPix(pend); return }
-  compraTipo = ['profunda', 'cigano', 'pacote', 'resposta'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
-  $('pn').textContent = { resposta: 'Sim ou não + quando', completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
-  $('pq').parentElement.innerHTML = compraTipo === 'resposta' ? 'Pague no Pix e a resposta sobre as suas cartas aparece na hora.' : compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
+  compraTipo = ['profunda', 'cigano', 'pacote', 'resposta', 'sim3'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
+  $('pn').textContent = { sim3: '3 perguntas sim ou não', resposta: 'Sim ou não + quando', completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
+  $('pq').parentElement.innerHTML = compraTipo === 'sim3' ? 'Pague no Pix: esta resposta abre na hora e sobram 2 perguntas guardadas aqui.' : compraTipo === 'resposta' ? 'Pague no Pix e a resposta sobre as suas cartas aparece na hora.' : compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
   $('p1').hidden = false; $('p2').hidden = true; precosAtuais().then(p => $('pv').textContent = brl(p[compraTipo]));
   $('email').value = LS.g('email') || '';
 }
@@ -546,9 +573,9 @@ document.querySelector('[data-close]').onclick = () => { $('pay').hidden = true;
 $('pay').onclick = e => { if (e.target.id === 'pay') { $('pay').hidden = true; document.body.style.overflow = '' } };
 $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail.'; return }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail (ou deixe em branco).'; return }
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: compraTipo === 'resposta' && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: ['resposta', 'sim3'].includes(compraTipo) && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo. Tente de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
@@ -563,6 +590,7 @@ function mostrarPix(o) {
       if (j.status === 'pago') { clearInterval(poll); track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = '';
         if (o.tipo === 'pacote') { LS.s('pend', null); ativarPacote(o.chave); return }
         if (o.tipo === 'resposta') { LS.s('pend', null); abrirResposta(o); return }
+        if (o.tipo === 'sim3') { LS.s('pend', null); ativarSim3(o); return }
         S.tipo = o.tipo || 'completa'; S.modo = o.tipo === 'cigano' ? 'cigano' : 'tarot'; S.baralho = o.baralho; S.tema = o.tipo === 'cigano' ? 'amor' : (S.tema || o.tema); S.perg = S.perg || o.perg; S.nome = S.nome || o.nome; S.pessoa = S.pessoa || o.pessoa || '';
         toast('Pagamento confirmado ✦ Agora escolha ' + N() + ' cartas'); if (!S.tema || (o.tipo === 'cigano' && !S.pessoa)) { if (o.tipo === 'cigano') { $('temas').hidden = true; $('pessoaL').hidden = false; $('go1').disabled = false } tela(1) } else respirar() }
       else if (['failed', 'refunded'].includes(j.status)) { clearInterval(poll); LS.s('pend', null); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.' } } catch (e) {}
@@ -580,6 +608,26 @@ async function abrirResposta(o) {
     track('tarot-resposta-liberada'); toast('Resposta liberada ✦'); setTimeout(() => $('respBox').scrollIntoView({ behavior: 'smooth', block: 'center' }), 1800) }
   catch (e) { toast(e.message) }
 }
+/* pacote 3 perguntas sim ou não */
+function aplicarResposta(b, j, msg) {
+  const u = LS.g('ultima'); if (u && u._b === b) { u.resposta = { sim: j.sim, quando: j.quando }; LS.s('ultima', u); mostrarLeitura(u, true) }
+  toast(msg); setTimeout(() => $('respBox').scrollIntoView({ behavior: 'smooth', block: 'center' }), 1800);
+}
+async function ativarSim3(o) {
+  try { const a = await api('/api/sim/ativar', { pacote: o.chave }); LS.s('simcred', a.creditos); if (a.fidelidade && !LS.g('fid')) LS.s('fid', a.fidelidade); track('sim3-ativado');
+    const j = await api('/api/sim/usar', { creditos: a.creditos, baralho: o.leit.b, escolhas: o.leit.e, tema: o.leit.tema });
+    aplicarResposta(o.leit.b, j, 'Resposta liberada ✦ Sobraram ' + j.restantes + ' perguntas') }
+  catch (e) { toast(e.message) }
+}
+async function simCredUI(mostrar) {
+  const c = LS.g('simcred'); $('simCredBox').hidden = true; if (!c || !mostrar) return;
+  try { const j = await api('/api/sim/creditos?c=' + encodeURIComponent(c)); $('simCredN').textContent = j.restantes;
+    if (j.restantes > 0) { $('simCredBox').hidden = false; $('plSim3').hidden = true; $('plResposta').hidden = true } } catch (e) {}
+}
+$('simCredUsar').onclick = async () => {
+  const l = S.leitura; try { const j = await api('/api/sim/usar', { creditos: LS.g('simcred'), baralho: l._b, escolhas: l._e, tema: l._tema }); track('sim3-usou');
+    aplicarResposta(l._b, j, 'Resposta liberada ✦ Sobraram ' + j.restantes + ' perguntas') } catch (e) { toast(e.message) }
+};
 /* indique e ganhe */
 async function indicacaoUI() {
   try { const j = await api('/api/indicacao?u=' + uid); S.ref = j.code;
