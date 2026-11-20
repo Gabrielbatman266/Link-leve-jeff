@@ -357,6 +357,7 @@ const hoje = () => new Date().toLocaleDateString('sv-SE');
 const uid = LS.g('uid') || (() => { const u = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)).slice(0, 18); LS.s('uid', u); return u })();
 // indicação: quem chegou pelo link de alguém (só conta se é a primeira vez neste aparelho)
 (function () { const r = new URLSearchParams(location.search).get('ref'); if (r && !LS.g('ultima') && !LS.g('ref')) LS.s('ref', r) })();
+const vib = n => { try { if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(n) } catch (e) {} };
 const brl = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
 const toast = t => { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2200) };
 async function api(p, body) { const r = await fetch(CFG.loja + p, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}); const j = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(j.erro || 'Erro'), { j }); return j }
@@ -426,7 +427,7 @@ function toca(c) {
   const i = +c.dataset.i, k = S.escolhas.indexOf(i);
   if (k >= 0) return;
   if (S.escolhas.length >= N()) { toast('Você já escolheu ' + N() + '. Toque em Revelar.'); return }
-  S.escolhas.push(i); c.classList.add('sel'); c.dataset.n = S.escolhas.length; navigator.vibrate && navigator.vibrate(15); atualizaEsc();
+  S.escolhas.push(i); c.classList.add('sel'); c.dataset.n = S.escolhas.length; vib(15); atualizaEsc();
 }
 function atualizaEsc() { $('escN').innerHTML = '<b>' + S.escolhas.length + '</b> de ' + N() + ' escolhidas'; $('go3').disabled = S.escolhas.length < N() }
 $('limpar').onclick = () => { const i = S.escolhas.pop(); if (i === undefined) return; const c = document.querySelector('.cb[data-i="' + i + '"]'); c && c.classList.remove('sel'); atualizaEsc() };
@@ -453,7 +454,7 @@ function mostrarLeitura(l, direto) {
   $('spread').innerHTML = l.cartas.map((c, i) => `<div class="slot"><div class="flip" data-i="${i}"><div class="in"><div class="cb"></div>${face(c)}</div></div><small>${esc(c.posicao)}</small></div>`).join('');
   $('res').hidden = true; $('h4').hidden = !!direto; $('intuTxt').hidden = true;
   const flips = [...document.querySelectorAll('#spread .flip')]; let viradas = 0;
-  const vira = f => { if (f.classList.contains('on')) { if (!$('res').hidden) intuicao(f); return } f.classList.add('on'); navigator.vibrate && navigator.vibrate(20); if (++viradas === flips.length) virar.push(setTimeout(resultado, 900)) };
+  const vira = f => { if (f.classList.contains('on')) { if (!$('res').hidden) intuicao(f); return } f.classList.add('on'); vib(20); if (++viradas === flips.length) virar.push(setTimeout(resultado, 900)) };
   flips.forEach(f => f.onclick = () => vira(f));
   if (direto) flips.forEach(vira); else flips.forEach((f, i) => virar.push(setTimeout(() => vira(f), 900 + i * 900)));
   // garantia: a leitura sempre aparece, mesmo se alguma carta não virar
@@ -625,7 +626,7 @@ async function cartaDia() {
   $('maisDia').innerHTML = maisHTML('dia');
   let c; try { c = await api('/api/dia?u=' + uid + '&d=' + hoje()) } catch (e) { toast('Sem conexão agora.'); return }
   $('diaFace').outerHTML = face(c);
-  $('diaFlip').onclick = () => { if ($('diaFlip').classList.contains('on')) return; $('diaFlip').classList.add('on'); navigator.vibrate && navigator.vibrate(20); track('dia-virou');
+  $('diaFlip').onclick = () => { if ($('diaFlip').classList.contains('on')) return; $('diaFlip').classList.add('on'); vib(20); track('dia-virou');
     setTimeout(() => { $('diaRes').hidden = false; $('diaFoco').textContent = c.foco; $('diaNome').innerHTML = esc(c.nome) + (c.invertida ? '<span class="tagInv">invertida</span>' : '');
       $('diaTxt').textContent = c.texto.charAt(0).toUpperCase() + c.texto.slice(1) + '. ' + c.intuicao; $('diaCons').textContent = c.conselho; $('diaAf').textContent = '“' + c.afirmacao + '”' }, 900) };
   if (LS.g('dia_visto') === hoje()) $('diaFlip').click(); else LS.s('dia_visto', hoje());
