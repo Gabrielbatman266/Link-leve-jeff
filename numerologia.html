@@ -148,6 +148,10 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .num{display:flex;gap:14px;align-items:center}.num .big{flex:none;width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:#1c1203;background:radial-gradient(circle at 35% 30%,#fff4cf,var(--gold) 70%);box-shadow:0 0 30px rgba(245,201,106,.45)}
 .num h4{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff}
 .sec{border-left:3px solid var(--gold);padding:6px 0 6px 12px;margin-top:14px}.sec b{display:block;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:1.25rem}
+.passos{margin:10px 0 0;padding-left:1.3em;color:var(--soft);line-height:1.5}.passos li{margin:4px 0}.passos b{color:var(--ink)}
+.mini{font-size:.82rem;color:var(--dim);margin-top:10px}.qrd{margin-top:10px;color:var(--soft);font-size:.9rem}.qrd summary{cursor:pointer}#japaguei{color:var(--gold2);font-weight:700}
+#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
+#pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
 </style>
 </head>
 <body>
@@ -205,14 +209,17 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <button class="btn" id="gerar">Gerar Pix</button>
   </div>
   <div id="p2" hidden>
-    <h2 style="font-size:1.7rem">Pague com Pix</h2>
-    <p>App do banco → <b>Pix</b> → <b>Pix Copia e Cola</b>. O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
-    <div class="qr" id="qr"></div>
-    <div class="pixbox" id="code"></div>
+    <h2 style="font-size:1.7rem">Pague com Pix · <span id="pv2"></span></h2>
+    <ol class="passos"><li><b>Copie</b> o código no botão abaixo</li><li>Abra o <b>app do banco</b> → <b>Pix</b> → <b>Pix Copia e Cola</b></li><li>Pague e <b>volte pra esta página</b>: o mapa libera sozinho</li></ol>
     <button class="btn" id="copiar">📋 Copiar código Pix</button>
+    <div class="pixbox" id="code"></div>
+    <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
     <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
+    <button class="link" id="japaguei">Já paguei, verificar agora</button>
   </div>
 </div></div>
+<div id="pendBar" hidden><span>⏳ Seu Pix de <b id="pbV"></b> ainda está esperando</span><button id="pbAbrir">Pagar</button><button id="pbX" aria-label="Descartar">✕</button></div>
 <div id="toast"></div>
 
 <script>
@@ -266,9 +273,12 @@ $('nShare').onclick = async () => { const m = D.mapa; const t = `Meu Arcano pess
 const ult = LS.g('num_mapa'); if (ult && ult.m && ult.m.completo && !new URLSearchParams(location.search).has('novo')) { const b = document.createElement('button'); b.className = 'link'; b.textContent = '📜 Ver o meu mapa completo'; b.onclick = () => mostrar(ult.m); $('n0').appendChild(b) }
 
 /* pagamento */
-const fechar = () => { $('pay').hidden = true; document.body.style.overflow = '' };
-$('nComprar').onclick = () => { const pend = LS.g('num_pend'); $('pay').hidden = false; document.body.style.overflow = 'hidden'; track('numero-clicou-pagar');
-  if (pend && Date.now() - pend.t < 3600e3) { mostrarPix(pend); return } $('p1').hidden = false; $('p2').hidden = true; $('email').value = LS.g('email') || '' };
+const PEND_MS = 3600e3, pendAtivo = () => { const p = LS.g('num_pend'); return p && p.id && Date.now() - p.t < PEND_MS ? p : null };
+function barra() { const p = pendAtivo(), ver = !!p && $('pay').hidden; $('pendBar').hidden = !ver; if (ver) $('pbV').textContent = brl(p.valor) }
+const fechar = () => { $('pay').hidden = true; document.body.style.overflow = ''; barra() };
+function descartarPend() { clearInterval(poll); LS.s('num_pend', null); barra() }
+$('nComprar').onclick = () => { const pend = pendAtivo(); $('pay').hidden = false; document.body.style.overflow = 'hidden'; barra(); track('numero-clicou-pagar');
+  if (pend) { mostrarPix(pend); return } $('p1').hidden = false; $('p2').hidden = true; $('email').value = LS.g('email') || '' };
 document.querySelector('[data-close]').onclick = fechar; $('pay').onclick = e => { if (e.target.id === 'pay') fechar() };
 $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
@@ -278,20 +288,26 @@ $('gerar').onclick = async () => {
   catch (e) { $('perr').textContent = e.message || 'Não deu certo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
-let poll = null;
-function mostrarPix(o) {
-  $('p1').hidden = true; $('p2').hidden = false; $('code').textContent = o.pix; $('qr').innerHTML = o.qr ? '<img alt="QR Code do Pix" src="data:image/png;base64,' + o.qr + '">' : '';
-  clearInterval(poll); const t0 = Date.now();
-  poll = setInterval(async () => {
-    if (Date.now() - t0 > 40 * 60e3) { clearInterval(poll); $('w').textContent = 'O Pix expirou. Feche e gere outro.'; LS.s('num_pend', null); return }
-    try { const j = await api('/api/pedido/' + o.id);
-      if (j.status === 'pago') { clearInterval(poll); track('numero-pago', { valor: o.valor }); fechar(); LS.s('num_pend', null); toast('Pagamento confirmado ✦');
-        $('nNome').value = o.nome; $('nNasc').value = o.nasc; calcular(o.chave) }
-      else if (['failed', 'refunded'].includes(j.status)) { clearInterval(poll); LS.s('num_pend', null); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.' } } catch (e) {}
-  }, 4000);
+let poll = null; const entregues = new Set();
+async function checar(o) {
+  if (entregues.has(o.id)) return 'pago';
+  if (Date.now() - o.t > PEND_MS) { descartarPend(); $('w').textContent = 'O Pix expirou. Feche e gere outro.'; return 'falhou' }
+  try { const j = await api('/api/pedido/' + o.id);
+    if (j.status === 'pago') { if (entregues.has(o.id)) return 'pago'; entregues.add(o.id); clearInterval(poll); LS.s('num_pend', null); track('numero-pago', { valor: o.valor }); fechar(); toast('Pagamento confirmado ✦');
+      $('nNome').value = o.nome; $('nNasc').value = o.nasc; D.nome = o.nome; D.nasc = o.nasc; calcular(o.chave); return 'pago' }
+    if (['failed', 'refunded'].includes(j.status)) { descartarPend(); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.'; return 'falhou' } } catch (e) {}
+  return 'esperando';
 }
+function mostrarPix(o) {
+  $('p1').hidden = true; $('p2').hidden = false; $('code').textContent = o.pix; $('pv2').textContent = brl(o.valor); $('qr').innerHTML = o.qr ? '<img alt="QR Code do Pix" src="data:image/png;base64,' + o.qr + '">' : '';
+  $('w').textContent = 'Aguardando o pagamento…'; clearInterval(poll); poll = setInterval(() => checar(o), 4000);
+}
+$('japaguei').onclick = async () => { const p = pendAtivo(); if (!p) return; $('w').textContent = 'Verificando…'; if (await checar(p) === 'esperando') $('w').textContent = 'Ainda não chegou. Pode levar alguns segundos depois de pagar.'; track('numero-ja-paguei') };
+$('pbAbrir').onclick = () => { track('numero-pix-retomado'); $('nComprar').click() };
+$('pbX').onclick = async () => { const p = pendAtivo(); if (p && await checar(p) === 'pago') return; descartarPend() };
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { const p = pendAtivo(); if (p) checar(p) } });
 $('copiar').onclick = () => copy($('code').textContent, 'Código Pix copiado ✦ Cole no app do banco');
-(function () { const p = LS.g('num_pend'); if (p && Date.now() - p.t < 3600e3) { $('nNome').value = p.nome; $('nNasc').value = p.nasc; D.nome = p.nome; D.nasc = p.nasc; $('nComprar').click() } })();
+(function () { const p = pendAtivo(); if (p) { track('numero-pix-voltou'); $('nNome').value = p.nome; $('nNasc').value = p.nasc; D.nome = p.nome; D.nasc = p.nasc; $('nComprar').click() } })();
 
 /* céu */
 (function () { const c = $('sky'), x = c.getContext('2d'); let w, h, st = []; const rs = () => { w = c.width = innerWidth * devicePixelRatio; h = c.height = innerHeight * devicePixelRatio; st = Array.from({ length: 140 }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.4 * devicePixelRatio, p: Math.random() * 6 })) }; rs(); addEventListener('resize', rs);

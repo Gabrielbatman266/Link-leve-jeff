@@ -135,10 +135,14 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:40;background:#120c2c;border:1px solid var(--gold);color:var(--ink);border-radius:99px;padding:10px 18px;font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none}#toast.show{opacity:1}
 :focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;opacity:1!important}}
+.passos{margin:10px 0 0;padding-left:1.3em;color:var(--soft);line-height:1.5;text-align:left}.passos li{margin:4px 0}.passos b{color:var(--ink)}
+.qrd{margin-top:10px;color:var(--soft);font-size:.9rem}.qrd summary{cursor:pointer}.jp{display:block;margin:12px auto 0;background:none;border:0;color:var(--gold2);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
+#pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
 </style>
 </head>
 <body>
-<canvas id="sky"></canvas><div id="zoom" hidden onclick="this.hidden=true"><img alt="Print ampliado"></div><div id="toast" role="status"></div><div class="neb"></div>
+<canvas id="sky"></canvas><div id="zoom" hidden onclick="this.hidden=true"><img alt="Print ampliado"></div><div id="toast" role="status"></div><div id="pendBar" hidden><span>⏳ Seu Pix do livro ainda está esperando</span><button id="pbAbrir">Pagar</button><button id="pbX" aria-label="Descartar">✕</button></div><div class="neb"></div>
 <div id="iaBar" hidden><span>📲 Pra falar comigo no WhatsApp, abra no navegador: <b>⋯</b> → “Abrir no navegador”.</span><button id="iaBtn">Mostrar</button></div>
 <div id="arrowTip" hidden role="dialog" aria-label="Como abrir no navegador"><div class="arw">⬆</div><div class="tipbox"><b>Toque nos três pontinhos ⋯</b> aqui em cima, no canto direito.<br>Depois escolha <b>“Abrir no navegador”</b>.<button class="btn ghost" id="tipLink">Ou copie o link e cole no Chrome</button><button class="tryany" id="tipOk">Entendi</button></div></div>
 <main>
@@ -232,11 +236,12 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   </div>
   <div id="pay2" hidden>
     <h3>Pague com Pix</h3>
-    <p class="sub">Abra o app do seu banco → <b>Pix</b> → <b>Pix Copia e Cola</b> e cole o código. Ou leia o QR Code de outro celular.</p>
-    <div class="qr" id="payQr"></div>
-    <div class="pixbox"><code id="payCode"></code></div>
+    <ol class="passos"><li><b>Copie</b> o código no botão abaixo</li><li>Abra o <b>app do banco</b> → <b>Pix</b> → <b>Pix Copia e Cola</b></li><li>Pague e <b>volte pra esta página</b>: o livro libera sozinho</li></ol>
     <button class="btn" id="payCopy">📋 Copiar código Pix</button>
-    <div class="wait"><span class="spin"></span><span id="payWait">Aguardando o pagamento… pode voltar pra cá depois de pagar.</span></div>
+    <div class="pixbox"><code id="payCode"></code></div>
+    <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="payQr"></div></details>
+    <div class="wait"><span class="spin"></span><span id="payWait">Aguardando o pagamento…</span></div>
+    <button class="jp" id="payJa" type="button">Já paguei, verificar agora</button>
     <p class="note">Pagou e não liberou em 2 minutos? <a id="payHelp" href="#" target="_blank" rel="noopener">Fale comigo no WhatsApp</a>.</p>
   </div>
   <div id="pay3" hidden>
@@ -356,7 +361,7 @@ document.getElementById('waOpts').innerHTML = OPTS.filter(o => ['sessao','mentor
 
 /* folhas (sheets) */
 function openSheet(id){const s=document.getElementById(id);s.hidden=false;document.body.style.overflow='hidden';s.querySelector('.x').focus()}
-function closeSheet(s){s.hidden=true;document.body.style.overflow=''}
+function closeSheet(s){s.hidden=true;document.body.style.overflow='';if(window.barra)barra()}
 document.querySelectorAll('.sheet').forEach(s=>{s.addEventListener('click',e=>{if(e.target===s||e.target.closest('[data-close]'))closeSheet(s)})});
 addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.sheet').forEach(s=>!s.hidden&&closeSheet(s))});
 document.getElementById('lkWa').addEventListener('click',e=>{e.preventDefault();openSheet('waSheet')});
@@ -424,20 +429,29 @@ const pf=document.getElementById('payForm');
 pf.cpf.addEventListener('input',e=>e.target.value=fmtCpf(e.target.value));
 pf.telefone.addEventListener('input',e=>e.target.value=fmtTel(e.target.value));
 function step(n){[1,2,3].forEach(i=>document.getElementById('pay'+i).hidden=i!==n)}
-function openPay(){document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);const pend=LS.g('pend');
-  if(pend&&Date.now()-pend.t<3600e3){showPix(pend)}else step(1);openSheet('paySheet')}
+function openPay(){document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);const pend=pendAtivo();
+  if(pend){showPix(pend)}else step(1);openSheet('paySheet');barra()}
 let qrLib=null;function loadQr(){return qrLib||(qrLib=new Promise(ok=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';sc.onload=()=>ok(window.qrcode);sc.onerror=()=>ok(null);document.head.appendChild(sc)}))}
-let poll=null;
+let poll=null;const entregues=new Set();
+const pendAtivo=()=>{const p=LS.g('pend');return p&&p.id&&Date.now()-p.t<3600e3?p:null};
+window.barra=function(){const ps=document.getElementById('paySheet'),ver=!!pendAtivo()&&ps.hidden;document.getElementById('pendBar').hidden=!ver};
+function descartarPend(){clearInterval(poll);LS.s('pend',null);barra()}
+async function checar(o){if(entregues.has(o.id))return'pago';const w=document.getElementById('payWait');
+  if(Date.now()-o.t>3600e3){descartarPend();w.textContent='O Pix expirou. Feche e gere outro.';return'falhou'}
+  try{const r=await fetch(LOJA+'/api/pedido/'+o.id);const j=await r.json();
+    if(j.status==='pago'&&j.download){if(entregues.has(o.id))return'pago';entregues.add(o.id);clearInterval(poll);LS.s('pend',null);LS.s('meus',{url:j.download,t:Date.now()});paintMeus();
+      document.getElementById('payDl').href=j.download;step(3);const ps=document.getElementById('paySheet');if(ps.hidden)openSheet('paySheet');barra();track('pagamento-confirmado');return'pago'}
+    if(['failed','refunded','med'].includes(j.status)){descartarPend();w.textContent='Esse pagamento não foi concluído. Gere um Pix novo.';return'falhou'}}catch(e){}
+  return'esperando'}
 function showPix(o){step(2);document.getElementById('payCode').textContent=o.pix;
   document.getElementById('payHelp').href=wa('Oi, Jeff! Paguei o Pix do livro e ainda não liberou. Meu pedido: '+o.id.slice(0,8).toUpperCase());
   const box=document.getElementById('payQr');box.innerHTML='';
   if(o.qr){box.innerHTML='<img alt="QR Code do Pix" src="data:image/png;base64,'+o.qr+'">'}else loadQr().then(q=>{if(!q)return;const qr=q(0,'M');qr.addData(o.pix);qr.make();box.innerHTML=qr.createImgTag(6,0)});
-  clearInterval(poll);const t0=Date.now();
-  poll=setInterval(async()=>{if(Date.now()-t0>40*60e3){clearInterval(poll);document.getElementById('payWait').textContent='O Pix expirou. Feche e gere outro.';return}
-    try{const r=await fetch(LOJA+'/api/pedido/'+o.id);const j=await r.json();
-      if(j.status==='pago'&&j.download){clearInterval(poll);LS.s('pend',null);LS.s('meus',{url:j.download,t:Date.now()});paintMeus();
-        document.getElementById('payDl').href=j.download;step(3);track('pagamento-confirmado')}
-      else if(['failed','refunded','med'].includes(j.status)){clearInterval(poll);LS.s('pend',null);document.getElementById('payWait').textContent='Esse pagamento não foi concluído. Gere um Pix novo.'}}catch(e){}},4000)}
+  document.getElementById('payWait').textContent='Aguardando o pagamento…';clearInterval(poll);poll=setInterval(()=>checar(o),4000)}
+document.getElementById('payJa').onclick=async()=>{const p=pendAtivo();if(!p)return;const w=document.getElementById('payWait');w.textContent='Verificando…';if(await checar(p)==='esperando')w.textContent='Ainda não chegou. Pode levar alguns segundos depois de pagar.';track('ja-paguei')};
+document.getElementById('pbAbrir').onclick=()=>{track('pix-retomado');openPay()};
+document.getElementById('pbX').onclick=async()=>{const p=pendAtivo();if(p&&await checar(p)==='pago')return;descartarPend()};
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){const p=pendAtivo();if(p)checar(p)}});
 pf.addEventListener('submit',async e=>{e.preventDefault();const err=document.getElementById('payErr'),go=document.getElementById('payGo');err.textContent='';
   [...pf.elements].forEach(x=>x.classList&&x.classList.remove('bad'));
   const dados={nome:pf.nome.value,cpf:pf.cpf.value,email:pf.email.value,telefone:pf.telefone.value,origem:new URLSearchParams(location.search).get('utm_source')||''};
@@ -448,7 +462,7 @@ pf.addEventListener('submit',async e=>{e.preventDefault();const err=document.get
   catch(x){err.textContent='Sem conexão com o pagamento agora. Tente de novo ou compre pelo WhatsApp.'}
   finally{go.disabled=false;go.textContent='Gerar Pix de R$ 19,90'}});
 document.getElementById('payCopy').onclick=()=>{copy(document.getElementById('payCode').textContent,'Código Pix copiado ✦ Agora cole no app do banco');track('pix-copiado')};
-if(LOJA&&LS.g('pend')&&Date.now()-LS.g('pend').t<3600e3){openPay()}
+if(LOJA&&pendAtivo()){track('pix-voltou');openPay()}
 
 /* céu */
 const cv=document.getElementById('sky'),cx=cv.getContext('2d');let st=[];
