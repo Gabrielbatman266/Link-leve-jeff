@@ -312,6 +312,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
         </div>
       </div>
       <a class="plano imp" id="impLink" href="imperatriz.html?utm_source=tarot" data-ev2="tarot-clicou-imperatriz" hidden><span class="pill" style="background:#ff8fd0">NOVO · 7 DIAS</span><h3 style="margin:8px 0 4px">👑 Ativação da Imperatriz</h3><p>Pare de correr atrás. 7 dias pra entrar no lugar de quem recebe: pessoa específica, autoestima e desejo.</p><span class="btn" style="margin-top:12px">Conhecer a ativação ›</span></a>
+      <a class="plano imp" id="casalLink" href="casal.html?utm_source=tarot" data-ev2="tarot-clicou-casal" hidden><span class="pill" style="background:#ff8fd0">NOVO · GRÁTIS</span><h3 style="margin:8px 0 4px">💞 Vocês combinam?</h3><p>Coloque o seu nome e o da pessoa e veja a % de sintonia de vocês no amor, na atração e no destino.</p><span class="btn" style="margin-top:12px">Ver a nossa compatibilidade ›</span></a>
       <div class="box" id="calma" hidden><p><b>Já foram 3 leituras pagas hoje.</b> O tarot funciona melhor com espaço: deixe a resposta assentar e volte amanhã com a cabeça leve.</p></div>
 
       <div class="box indica" id="indBox">
@@ -539,6 +540,7 @@ function resultado() {
   // amor nos funis A/B: a mesa cigana vem logo depois da leitura completa
   if (FUNIL !== 'C' && !temResp && l.tema === 'amor' && !cig && !simM) $('plCompleta').after($('plCigano'));
   $('impLink').hidden = !(amorish || l.tipo !== 'gratis');
+  $('casalLink').hidden = !(amorish || cig); $('casalLink').href = 'casal.html?utm_source=tarot' + (S.pessoa ? '&pessoa=' + encodeURIComponent(S.pessoa) : '');
   simCredUI(simM && !temResp && l.tipo === 'gratis');
   precosAtuais().then(p => { document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])); document.querySelectorAll('#planos [data-comprar]').forEach(b => { b.dataset.base = b.dataset.base || b.textContent; if (p[b.dataset.comprar]) b.textContent = b.dataset.base + ' · ' + brl(p[b.dataset.comprar]) }); $('pacCada').textContent = 'Sai ' + brl(p.pacote / 3) + ' cada'; $('sim3Cada').textContent = 'Sai ' + brl(p.sim3 / 3) + ' cada' });
   if (!$('planos').hidden) track('tarot-viu-oferta', { depois: l.tipo });
@@ -560,7 +562,7 @@ function extras(x, l) {
 }
 async function precosAtuais() { try { return await api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9, cigano: 9.9, pacote: 12, numero: 9.9 } } }
 function maisHTML(atual) {
-  const T = [['cigano', '💞', 'Ele(a) vai voltar?', 'Pessoa específica · cigano', '?m=cigano&p=volta'], ['imperatriz', '👑', 'Ativação da Imperatriz', '7 dias · egrégora', 'imperatriz.html?utm_source=mais'], ['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
+  const T = [['cigano', '💞', 'Ele(a) vai voltar?', 'Pessoa específica · cigano', '?m=cigano&p=volta'], ['imperatriz', '👑', 'Ativação da Imperatriz', '7 dias · egrégora', 'imperatriz.html?utm_source=mais'], ['casal', '💞', 'Vocês combinam?', 'Numerologia do casal', 'casal.html?utm_source=mais'], ['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
   return T.filter(t => t[0] !== atual).map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
 }
 document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }); const b = e.target.closest('[data-ev2]'); if (b) track(b.dataset.ev2) });

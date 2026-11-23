@@ -409,7 +409,7 @@ function entrada() {
 addEventListener('hashchange', entrada);
 (function () {
   if (entrada()) return;
-  const p = pendAtivo(); if (p) { track('imp-pix-voltou'); $('comprar').click() }
+  const p = pendAtivo(); if (p) { track('imp-pix-voltou'); $('comprar').click(); checar(p) }
 })();
 /* céu */
 (function () { const c = $('sky'), x = c.getContext('2d'); let w, h, st = []; const rs = () => { w = c.width = innerWidth * devicePixelRatio; h = c.height = innerHeight * devicePixelRatio; st = Array.from({ length: 140 }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.4 * devicePixelRatio, p: Math.random() * 6 })) }; rs(); addEventListener('resize', rs);
