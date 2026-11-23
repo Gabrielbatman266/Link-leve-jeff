@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ativação da Imperatriz · 7 dias · Jeff Insane</title>
+<meta name="description" content="Egrégora da Imperatriz: 7 dias pra sair do lugar de quem corre atrás e entrar no lugar de quem recebe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05040f;--ink:#ece8ff;--soft:#b9b2dd;--dim:#7d76a8;--gold:#f5c96a;--gold2:#ffe6a8;--lilac:#b48cff;--cyan:#7fe3ff;--card:rgba(22,16,52,.66);--line:rgba(180,140,255,.24);--wa:#25d366}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh;overflow-x:hidden}
+[hidden]{display:none!important}
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none}
+.neb{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60vmax 40vmax at 85% 5%,rgba(180,100,255,.22),transparent 60%),radial-gradient(50vmax 35vmax at 0% 60%,rgba(60,140,255,.16),transparent 60%),radial-gradient(40vmax 30vmax at 70% 100%,rgba(245,201,106,.10),transparent 60%)}
+main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:22px 18px 70px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.top a{color:var(--soft);text-decoration:none;font-weight:800;font-size:.9rem}
+.kick{color:var(--cyan);font-weight:800;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase}
+h1,h2{font-family:'Cormorant Garamond',serif;line-height:1.05;background:linear-gradient(180deg,#fff,var(--gold2) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{font-size:2.6rem;margin:8px 0 10px}h2{font-size:2rem;margin:4px 0 10px}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold2);margin:22px 0 8px}
+p{color:var(--soft)}p b{color:var(--ink)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;margin-top:16px;padding:12px 18px;border:0;border-radius:99px;font:inherit;font-weight:800;font-size:1.05rem;color:#1c1203;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 8px 30px rgba(245,201,106,.28);cursor:pointer;text-decoration:none;text-align:center}
+.btn:active{transform:scale(.98)}.btn[disabled]{opacity:.5}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.wa{background:linear-gradient(180deg,#5cf09a,var(--wa));color:#04260f;box-shadow:0 8px 30px rgba(37,211,102,.25)}
+.link{display:block;text-align:center;margin-top:14px;color:var(--soft);font-size:.9rem;background:none;border:0;font:inherit;cursor:pointer;width:100%;text-decoration:underline}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:14px}
+.pill{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.12em;padding:5px 10px;border-radius:99px;color:#1c1203;background:var(--gold)}
+.pill.free{color:#04260f;background:linear-gradient(180deg,#5cf09a,var(--wa))}
+.steps3{display:flex;gap:8px;margin:16px 0 4px}.steps3 div{flex:1;text-align:center;font-size:.8rem;color:var(--soft);padding:10px 6px;border-radius:14px;border:1px solid var(--line);background:var(--card)}.steps3 b{display:block;font-size:1.3rem}
+/* hero: 3 cartas */
+.heroCards{display:flex;justify-content:center;margin:18px 0 6px;height:170px}
+.heroCards .cb{width:100px;height:160px;margin:0 -14px;transform-origin:bottom center}
+.heroCards .cb:nth-child(1){transform:rotate(-12deg)}.heroCards .cb:nth-child(3){transform:rotate(12deg)}.heroCards .cb:nth-child(2){transform:translateY(-10px);z-index:1}
+/* verso da carta */
+.cb{border-radius:12px;border:1.5px solid rgba(245,201,106,.75);background:radial-gradient(circle at 50% 45%,rgba(245,201,106,.35),transparent 35%),radial-gradient(circle at 20% 15%,rgba(127,227,255,.25),transparent 30%),linear-gradient(160deg,#2a1a63,#0d0826 70%);box-shadow:0 6px 22px rgba(0,0,0,.5),inset 0 0 0 4px rgba(5,4,15,.6),inset 0 0 0 5px rgba(245,201,106,.35);position:relative;overflow:hidden}
+.cb::after{content:'✦';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gold2);font-size:1.6rem;text-shadow:0 0 14px rgba(245,201,106,.9)}
+/* temas */
+.temas{display:grid;gap:10px;margin-top:12px}
+.tema{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:800;text-align:left;cursor:pointer}
+.tema span{font-size:1.6rem}.tema small{display:block;font-weight:600;color:var(--soft);font-size:.82rem}
+.tema.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,201,106,.35)}
+label.f{display:block;font-size:.85rem;font-weight:800;color:var(--soft);margin-top:14px}
+label.f input{display:block;width:100%;margin-top:6px;font:inherit;font-size:16px;font-weight:600;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(5,4,15,.6);color:var(--ink)}
+label.f input:focus{outline:none;border-color:var(--gold)}
+/* respiração */
+.breath{display:flex;flex-direction:column;align-items:center;margin:26px 0 10px}
+.orb{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(245,201,106,.55),rgba(180,140,255,.25) 55%,transparent 70%);box-shadow:0 0 60px rgba(245,201,106,.25);transform:scale(.55);transition:transform 4s ease-in-out}
+.orb.in{transform:scale(1)}
+.bt{margin-top:18px;font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--gold2);min-height:2.2em;text-align:center}
+.cnt{color:var(--dim);font-weight:800;font-size:.85rem}
+/* mesa de cartas */
+.mesa{position:relative;margin:14px -18px 0;height:250px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mesa::-webkit-scrollbar{display:none}
+.trilho{position:relative;height:100%;width:calc(var(--n,78) * 26px + 120px)}
+.mesa .cb{position:absolute;bottom:30px;width:78px;height:124px;cursor:pointer;transition:transform .25s,box-shadow .25s,bottom .25s;-webkit-tap-highlight-color:transparent}
+.mesa .cb.sel{bottom:90px;box-shadow:0 0 24px rgba(245,201,106,.9),inset 0 0 0 4px rgba(5,4,15,.6),inset 0 0 0 5px rgba(245,201,106,.7)}
+.mesa .cb.sel::before{content:attr(data-n);position:absolute;top:6px;left:8px;z-index:2;font-weight:800;color:#1c1203;background:var(--gold);border-radius:99px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.shuffle .cb{animation:shf .5s ease-in-out 3 alternate}
+@keyframes shf{to{transform:translateX(var(--dx)) rotate(var(--dr))}}
+.esc{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.esc b{color:var(--gold2)}
+.hint{font-size:.85rem;color:var(--dim);text-align:center;margin-top:4px}
+/* revelação */
+.spread{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:16px 0 4px}
+.slot{width:96px;text-align:center}
+.slot small{display:block;font-size:.72rem;color:var(--soft);line-height:1.25;margin-top:6px;min-height:2.5em}
+.flip{width:96px;height:152px;perspective:800px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .cb,.flip .cf{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.cf{transform:rotateY(180deg);border-radius:12px;border:1.5px solid rgba(245,201,106,.85);background:radial-gradient(circle at 50% 40%,rgba(245,201,106,.25),transparent 45%),linear-gradient(170deg,#1d1450,#09061c);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 6px;box-shadow:0 0 22px rgba(245,201,106,.25)}
+.cf .nu{font-family:'Cormorant Garamond',serif;color:var(--gold2);font-size:.95rem}
+.cf .sy{font-size:2.3rem;color:var(--gold2);text-shadow:0 0 18px rgba(245,201,106,.7);line-height:1}
+.cf .no{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:.92rem;line-height:1.05;color:#fff}
+.cf.inv .sy{transform:rotate(180deg)}
+.cf.copas{background:radial-gradient(circle at 50% 40%,rgba(127,227,255,.25),transparent 45%),linear-gradient(170deg,#132a52,#09061c)}
+.cf.ouros{background:radial-gradient(circle at 50% 40%,rgba(245,201,106,.32),transparent 45%),linear-gradient(170deg,#3a2a12,#09061c)}
+.cf.espadas{background:radial-gradient(circle at 50% 40%,rgba(200,210,255,.25),transparent 45%),linear-gradient(170deg,#262b45,#09061c)}
+.cf.paus{background:radial-gradient(circle at 50% 40%,rgba(255,140,90,.28),transparent 45%),linear-gradient(170deg,#3e1a1a,#09061c)}
+.flip.pulse{animation:pl 1.4s ease-in-out infinite}@keyframes pl{50%{filter:drop-shadow(0 0 14px rgba(245,201,106,.9))}}
+.tagInv{display:inline-block;font-size:.7rem;font-weight:800;color:var(--cyan);border:1px solid rgba(127,227,255,.5);border-radius:99px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+.ci{border-left:3px solid var(--gold);padding:4px 0 4px 12px;margin-top:14px}
+.ci .ps{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.ci .nm{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:#fff}
+.ci p{margin-top:2px}
+.intu{border:1px dashed rgba(245,201,106,.6);background:rgba(245,201,106,.06)}
+.chave{background:linear-gradient(140deg,rgba(245,201,106,.16),rgba(180,140,255,.1));border-color:rgba(245,201,106,.5)}
+.chave p{color:var(--ink)}
+.aviso{font-size:.78rem;color:var(--dim);margin-top:16px;text-align:center}
+/* oferta / funil */
+.oferta{border:1px solid rgba(245,201,106,.6);background:linear-gradient(160deg,rgba(245,201,106,.12),rgba(22,16,52,.8) 60%);border-radius:22px;padding:18px;margin-top:22px}
+.oferta ul{list-style:none;margin:10px 0 0}.oferta li{padding:4px 0 4px 26px;position:relative;color:var(--soft)}.oferta li::before{content:'✦';position:absolute;left:4px;color:var(--gold)}
+.preco{display:flex;align-items:baseline;gap:10px;margin-top:10px}.preco b{font-size:2rem;color:var(--gold2);font-family:'Cormorant Garamond',serif}
+.preco small{color:var(--soft)}
+.prox{font-size:.82rem;color:var(--cyan);margin-top:4px}
+.upsell{display:flex;gap:14px;align-items:center;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--card);margin-top:12px;color:var(--ink);text-decoration:none;cursor:pointer;font:inherit;text-align:left;width:100%}
+.upsell .ic{flex:none;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.06)}
+.upsell b{display:block}.upsell small{color:var(--soft);font-size:.82rem;font-weight:600}
+.upsell .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
+.cad{color:var(--gold2);font-weight:800;filter:drop-shadow(0 0 8px rgba(245,201,106,.5))}
+.lock .locks{list-style:none;margin-top:8px}.lock .locks li{padding:5px 0;color:var(--soft)}
+.planos{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.plano{display:block;border:1px solid rgba(245,201,106,.5);background:linear-gradient(160deg,rgba(245,201,106,.1),rgba(22,16,52,.85) 60%);border-radius:22px;padding:16px}
+.plano.destaque{border-color:rgba(180,140,255,.8);background:linear-gradient(160deg,rgba(180,140,255,.22),rgba(22,16,52,.88) 60%);box-shadow:0 0 30px rgba(180,140,255,.18)}
+.phead{display:flex;gap:12px;align-items:center}.pico{flex:none;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;background:rgba(255,255,255,.07)}
+.phead h3{margin:6px 0 0;font-size:1.45rem;line-height:1.1}
+.gancho{margin:10px 0 4px;font-style:italic;color:var(--gold2)}
+.lks{list-style:none;margin:6px 0 0}.lks li{padding:5px 0;color:var(--soft);font-size:.95rem;border-bottom:1px dashed rgba(180,140,255,.15)}.lks li:last-child{border:0}
+.pfoot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.pfoot .preco{margin:0}
+.pill.roxo{background:var(--lilac);color:#1a0b3a}
+.sim{display:flex;gap:14px;align-items:center}.sim .r{flex:none;font-weight:800;font-size:.95rem;padding:10px 14px;border-radius:14px;background:var(--gold);color:#1c1203;text-align:center;line-height:1.1}
+.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lilac),var(--gold))}
+.eln{display:flex;justify-content:space-between;font-size:.85rem;color:var(--soft);font-weight:800;text-transform:capitalize}
+.rit label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(180,140,255,.12);color:var(--soft);cursor:pointer}
+.rit input{margin-top:5px;accent-color:#f5c96a;width:18px;height:18px;flex:none}
+.rit input:checked+span{text-decoration:line-through;opacity:.6}
+.guia{display:flex;gap:14px;align-items:center}.guia .sy{flex:none;width:64px;height:96px;border-radius:10px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold2);background:linear-gradient(170deg,#1d1450,#09061c)}
+.ci .tm{color:var(--gold2);font-size:.95rem;margin-top:4px}
+.diaMini{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;border:1px solid rgba(245,201,106,.45);background:linear-gradient(120deg,rgba(245,201,106,.12),var(--card) 60%);color:var(--ink);text-decoration:none;margin-bottom:14px}
+.diaMini span:first-child{font-size:1.6rem}.diaMini small{display:block;color:var(--soft);font-size:.82rem}.diaMini .ar{margin-left:auto;color:var(--gold);font-size:1.4rem}
+.cred{border-color:rgba(37,211,102,.5)}
+.mais{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mais a{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-weight:800;font-size:.95rem}
+.mais a span{font-size:1.6rem}.mais a small{color:var(--soft);font-weight:600;font-size:.78rem}
+.streak{text-align:center;color:var(--gold2);font-weight:800;margin-top:8px}
+.cf.cig{background:radial-gradient(circle at 50% 40%,rgba(255,143,208,.25),transparent 45%),linear-gradient(170deg,#3a1440,#09061c)}
+.cf.cig .sy{font-size:2rem;text-shadow:none}
+/* folha de pagamento */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.65)}
+.sh{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:#120c2c;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;padding:18px 18px 30px;animation:sl .35s ease-out}
+@keyframes sl{from{transform:translateY(40px);opacity:0}}
+.x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:1.1rem;cursor:pointer}
+.qr{display:flex;justify-content:center;margin:14px 0}.qr img{width:210px;height:210px;border-radius:14px;background:#fff;padding:10px}
+.pixbox{max-height:84px;overflow:auto;padding:10px 12px;border-radius:12px;background:rgba(5,4,15,.6);border:1px solid var(--line);font-size:.72rem;word-break:break-all;color:var(--soft);font-family:monospace}
+.wait{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;font-size:.9rem;color:var(--soft)}
+.spin{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--gold);animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.perr{color:#ff9db2;font-size:.85rem;min-height:1.2em;margin-top:6px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;background:#1d1546;border:1px solid var(--gold);color:var(--ink);padding:10px 18px;border-radius:99px;font-weight:800;font-size:.9rem;transition:.3s;z-index:40;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.fade{animation:fd .5s ease-out}@keyframes fd{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.num{display:flex;gap:14px;align-items:center}.num .big{flex:none;width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:#1c1203;background:radial-gradient(circle at 35% 30%,#fff4cf,var(--gold) 70%);box-shadow:0 0 30px rgba(245,201,106,.45)}
+.num h4{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff}
+.sec{border-left:3px solid var(--gold);padding:6px 0 6px 12px;margin-top:14px}.sec b{display:block;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:1.25rem}
+.passos{margin:10px 0 0;padding-left:1.3em;color:var(--soft);line-height:1.5}.passos li{margin:4px 0}.passos b{color:var(--ink)}
+.mini{font-size:.82rem;color:var(--dim);margin-top:10px}.qrd{margin-top:10px;color:var(--soft);font-size:.9rem}.qrd summary{cursor:pointer}#japaguei{color:var(--gold2);font-weight:700}
+#pendBar[hidden]{display:none!important}#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
+#pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
+
+:root{--rose:#ff8fd0;--venus:#7ee0a8}
+.neb2{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60vmax 40vmax at 50% 0%,rgba(255,143,208,.18),transparent 60%),radial-gradient(40vmax 30vmax at 100% 80%,rgba(126,224,168,.12),transparent 60%)}
+.emb{display:block;width:170px;height:170px;margin:14px auto 4px;filter:drop-shadow(0 0 24px rgba(255,143,208,.45))}
+.emb.resp{animation:resp 8s ease-in-out infinite}@keyframes resp{0%,100%{transform:scale(.92)}50%{transform:scale(1.06)}}
+.kick.r{color:var(--rose)}
+.lista7{list-style:none;margin-top:10px}.lista7 li{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line);color:var(--soft)}.lista7 li b{color:var(--ink)}.lista7 li span{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#1c1203;background:linear-gradient(180deg,var(--gold2),var(--gold))}
+.inclui{list-style:none;margin-top:8px}.inclui li{padding:6px 0 6px 26px;position:relative;color:var(--soft)}.inclui li::before{content:'✦';position:absolute;left:4px;color:var(--rose)}.inclui b{color:var(--ink)}
+.oferta{text-align:center;border-color:rgba(255,143,208,.55);background:linear-gradient(160deg,rgba(255,143,208,.16),var(--card) 60%)}
+.oferta .pr{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold2);line-height:1}.oferta small{display:block;color:var(--dim);margin-top:4px}
+.nota{font-size:.82rem;color:var(--dim);margin-top:14px;text-align:center}
+.amostra{margin-top:14px;padding:14px;border-radius:16px;border:1px dashed rgba(255,143,208,.5);text-align:center;color:var(--ink);font-family:'Cormorant Garamond',serif;font-size:1.35rem;min-height:3.2em;display:flex;align-items:center;justify-content:center}
+/* área da ativação */
+.dots{display:flex;gap:6px;justify-content:center;margin:10px 0}.dots i{width:30px;height:6px;border-radius:9px;background:var(--line)}.dots i.f{background:var(--rose)}.dots i.h{background:var(--gold)}
+.dtabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.dtabs button{flex:none;min-width:46px;padding:8px 10px;border-radius:99px;border:1px solid var(--line);background:none;color:var(--soft);font:inherit;font-weight:800;cursor:pointer}.dtabs button.on{background:var(--gold);color:#1c1203;border-color:var(--gold)}.dtabs button[disabled]{opacity:.35}
+.dia h2{margin-top:6px}.foco{color:var(--rose);font-weight:800;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
+.bloco{margin-top:12px;padding:14px;border-radius:16px;background:rgba(5,4,15,.45);border:1px solid var(--line)}.bloco h4{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px}.bloco p{color:var(--ink)}
+.decreto{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.6rem;line-height:1.2;color:#fff;border-color:rgba(245,201,106,.6);background:linear-gradient(160deg,rgba(245,201,106,.14),rgba(5,4,15,.45))}
+.cuid{font-size:.88rem;color:var(--soft)!important}
+textarea{width:100%;min-height:90px;margin-top:8px;padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(5,4,15,.6);color:var(--ink);font:inherit;font-size:1rem;resize:vertical}
+textarea:focus{outline:none;border-color:var(--rose)}
+.feito{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;padding:14px;border-radius:16px;border:1px solid var(--line);font-weight:800;cursor:pointer}.feito input{width:22px;height:22px;accent-color:var(--rose)}
+.egr{text-align:center;color:var(--rose);font-size:.9rem;margin-top:8px;min-height:1.3em}
+#sosBtn{position:fixed;right:14px;bottom:16px;z-index:30;padding:13px 18px;border-radius:99px;border:1px solid var(--rose);background:rgba(40,12,40,.94);color:#fff;font:inherit;font-weight:800;box-shadow:0 8px 30px rgba(255,143,208,.35);cursor:pointer}
+#sos{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;background:radial-gradient(circle at 50% 40%,#3a0f36,#05040f 75%)}
+#sos p{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#fff;max-width:420px;line-height:1.2;margin-top:10px}#sos .resp-t{color:var(--rose);font-weight:800;letter-spacing:.2em;font-size:.8rem;margin-top:16px;text-transform:uppercase}
+details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;color:var(--gold2)}details.ab p,details.ab li{margin-top:8px;color:var(--soft)}details.ab ul{padding-left:1.2em}
+@media print{#sky,.neb,.neb2,#sosBtn,.top,.dtabs,.dots,.feito,.egr,.noprint,#toast{display:none!important}body{background:#fff;color:#000}.box,.bloco{border:1px solid #999;background:none}p,.bloco p,h2,h3,h4{color:#000!important;-webkit-text-fill-color:#000}.dia{page-break-after:always;display:block!important}}
+.carta{display:flex;justify-content:center;margin:16px 0 8px}.carta img{width:min(62%,250px);height:auto;border-radius:14px;box-shadow:0 0 0 1px rgba(245,201,106,.6),0 0 50px rgba(255,143,208,.45);animation:resp 8s ease-in-out infinite}
+.sosCarta{width:min(48vw,200px);border-radius:12px;box-shadow:0 0 50px rgba(255,143,208,.55);animation:resp 8s ease-in-out infinite}
+.sigBox{color:var(--gold);display:flex;justify-content:center;margin:10px 0}.sigBox .sig{width:200px;height:200px;filter:drop-shadow(0 0 14px rgba(245,201,106,.55))}.sigBox.borr .sig{filter:blur(5px) drop-shadow(0 0 14px rgba(245,201,106,.55));opacity:.8}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas><div class="neb"></div><div class="neb2"></div>
+<main>
+  <div class="top"><a href="./">‹ Jeff Insane</a><span class="kick r">Egrégora da Imperatriz</span></div>
+
+  <section id="venda">
+    <div class="carta"><img src="img/imperatriz.jpg" alt="A Imperatriz, arcano III do tarot" width="460" height="795"></div>
+    <h1 style="text-align:center">Ativação da Imperatriz</h1>
+    <p style="text-align:center">7 dias pra sair do lugar de quem corre atrás e sentar no lugar de quem <b>recebe</b>. Pessoa específica, autoestima, energia e desejo.</p>
+    <div class="box">
+      <h3 style="margin-top:0">Quem é a Imperatriz</h3>
+      <p>É o arcano III do tarot. Ela não implora atenção: ela está no próprio trono, num jardim que floresce em volta dela, e o que é dela vem até ela. Ela rege Vênus: amor, beleza, prazer e magnetismo.</p>
+      <p style="margin-top:10px">Na ativação, você entra na <b>egrégora da Imperatriz</b>: o campo de todo mundo que está fazendo os 7 dias junto com você. Cada pessoa que pratica fortalece o campo das outras.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Os 7 dias</h3>
+      <ol class="lista7">
+        <li><span>1</span><div><b>O trono</b> · sair do lugar de quem pede</div></li>
+        <li><span>2</span><div><b>O jardim</b> · merecimento e abundância</div></li>
+        <li><span>3</span><div><b>A cena</b> · pessoa específica, ritual do sono</div></li>
+        <li><span>4</span><div><b>O corpo da Imperatriz</b> · energia, desejo e sensualidade</div></li>
+        <li><span>5</span><div><b>A revisão</b> · reescrever o que ainda dói</div></li>
+        <li><span>6</span><div><b>A coroa</b> · persistir sem conferir</div></li>
+        <li><span>7</span><div><b>A coroação</b> · selar a ativação</div></li>
+      </ol>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">O que você recebe</h3>
+      <ul class="inclui">
+        <li><b>O sigilo da Imperatriz:</b> traçado no quadrado mágico de Vênus, com o ritual de ativação e papel de parede pro celular</li>
+        <li><b>O pacto da Imperatriz:</b> você escreve o seu “já é meu” e lê toda manhã</li>
+        <li><b>1 dia liberado por vez:</b> ritual da manhã, prática do dia, decreto e escrita da noite</li>
+        <li><b>Botão “Veio a dúvida?”:</b> quando a ansiedade bater, a Imperatriz aparece pra te trazer de volta</li>
+        <li><b>Versão de 1 minuto</b> de cada dia, pros dias corridos</li>
+        <li><b>Diário dos 7 dias</b> salvo no seu celular, e dá pra salvar tudo em PDF</li>
+      </ul>
+    </div>
+    <div class="box" style="text-align:center">
+      <h3 style="margin-top:0">O sigilo da Imperatriz</h3>
+      <div class="sigBox borr"><svg class="sig" viewBox="0 0 200 200" aria-label="Sigilo da Imperatriz"><circle cx="100" cy="100" r="97" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".75"/><circle cx="100" cy="100" r="89" fill="none" stroke="currentColor" stroke-width=".7" opacity=".5"/><polygon points="100.0,14.0 167.2,46.4 183.8,119.1 137.3,177.5 62.7,177.5 16.2,119.1 32.8,46.4" fill="none" stroke="currentColor" stroke-width=".7" opacity=".35"/><circle cx="100.0" cy="7.0" r="2.6" fill="currentColor"/><circle cx="172.7" cy="42.0" r="2.6" fill="currentColor"/><circle cx="190.7" cy="120.7" r="2.6" fill="currentColor"/><circle cx="140.4" cy="183.8" r="2.6" fill="currentColor"/><circle cx="59.6" cy="183.8" r="2.6" fill="currentColor"/><circle cx="9.3" cy="120.7" r="2.6" fill="currentColor"/><circle cx="27.3" cy="42.0" r="2.6" fill="currentColor"/><path d="M136.0 100.0 C121.0 100.0 55.0 109.0 46.0 100.0 C37.0 91.0 70.0 49.0 82.0 46.0 C94.0 43.0 106.0 70.0 118.0 82.0 C130.0 94.0 154.0 112.0 154.0 118.0 C154.0 124.0 124.0 130.0 118.0 118.0 C112.0 106.0 118.0 58.0 118.0 46.0" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="136.0" cy="100.0" r="7.5" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M129.0 46.0 L107.0 46.0" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/></svg></div>
+      <p>Traçado no quadrado mágico de Vênus a partir da frase “Eu sou a Imperatriz, já é meu”. Libera inteiro na ativação, com o ritual pra carregar.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Prove agora, de graça</h3>
+      <p>Pense no que você quer. Toque no botão e receba o decreto da Imperatriz pra hoje.</p>
+      <div class="amostra" id="amostra">✦</div>
+      <button class="btn ghost" id="provar">Receber o meu decreto</button>
+    </div>
+    <div class="box oferta">
+      <div class="pill">ATIVAÇÃO DE 7 DIAS</div>
+      <div class="pr" id="preco" style="margin-top:12px">R$ 7,90</div>
+      <small>no Pix · libera na hora, aqui mesmo</small>
+      <button class="btn" id="comprar">👑 Ativar a Imperatriz</button>
+      <p class="nota">Isso é uma prática espiritual e de lei da suposição. Ninguém controla o sentimento de ninguém: a ativação trabalha você, o seu estado e a sua energia.</p>
+    </div>
+    <button class="link" id="jaTenho">Já ativei e quero voltar pro meu acesso</button>
+  </section>
+
+  <section id="area" hidden>
+    <div class="carta"><img src="img/imperatriz.jpg" alt="A Imperatriz" width="460" height="795" style="width:min(44%,180px)"></div>
+    <h1 style="text-align:center;font-size:2.2rem">A Imperatriz está ativa</h1>
+    <p style="text-align:center" id="diaTxt"></p>
+    <div class="dots" id="dots"></div>
+    <details class="ab box" id="abertura"><summary>Antes de começar: leia isto</summary><div id="abTxt"></div></details>
+    <div class="box"><h3 style="margin-top:0">O seu pacto</h3><p id="pactoTxt"></p><textarea id="pacto" placeholder="Eu sou a Imperatriz…"></textarea><div id="pactoEx"></div></div>
+    <div class="box" id="sigArea" style="text-align:center"><h3 style="margin-top:0" id="sigT">O sigilo da Imperatriz</h3><div class="sigBox"><svg class="sig" viewBox="0 0 200 200" aria-label="Sigilo da Imperatriz"><circle cx="100" cy="100" r="97" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".75"/><circle cx="100" cy="100" r="89" fill="none" stroke="currentColor" stroke-width=".7" opacity=".5"/><polygon points="100.0,14.0 167.2,46.4 183.8,119.1 137.3,177.5 62.7,177.5 16.2,119.1 32.8,46.4" fill="none" stroke="currentColor" stroke-width=".7" opacity=".35"/><circle cx="100.0" cy="7.0" r="2.6" fill="currentColor"/><circle cx="172.7" cy="42.0" r="2.6" fill="currentColor"/><circle cx="190.7" cy="120.7" r="2.6" fill="currentColor"/><circle cx="140.4" cy="183.8" r="2.6" fill="currentColor"/><circle cx="59.6" cy="183.8" r="2.6" fill="currentColor"/><circle cx="9.3" cy="120.7" r="2.6" fill="currentColor"/><circle cx="27.3" cy="42.0" r="2.6" fill="currentColor"/><path d="M136.0 100.0 C121.0 100.0 55.0 109.0 46.0 100.0 C37.0 91.0 70.0 49.0 82.0 46.0 C94.0 43.0 106.0 70.0 118.0 82.0 C130.0 94.0 154.0 112.0 154.0 118.0 C154.0 124.0 124.0 130.0 118.0 118.0 C112.0 106.0 118.0 58.0 118.0 46.0" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="136.0" cy="100.0" r="7.5" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M129.0 46.0 L107.0 46.0" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/></svg></div><p id="sigOrig" style="text-align:left"></p><ol class="passos" id="sigAtv" style="text-align:left"></ol><p id="sigUsar" style="text-align:left;margin-top:8px"></p><button class="btn ghost noprint" id="sigBaixar">📱 Baixar como papel de parede</button></div>
+    <div class="dtabs" id="tabs"></div>
+    <div id="dias"></div>
+    <div class="noprint">
+      <button class="btn ghost" id="guardar">🔗 Guardar o meu acesso (abrir em outro celular)</button>
+      <button class="btn ghost" id="pdf">📄 Salvar tudo em PDF</button>
+      <a class="btn ghost" href="tarot.html?m=cigano&p=volta&utm_source=imperatriz">💞 Tirar as cartas sobre a pessoa</a>
+    </div>
+  </section>
+</main>
+<button id="sosBtn" hidden>🌹 Veio a dúvida?</button>
+<div id="sos" hidden><img class="sosCarta" src="img/imperatriz.jpg" alt="A Imperatriz"><div class="resp-t" id="sosResp">inspire…</div><p id="sosTxt"></p><button class="btn" id="sosOk" style="max-width:320px">Já é meu ✦</button></div>
+
+<div class="sheet" id="pay" hidden><div class="sh" role="dialog" aria-label="Pagar a ativação">
+  <button class="x" data-close aria-label="Fechar">✕</button>
+  <div id="p1">
+    <h2 style="font-size:1.7rem">Ativação da Imperatriz · <span id="pv">R$ 7,90</span></h2>
+    <p>Pague no Pix e a sua ativação começa na hora, aqui mesmo.</p>
+    <input id="email" type="hidden">
+    <p class="perr" id="perr"></p>
+    <button class="btn" id="gerar">Gerar Pix</button>
+  </div>
+  <div id="p2" hidden>
+    <h2 style="font-size:1.7rem">Pague com Pix · <span id="pv2"></span></h2>
+    <ol class="passos"><li><b>Copie</b> o código no botão abaixo</li><li>Abra o <b>app do banco</b> → <b>Pix</b> → <b>Pix Copia e Cola</b></li><li>Pague e <b>volte pra esta página</b>: a ativação libera sozinha</li></ol>
+    <button class="btn" id="copiar">📋 Copiar código Pix</button>
+    <div class="pixbox" id="code"></div>
+    <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
+    <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
+    <button class="link" id="japaguei">Já paguei, verificar agora</button>
+  </div>
+</div></div>
+<div id="pendBar" hidden><span>⏳ Seu Pix de <b id="pbV"></b> ainda está esperando</span><button id="pbAbrir">Pagar</button><button id="pbX" aria-label="Descartar">✕</button></div>
+<div id="toast"></div>
+<script>
+const CFG = { loja: 'https://loja-jeff.loja-cf.workers.dev', umami: 'c77e97b7-a4ea-4600-8a2a-b5ac09d91243' };
+if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
+let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')) || 'ABC'[Math.floor(Math.random() * 3)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {}
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), modo: 'imperatriz', funil: FUNIL }) } catch (e) {} }
+const $ = id => document.getElementById(id);
+const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
+const brl = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const toast = t => { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2400) };
+async function api(p, body) { const r = await fetch(CFG.loja + p, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}); const j = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(j.erro || 'Erro'), { j, status: r.status }); return j }
+async function copy(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok) } catch (e) { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(ok) } catch (_) { toast('Toque e segure pra copiar') } ta.remove() } }
+const hojeL = () => new Date().toLocaleDateString('sv-SE');
+track('imp-abriu', { origem: new URLSearchParams(location.search).get('utm_source') || '' });
+
+/* amostra grátis */
+const AMOSTRA = ['Eu não corro atrás. O que é meu vem até mim.', 'Eu sou digna(o) de tudo de bom que chega até mim.', 'Já aconteceu. Eu só estou esperando o mundo de fora me alcançar.', 'Eu sou magnética(o). Eu gosto de morar no meu corpo.', 'Eu não preciso de prova. Eu sou a prova.'];
+$('provar').onclick = () => { const i = new Date().getDate() % AMOSTRA.length; $('amostra').textContent = '“' + AMOSTRA[i] + '”'; $('provar').textContent = 'Repita 3 vezes, devagar ✦'; $('provar').disabled = true; track('imp-provou') };
+api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')).then(p => { if (p.imperatriz) { $('preco').textContent = brl(p.imperatriz); $('pv').textContent = brl(p.imperatriz); $('comprar').textContent = '👑 Ativar a Imperatriz · ' + brl(p.imperatriz) } }).catch(() => {});
+
+/* área da ativação */
+let C = null;
+const diaAtual = () => { const ini = LS.g('imp_inicio') || hojeL(); const d = Math.floor((new Date(hojeL()) - new Date(ini)) / 864e5) + 1; return Math.max(1, Math.min(7, d)) };
+let diaVisto = 1;
+async function abrirArea(conteudo) {
+  if (!conteudo) { try { const j = await api('/api/imperatriz?a=' + encodeURIComponent(LS.g('imp_acesso'))); conteudo = j.conteudo } catch (e) { if (e.status === 403) { LS.s('imp_acesso', null); toast('Acesso inválido. Fale comigo no WhatsApp.') } else toast('Sem conexão. Tente de novo.'); return } }
+  C = conteudo; if (!LS.g('imp_inicio')) LS.s('imp_inicio', hojeL());
+  $('venda').hidden = true; $('area').hidden = false; $('sosBtn').hidden = false; $('pendBar').hidden = true;
+  const d = diaAtual(); diaVisto = d;
+  $('diaTxt').innerHTML = d < 7 ? `Você está no <b>dia ${d} de 7</b>. O próximo dia libera amanhã.` : 'Você chegou no <b>dia 7</b>. Hoje é a coroação ✦';
+  $('dots').innerHTML = [1, 2, 3, 4, 5, 6, 7].map(n => `<i class="${n < d ? 'f' : n === d ? 'h' : ''}"></i>`).join('');
+  $('abTxt').innerHTML = C.abertura.texto.map(t => `<p>${esc(t)}</p>`).join('') + '<h4 style="margin-top:12px;color:var(--gold2)">As regras dos 7 dias</h4><ul>' + C.abertura.regras.map(t => `<li>${esc(t)}</li>`).join('') + '</ul>';
+  if (!LS.g('imp_leu')) { $('abertura').open = true; LS.s('imp_leu', 1) }
+  $('pactoTxt').textContent = C.pacto.texto; $('pacto').value = LS.g('imp_pacto') || ''; $('pacto').oninput = () => LS.s('imp_pacto', $('pacto').value);
+  $('pactoEx').innerHTML = '<details class="ab"><summary>Ver exemplos</summary>' + C.pacto.exemplos.map(t => `<p>“${esc(t)}”</p>`).join('') + '</details>';
+  if (C.sigilo) { $('sigT').textContent = C.sigilo.titulo; $('sigOrig').textContent = C.sigilo.origem; $('sigAtv').innerHTML = C.sigilo.ativar.map(t => '<li>' + esc(t) + '</li>').join(''); $('sigUsar').textContent = C.sigilo.usar }
+  render();
+}
+$('sigBaixar').onclick = () => {
+  const svg = document.querySelector('#sigArea .sig').outerHTML.replace(/currentColor/g, '#f5c96a').replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" ');
+  const img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = 1080; c.height = 1920; const x = c.getContext('2d');
+    const g = x.createRadialGradient(540, 860, 50, 540, 860, 1100); g.addColorStop(0, '#3a0f36'); g.addColorStop(1, '#05040f'); x.fillStyle = g; x.fillRect(0, 0, 1080, 1920);
+    x.shadowColor = 'rgba(245,201,106,.6)'; x.shadowBlur = 40; x.drawImage(img, 90, 410, 900, 900); x.shadowBlur = 0;
+    x.fillStyle = 'rgba(255,230,168,.75)'; x.font = '600 44px Georgia, serif'; x.textAlign = 'center'; x.fillText('Já é meu', 540, 1460);
+    c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'sigilo-da-imperatriz.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Papel de parede salvo ✦ Coloque na tela de bloqueio') }, 'image/png') };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); track('imp-sigilo-baixou');
+};
+function render() {
+  const d = diaAtual(), fe = LS.g('imp_feitos') || {};
+  $('tabs').innerHTML = C.dias.map(x => `<button data-d="${x.n}" class="${x.n === diaVisto ? 'on' : ''}" ${x.n > d ? 'disabled' : ''}>${x.n > d ? '🔒' : fe[x.n] ? '✓' : ''} ${x.n}</button>`).join('');
+  $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => { if (b.disabled) { toast('Esse dia libera ' + (+b.dataset.d - d === 1 ? 'amanhã' : 'daqui a ' + (b.dataset.d - d) + ' dias') + ' ✦'); return } diaVisto = +b.dataset.d; render() });
+  $('dias').innerHTML = C.dias.map(x => {
+    const vis = x.n === diaVisto, lib = x.n <= d;
+    return `<div class="box dia" data-n="${x.n}" ${vis ? '' : 'hidden'}>${lib ? `
+      <div class="foco">Dia ${x.n} · ${esc(x.foco)}</div><h2>${esc(x.nome)}</h2>
+      <div class="bloco"><h4>🌅 Ao acordar</h4><p>${esc(x.manha)}</p></div>
+      <div class="bloco"><h4>✦ A prática de hoje</h4><p>${esc(x.pratica)}</p>${x.cuidado ? `<p class="cuid" style="margin-top:8px">${esc(x.cuidado)}</p>` : ''}</div>
+      <div class="bloco decreto">“${esc(x.decreto)}”</div>
+      <div class="bloco"><h4>🌙 À noite</h4><p>${esc(x.noite)}</p><textarea data-diario="${x.n}" placeholder="Escreva aqui. Fica salvo só no seu celular.">${esc((LS.g('imp_diario') || {})[x.n] || '')}</textarea></div>
+      <div class="bloco"><h4>⏱️ Dia corrido? Versão de 1 minuto</h4><p>${esc(x.minuto)}</p></div>
+      ${x.nota ? `<p class="cuid" style="margin-top:10px">${esc(x.nota)}</p>` : ''}${x.final ? `<div class="bloco"><p>${esc(x.final)}</p></div>` : ''}
+      <label class="feito"><input type="checkbox" data-feito="${x.n}" ${fe[x.n] ? 'checked' : ''}> Fiz a prática do dia ${x.n}</label><div class="egr" id="egr${x.n}"></div>` : ''}</div>`
+  }).join('');
+  document.querySelectorAll('[data-diario]').forEach(t => t.oninput = () => { const o = LS.g('imp_diario') || {}; o[t.dataset.diario] = t.value; LS.s('imp_diario', o) });
+  document.querySelectorAll('[data-feito]').forEach(c => c.onchange = async () => { const o = LS.g('imp_feitos') || {}; o[c.dataset.feito] = c.checked; LS.s('imp_feitos', o);
+    if (!c.checked) return; track('imp-praticou', { dia: c.dataset.feito }); const eg = $('egr' + c.dataset.feito); eg.textContent = 'Você fortaleceu a egrégora hoje ✦';
+    try { const j = await api('/api/imperatriz/pratiquei', { a: LS.g('imp_acesso') }); if (j.hoje >= 3) eg.textContent = '✦ Você e mais ' + (j.hoje - 1) + ' pessoas fortaleceram a egrégora hoje' } catch (e) {}
+    setTimeout(() => $('tabs').querySelectorAll('button').forEach(b => { if (+b.dataset.d === +c.dataset.feito && !b.textContent.includes('✓')) b.textContent = '✓ ' + b.dataset.d }), 50) });
+}
+/* botão da dúvida */
+let sosT = null;
+$('sosBtn').onclick = () => { const L = (C && C.duvida) || AMOSTRA; $('sosTxt').textContent = L[Math.floor(Math.random() * L.length)]; $('sos').hidden = false; document.body.style.overflow = 'hidden'; track('imp-duvida');
+  let i = 0; const f = ['inspire…', 'segure…', 'solte…']; clearInterval(sosT); $('sosResp').textContent = f[0]; sosT = setInterval(() => { i = (i + 1) % 3; $('sosResp').textContent = f[i] }, 2700) };
+$('sosOk').onclick = () => { $('sos').hidden = true; document.body.style.overflow = ''; clearInterval(sosT) };
+$('guardar').onclick = () => { copy(location.origin + location.pathname + '#a=' + LS.g('imp_acesso'), 'Link do seu acesso copiado ✦ Guarde no WhatsApp ou nas notas'); track('imp-guardou') };
+$('pdf').onclick = () => { document.querySelectorAll('.dia').forEach(d => { d.dataset.h = d.hidden ? 1 : ''; d.hidden = false }); window.print(); setTimeout(() => document.querySelectorAll('.dia').forEach(d => d.hidden = !!d.dataset.h), 500); track('imp-pdf') };
+$('jaTenho').onclick = () => { if (LS.g('imp_acesso')) abrirArea(); else toast('Abra o link do acesso que você guardou, ou fale comigo no WhatsApp ✦') };
+
+/* pagamento */
+const PEND_MS = 3600e3, pendAtivo = () => { const p = LS.g('imp_pend'); return p && p.id && Date.now() - p.t < PEND_MS ? p : null };
+function barra() { const p = pendAtivo(), ver = !!p && $('pay').hidden && $('area').hidden; $('pendBar').hidden = !ver; if (ver) $('pbV').textContent = brl(p.valor) }
+const fechar = () => { $('pay').hidden = true; document.body.style.overflow = ''; barra() };
+let poll = null; const entregues = new Set();
+function descartarPend() { clearInterval(poll); LS.s('imp_pend', null); barra() }
+$('comprar').onclick = () => { const pend = pendAtivo(); $('pay').hidden = false; document.body.style.overflow = 'hidden'; barra(); track('imp-clicou-pagar');
+  if (pend) { mostrarPix(pend); return } $('p1').hidden = false; $('p2').hidden = true; $('gerar').click() };
+document.querySelector('[data-close]').onclick = fechar; $('pay').onclick = e => { if (e.target.id === 'pay') fechar() };
+$('gerar').onclick = async () => {
+  if ($('gerar').disabled) return; $('perr').textContent = '';
+  $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…';
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email: LS.g('email') || '', tipo: 'imperatriz', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, t: Date.now() }; LS.s('imp_pend', o); track('imp-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  catch (e) { $('perr').textContent = (e.message || 'Não deu certo.') + ' Toque pra tentar de novo.' }
+  finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
+};
+async function ativar(o) {
+  try { const j = await api('/api/imperatriz/ativar', { chave: o.chave }); LS.s('imp_acesso', j.acesso); if (j.fidelidade) LS.s('fid', j.fidelidade); LS.s('imp_pend', null); LS.s('imp_inicio', hojeL()); track('imp-pago', { valor: o.valor }); fechar(); toast('Pagamento confirmado ✦ A Imperatriz está ativa'); abrirArea(j.conteudo); scrollTo(0, 0); return true }
+  catch (e) { return false }
+}
+async function checar(o) {
+  if (entregues.has(o.id)) return 'pago';
+  if (Date.now() - o.t > PEND_MS) { descartarPend(); $('w').textContent = 'O Pix expirou. Feche e gere outro.'; return 'falhou' }
+  try { const j = await api('/api/pedido/' + o.id);
+    if (j.status === 'pago') { if (entregues.has(o.id)) return 'pago'; entregues.add(o.id); clearInterval(poll); if (!(await ativar(o))) { entregues.delete(o.id); $('w').textContent = 'Pagamento recebido. Liberando…'; poll = setInterval(() => checar(o), 4000) } return 'pago' }
+    if (['failed', 'refunded'].includes(j.status)) { descartarPend(); $('w').textContent = 'Esse pagamento não foi concluído. Gere um Pix novo.'; return 'falhou' } } catch (e) {}
+  return 'esperando';
+}
+function mostrarPix(o) {
+  $('p1').hidden = true; $('p2').hidden = false; $('code').textContent = o.pix; $('pv2').textContent = brl(o.valor); $('qr').innerHTML = o.qr ? '<img alt="QR Code do Pix" src="data:image/png;base64,' + o.qr + '">' : '';
+  $('w').textContent = 'Aguardando o pagamento…'; clearInterval(poll); poll = setInterval(() => checar(o), 4000);
+}
+$('copiar').onclick = () => { copy($('code').textContent, 'Código Pix copiado ✦ Cole no app do banco'); track('imp-pix-copiado') };
+$('japaguei').onclick = async () => { const p = pendAtivo(); if (!p) return; $('w').textContent = 'Verificando…'; if (await checar(p) === 'esperando') $('w').textContent = 'Ainda não chegou. Pode levar alguns segundos depois de pagar.' };
+$('pbAbrir').onclick = () => $('comprar').click();
+$('pbX').onclick = async () => { const p = pendAtivo(); if (p && await checar(p) === 'pago') return; descartarPend() };
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { const p = pendAtivo(); if (p) checar(p) } });
+
+/* entrada: link de acesso guardado, acesso salvo ou Pix pendente */
+function entrada() {
+  const h = new URLSearchParams(location.hash.slice(1)).get('a'); if (h) { LS.s('imp_acesso', h); history.replaceState(null, '', location.pathname + location.search) }
+  if (LS.g('imp_acesso')) { abrirArea(); return true }
+}
+addEventListener('hashchange', entrada);
+(function () {
+  if (entrada()) return;
+  const p = pendAtivo(); if (p) { track('imp-pix-voltou'); $('comprar').click() }
+})();
+/* céu */
+(function () { const c = $('sky'), x = c.getContext('2d'); let w, h, st = []; const rs = () => { w = c.width = innerWidth * devicePixelRatio; h = c.height = innerHeight * devicePixelRatio; st = Array.from({ length: 140 }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.4 * devicePixelRatio, p: Math.random() * 6 })) }; rs(); addEventListener('resize', rs);
+  const red = matchMedia('(prefers-reduced-motion:reduce)').matches; (function f(t) { x.clearRect(0, 0, w, h); for (const s of st) { x.globalAlpha = .35 + .65 * Math.abs(Math.sin(t / 1400 + s.p)); x.fillStyle = '#fff'; x.beginPath(); x.arc(s.x, s.y, s.r, 0, 7); x.fill() } if (!red) requestAnimationFrame(f) })(0) })();
+</script>
+</body>
+</html>
