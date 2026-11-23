@@ -569,11 +569,13 @@ document.querySelectorAll('[id^="up"]').forEach(a => a.addEventListener('click',
 /* pagamento da leitura completa */
 let compraTipo = 'completa';
 const PEND_MS = 3600e3, TIPOS_PAGOS = ['profunda', 'cigano', 'pacote', 'resposta', 'sim3'];
-const pendAtivo = () => { const p = LS.g('pend'); return p && p.id && Date.now() - p.t < PEND_MS ? p : null };
+const pendAtivo = () => { const p = LS.g('pend'); return p && p.id && !p.pago && Date.now() - p.t < PEND_MS ? p : null };
+const pagoGuardado = () => { const p = LS.g('pend'); return p && p.id && p.pago && Date.now() - p.t < 864e5 ? p : null };
 function barra() { const p = pendAtivo(), ver = !!p && $('pay').hidden; $('pendBar').hidden = !ver; if (ver) $('pbV').textContent = brl(p.valor) }
 function fecharPay() { $('pay').hidden = true; document.body.style.overflow = ''; barra() }
 function descartarPend() { clearInterval(poll); LS.s('pend', null); barra() }
 async function abrirPagamento(tipo) {
+  const pg = pagoGuardado(); if (pg) { toast('Você já tem uma leitura paga esperando ✦ Escolha as cartas'); entregues.delete(pg.id); entregar(pg); return }
   let pend = pendAtivo();
   if (pend && tipo) { const quer = TIPOS_PAGOS.includes(tipo) ? tipo : 'completa';
     if (quer !== pend.tipo) { if (await checar(pend) === 'pago') return; descartarPend(); pend = null; track('tarot-pix-trocado') } }
@@ -606,11 +608,11 @@ async function checar(o) {
   return 'esperando';
 }
 function entregar(o) {
-  if (entregues.has(o.id)) return; entregues.add(o.id); clearInterval(poll); LS.s('pend', null);
-  track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = ''; barra();
-  if (o.tipo === 'pacote') { ativarPacote(o.chave); return }
-  if (o.tipo === 'resposta') { abrirResposta(o); return }
-  if (o.tipo === 'sim3') { ativarSim3(o); return }
+  if (entregues.has(o.id)) return; entregues.add(o.id); clearInterval(poll);
+  if (!o.pago) track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = '';
+  if (['pacote', 'resposta', 'sim3'].includes(o.tipo)) { LS.s('pend', null); barra(); if (o.tipo === 'pacote') ativarPacote(o.chave); else if (o.tipo === 'resposta') abrirResposta(o); else ativarSim3(o); return }
+  // leitura paga: guarda até as cartas serem abertas (se fechar a página antes, não perde)
+  o.pago = true; LS.s('pend', o); barra();
   S.tipo = o.tipo || 'completa'; S.modo = o.tipo === 'cigano' ? 'cigano' : 'tarot'; S.baralho = o.baralho; S.tema = o.tipo === 'cigano' ? 'amor' : (S.tema || o.tema); S.perg = S.perg || o.perg; S.nome = S.nome || o.nome; S.pessoa = S.pessoa || o.pessoa || '';
   toast('Pagamento confirmado ✦ Agora escolha ' + N() + ' cartas'); if (!S.tema || (o.tipo === 'cigano' && !S.pessoa)) { if (o.tipo === 'cigano') { $('temas').hidden = true; $('pessoaL').hidden = false; $('go1').disabled = false } tela(1) } else respirar();
 }
@@ -628,7 +630,7 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 window.addEventListener('pageshow', () => { const p = pendAtivo(); if (p) checar(p) });
 $('copiar').onclick = () => { copy($('code').textContent, 'Código Pix copiado ✦ Cole no app do banco'); track('tarot-pix-copiado') };
 // voltou depois de pagar? continua de onde parou
-(function () { const p = pendAtivo(); if (p) { S.tema = p.tema; S.perg = p.perg; S.nome = p.nome; S.pessoa = p.pessoa || ''; track('tarot-pix-voltou'); abrirPagamento() } })();
+(function () { const pg = pagoGuardado(); if (pg) { S.tema = pg.tema; S.perg = pg.perg; S.nome = pg.nome; S.pessoa = pg.pessoa || ''; toast('Sua leitura paga continua aqui ✦'); entregar(pg); return } const p = pendAtivo(); if (p) { S.tema = p.tema; S.perg = p.perg; S.nome = p.nome; S.pessoa = p.pessoa || ''; track('tarot-pix-voltou'); abrirPagamento() } })();
 
 /* degrau R$ 1,99: resposta sobre as mesmas cartas */
 async function abrirResposta(o) {
