@@ -157,7 +157,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .passos{margin:10px 0 0;padding-left:1.3em;color:var(--soft);line-height:1.5}.passos li{margin:4px 0}.passos b{color:var(--ink)}
 .mini{font-size:.82rem;color:var(--dim);margin-top:10px}.qrd{margin-top:10px;color:var(--soft);font-size:.9rem}.qrd summary{cursor:pointer}
 #japaguei{color:var(--gold2);font-weight:700}#trocar{font-size:.86rem;color:var(--dim)}
-#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
+#pendBar[hidden]{display:none!important}#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
 #pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
 .mini2{display:block;width:100%;margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:14px;background:none;color:var(--soft);font:inherit;font-size:.92rem;cursor:pointer}.mini2 b{color:var(--gold2)}
 </style>
@@ -556,7 +556,7 @@ function extras(x, l) {
 }
 async function precosAtuais() { try { return await api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9, cigano: 9.9, pacote: 12, numero: 9.9 } } }
 function maisHTML(atual) {
-  const T = [['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['cigano', '💞', 'Baralho Cigano', 'Pessoa específica', '?m=cigano'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
+  const T = [['cigano', '💞', 'Ele(a) vai voltar?', 'Pessoa específica · cigano', '?m=cigano&p=volta'], ['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
   return T.filter(t => t[0] !== atual).map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
 }
 document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }) });
