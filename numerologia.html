@@ -204,7 +204,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
   <div id="p1">
     <h2 style="font-size:1.7rem">Mapa completo · <span id="pv">R$ 9,90</span></h2>
     <p>Pague no Pix e o seu mapa completo abre na hora, aqui mesmo.</p>
-    <label class="f">Seu e-mail (opcional, pro comprovante)<input id="email" type="email" autocomplete="email" placeholder="pode deixar em branco"></label>
+    <input id="email" type="hidden">
     <p class="perr" id="perr"></p>
     <button class="btn" id="gerar">Gerar Pix</button>
   </div>
@@ -278,13 +278,14 @@ function barra() { const p = pendAtivo(), ver = !!p && $('pay').hidden; $('pendB
 const fechar = () => { $('pay').hidden = true; document.body.style.overflow = ''; barra() };
 function descartarPend() { clearInterval(poll); LS.s('num_pend', null); barra() }
 $('nComprar').onclick = () => { const pend = pendAtivo(); $('pay').hidden = false; document.body.style.overflow = 'hidden'; barra(); track('numero-clicou-pagar');
-  if (pend) { mostrarPix(pend); return } $('p1').hidden = false; $('p2').hidden = true; $('email').value = LS.g('email') || '' };
+  if (pend) { mostrarPix(pend); return } $('p1').hidden = false; $('p2').hidden = true; $('email').value = LS.g('email') || ''; $('gerar').click() };
 document.querySelector('[data-close]').onclick = fechar; $('pay').onclick = e => { if (e.target.id === 'pay') fechar() };
 $('gerar').onclick = async () => {
+  if ($('gerar').disabled) return;
   const email = $('email').value.trim(); $('perr').textContent = '';
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { $('perr').textContent = 'Confira o e-mail (ou deixe em branco).'; return }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) $('email').value = '';
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email, tipo: 'numero', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, nome: D.nome, nasc: D.nasc, t: Date.now() }; LS.s('num_pend', o); track('numero-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email: $('email').value, tipo: 'numero', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, nome: D.nome, nasc: D.nasc, t: Date.now() }; LS.s('num_pend', o); track('numero-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };

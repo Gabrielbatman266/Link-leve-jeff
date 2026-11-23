@@ -204,17 +204,17 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 <!-- Dentro do TikTok/Instagram: abrir no navegador -->
 <div class="sheet" id="navSheet" hidden><div class="sh" role="dialog" aria-label="Abrir no navegador">
   <div class="grip"></div><button class="x" data-close aria-label="Fechar">✕</button>
-  <h3>Abra no navegador</h3>
-  <p class="sub">O TikTok não deixa abrir o WhatsApp por aqui. É rapidinho:</p>
-  <a class="btn" id="navGo" href="#">👆 Me mostra onde tocar</a>
+  <h3>Meu número já foi copiado ✦</h3>
+  <p class="sub">O TikTok não deixa abrir o WhatsApp daqui. Então: <b>abra o seu WhatsApp</b>, toque em <b>nova conversa</b> e <b>cole</b> o número. Depois cole a mensagem.</p>
+  <div class="copyrow"><div><small>Meu WhatsApp</small><b id="zapNum"></b></div><button class="btn ghost" id="copyNum">Copiar número</button></div>
+  <div class="copyrow"><div><small id="pendLbl">Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
+  <h4>Ou abra no navegador</h4>
   <ol class="steps" id="navSteps">
     <li><span>Toque nos <b>três pontinhos ⋯</b> no canto de cima da tela.</span></li>
     <li><span>Escolha <b>“Abrir no navegador”</b> (ou “Abrir no Chrome / Safari”).</span></li>
     <li><span>Toque de novo no botão do WhatsApp. Agora vai abrir.</span></li>
   </ol>
-  <h4>Ou fale comigo direto</h4>
-  <div class="copyrow"><div><small>Meu WhatsApp</small><b id="zapNum"></b></div><button class="btn ghost" id="copyNum">Copiar número</button></div>
-  <div class="copyrow"><div><small id="pendLbl">Sua mensagem</small><span id="pendMsg"></span></div><button class="btn ghost" id="copyMsg">Copiar mensagem</button></div>
+  <a class="btn ghost" id="navGo" href="#">👆 Me mostra onde tocar</a>
   <a class="tryany" id="tryAny" href="#" target="_blank" rel="noopener">Tentar abrir o WhatsApp mesmo assim</a>
 </div></div>
 
@@ -382,7 +382,9 @@ async function copy(t,ok){try{await navigator.clipboard.writeText(t);toast(ok)}c
 let pend='';
 function showNav(msg,url,grp){pend=msg;document.getElementById('pendMsg').textContent=msg;
   document.getElementById('pendLbl').textContent=grp?'Link do grupo':'Sua mensagem';document.getElementById('copyMsg').textContent=grp?'Copiar link':'Copiar mensagem';document.getElementById('tryAny').href=url;
-  document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);openSheet('navSheet');track('whatsapp-bloqueado-no-app')}
+  document.querySelectorAll('.sheet').forEach(s=>s.hidden=true);openSheet('navSheet');track('whatsapp-bloqueado-no-app');
+  if(!grp)copy(fmtZap(CFG.whatsapp),'Número copiado ✦ Cole no seu WhatsApp');else copy(msg,'Link copiado ✦ Cole no navegador');
+  document.querySelector('#navSheet h3').textContent=grp?'Link do grupo copiado ✦':'Meu número já foi copiado ✦'}
 document.getElementById('zapNum').textContent=fmtZap(CFG.whatsapp);
 document.getElementById('copyNum').onclick=()=>copy(fmtZap(CFG.whatsapp),'Número copiado ✦');
 document.getElementById('copyMsg').onclick=()=>copy(pend||MSG.duvida,'Copiado ✦');
