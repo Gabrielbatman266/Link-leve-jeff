@@ -225,7 +225,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 <script>
 const CFG = { loja: 'https://loja-jeff.loja-cf.workers.dev', whatsapp: '5537999459674', umami: 'c77e97b7-a4ea-4600-8a2a-b5ac09d91243' };
 if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
-let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')) || 'ABC'[Math.floor(Math.random() * 3)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {}
+let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'A' && FUNIL !== 'B') FUNIL = 'AB'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // funil C encerrado em 23/11
 function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), modo: 'numero', funil: FUNIL }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };

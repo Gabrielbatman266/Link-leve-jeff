@@ -370,7 +370,7 @@ if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('scr
 /* Teste A/B da tiragem grátis: A = síntese inteira, B = síntese cortada no meio. Cada pessoa fica sempre na mesma versão. */
 const AB = 'B';   // o teste da síntese terminou: todos veem a síntese cortada (curiosidade aberta)
 /* Teste A/B/C de funis (sorteio por aparelho, fica sempre no mesmo): A atual · B preço de mercado · C pessoa específica primeiro */
-let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')) || 'ABC'[Math.floor(Math.random() * 3)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {}
+let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'A' && FUNIL !== 'B') FUNIL = 'AB'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // funil C encerrado em 23/11
 const MODO = ['cigano', 'dia', 'sim'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
 function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, modo: MODO }) } catch (e) {} }
 const $ = id => document.getElementById(id);
@@ -526,7 +526,8 @@ function resultado() {
   const temResp = !!l.resposta;
   $('respBox').hidden = !temResp; if (temResp) $('respBox').innerHTML = `<span class="r">${esc(l.resposta.sim.r)}</span><p>${esc(l.resposta.sim.t)}</p><p style="margin-top:8px">⏳ ${esc(l.resposta.quando)}</p>`;
   const simM = l.modo === 'sim', amorish = cig || l.tema === 'amor';
-  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: !cig && !simM && l.tipo !== 'profunda', plProfunda: l.tipo !== 'profunda' && !simM,
+  const comprou = !!LS.g('fid') || l.tipo !== 'gratis'; // Cruz Celta e pacote só pra quem já comprou
+  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: comprou && !cig && !simM && l.tipo !== 'profunda', plProfunda: comprou && l.tipo !== 'profunda' && !simM,
     plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'cigano') };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
   $('planos').hidden = limite || !Object.values(vis).some(Boolean);
