@@ -145,6 +145,10 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 @keyframes pulsoP{50%{box-shadow:0 0 40px rgba(255,143,208,.45)}}@media (prefers-reduced-motion:reduce){.orG a.pessoa{animation:none}}
 .lk.imp{border-color:rgba(255,143,208,.6);background:linear-gradient(120deg,rgba(255,143,208,.2),var(--card) 60%)}
 .gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
+[hidden]{display:none!important}.price b{white-space:nowrap}.pessoa .seta{font-size:.95em;line-height:1}
+.secT{margin:22px 4px 8px;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}.secT b{color:#7ee0a8}.links>.secT:first-child{margin-top:6px}
+.seta{display:inline-block;animation:seta 1.4s ease-in-out infinite}@keyframes seta{50%{transform:translateX(4px)}}
+.avatar{width:84px!important;height:84px!important;font-size:2rem!important}
 </style>
 </head>
 <body>
@@ -159,18 +163,20 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   <div class="proof"><span><b>7,5 mil</b> seguidores</span><span><b>195 mil</b> curtidas</span><span>no TikTok</span></div>
 
   <div class="links">
+    <div class="secT">👇 Comece aqui · <b>grátis</b></div>
     <div class="oraculo" style="animation-delay:0s">
-      <div class="orT">🔮 Oráculo do Jeff <span class="free">GRÁTIS</span></div>
+      <div class="orT">🔮 Tire suas cartas agora <span class="free">GRÁTIS</span></div>
       <div class="orG">
-        <a href="tarot.html?m=cigano&p=volta&utm_source=bio" data-ev="clicou-pessoa-especifica" class="pessoa"><span>💞</span><b>Ele(a) vai voltar? O que sente por você?</b><small>Baralho Cigano · pessoa específica · 3 cartas grátis</small><i>Tirar as cartas agora ›</i></a>
+        <a href="tarot.html?m=cigano&p=volta&utm_source=bio" data-ev="clicou-pessoa-especifica" class="pessoa"><span>💞</span><b>Ele(a) vai voltar? O que sente por você?</b><small>Baralho Cigano · pessoa específica · 3 cartas grátis</small><i>Tirar as cartas agora <span class="seta">→</span></i></a>
         <a href="tarot.html?m=sim&utm_source=bio" data-ev="clicou-sim-ou-nao" class="destaque"><span>❓</span>Sim ou não?<small>Pergunte e tire 1 carta</small></a>
-        <a href="tarot.html?m=dia&utm_source=bio" data-ev="clicou-carta-do-dia"><span>🌅</span>Carta do dia<small>Uma por dia</small></a>
         <a href="tarot.html?m=tarot&utm_source=bio" data-ev="clicou-tarot"><span>🃏</span>Tarot<small>3 cartas grátis</small></a>
+        <a href="casal.html?utm_source=bio" data-ev="clicou-casal"><span>💑</span>Vocês combinam?<small>% de sintonia grátis</small></a>
+        <a href="tarot.html?m=dia&utm_source=bio" data-ev="clicou-carta-do-dia"><span>🌅</span>Carta do dia<small>Uma por dia</small></a>
         <a href="numerologia.html?utm_source=bio" data-ev="clicou-numerologia"><span>🔢</span>Numerologia<small>+ Arcano pessoal</small></a>
       </div>
     </div>
 
-    <a class="lk imp" href="casal.html?utm_source=bio" data-ev="clicou-casal"><span class="ic">💞</span><span class="tx">Vocês combinam?<small>Numerologia do casal · % de sintonia grátis</small></span><span class="ar">›</span></a>
+    <div class="secT">✨ Pra ir mais fundo</div>
     <a class="lk imp" href="imperatriz.html?utm_source=bio" data-ev="clicou-imperatriz"><span class="ic">👑</span><span class="tx">Ativação da Imperatriz · 7 dias<small>Egrégora pra pessoa específica, autoestima e desejo</small></span><span class="ar">›</span></a>
     <div class="book" id="bookCard" style="animation-delay:.12s" role="button" tabindex="0" aria-label="Ver o livro Já Deu Certo">
       <span class="tag">✦ Meu livro</span>
@@ -185,6 +191,7 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
       <button class="btn" id="bookBtn">Ver prévia e comprar</button>
     </div>
 
+    <div class="secT">💬 Fale comigo</div>
     <a class="lk grp" id="lkGrp" data-ev="clicou-grupo-gratis" href="#" target="_blank" rel="noopener" style="animation-delay:.15s"><img class="gimg" src="img/grupo.jpg" alt="Grupo Os Maiores"><span class="tx">Grupo grátis · Os Maiores<small>Entre na comunidade no WhatsApp</small></span><span class="free">GRÁTIS</span></a>
     <a class="lk wa" id="lkWa" data-ev="abriu-menu-whatsapp" href="#" style="animation-delay:.2s"><span class="ic">💬</span><span class="tx">Sessões e mentoria<small>Fale comigo no WhatsApp</small></span><span class="ar">›</span></a>
     <a class="lk" id="lkTt" data-ev="clicou-tiktok" href="#" target="_blank" rel="noopener" style="animation-delay:.3s"><span class="ic">🎵</span><span class="tx">TikTok · @jeffinsane<small>Vídeos novos sobre lei da suposição</small></span><span class="ar">›</span></a>
@@ -198,7 +205,6 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 
   <a class="lk meus" id="meus" hidden href="#" target="_blank" rel="noopener"><span class="ic">📚</span><span class="tx">Meus livros<small>Baixar de novo o Já Deu Certo</small></span><span class="ar">›</span></a>
 
-  <div class="soon">📱 Em breve: <b>o app do Jeff Insane</b> pra ler os livros, fazer a jornada e ouvir os áudios guiados.</div>
   <footer>© Jeff Insane · Conteúdo de mentalidade e desenvolvimento pessoal.<br>Não substitui orientação médica, psicológica ou financeira.<br>Este site usa estatísticas anônimas, sem cookies.</footer>
 </main>
 

@@ -163,6 +163,11 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .plano.imp{margin-top:14px;text-decoration:none;color:var(--ink);border-color:rgba(255,143,208,.6);background:linear-gradient(160deg,rgba(255,143,208,.18),rgba(22,16,52,.88) 60%)}
 .preco{flex-wrap:wrap;row-gap:2px}.preco b{white-space:nowrap}.preco small{flex:1;min-width:150px}.preco .ancora{flex-basis:100%;margin-top:6px}
 .gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
+.chips{display:flex;gap:8px;margin:12px 0 4px;flex-wrap:wrap}.chip{flex:1;min-width:96px;padding:10px 8px;border-radius:99px;border:1px solid var(--line);background:rgba(22,16,52,.7);color:var(--soft);font:inherit;font-weight:800;font-size:.92rem;cursor:pointer}.chip.on{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#1c1203;border-color:var(--gold)}
+#rCampos .f{margin-top:8px}#rapido + .kick{display:none}#s3.rap #t3,#s3.rap #p3{display:none}
+.desca{text-align:center;color:var(--dim);font-size:.85rem;margin:22px 0 10px;animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(4px)}}
+#abaixo>*{margin-top:12px}
+.seta{display:inline-block;animation:seta 1.4s ease-in-out infinite}@keyframes seta{50%{transform:translateX(4px)}}
 </style>
 </head>
 <body>
@@ -215,13 +220,20 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 
   <!-- 3 · escolher cartas -->
   <section id="s3" hidden class="fade">
-    <span class="kick">Passo 3 de 3</span>
+    <div id="rapido" hidden>
+      <span class="pill free" id="rPill">GRÁTIS · 3 CARTAS</span>
+      <h2 id="rH" style="margin-top:10px">Pense na sua pergunta e toque em 3 cartas 👇</h2>
+      <div class="chips" id="rChips"><button class="chip" data-t="amor">💞 Amor</button><button class="chip" data-t="dinheiro">💰 Dinheiro</button><button class="chip" data-t="caminho">🧭 Caminho</button></div>
+      <div id="rCampos"></div>
+    </div>
+    <span class="kick" id="k3">Passo 3 de 3</span>
     <h2 id="t3">Escolha 3 cartas</h2>
-    <p>Passe o dedo pelas cartas e toque nas que <b>te chamarem</b>. Não pense, sinta. A primeira que vier é a certa.</p>
+    <p id="p3">Passe o dedo pelas cartas e toque nas que <b>te chamarem</b>. Não pense, sinta. A primeira que vier é a certa.</p>
     <div class="mesa" id="mesa"><div class="trilho" id="trilho"></div></div>
     <div class="esc"><span id="escN">0 de 3 escolhidas</span><button class="link" style="width:auto;margin:0" id="limpar">Desfazer</button></div>
     <p class="hint">↔ deslize pro lado pra ver todas as <span id="totC">78</span> cartas</p>
     <button class="btn" id="go3" disabled>Revelar as cartas</button>
+    <div id="abaixo" hidden><p class="desca">👇 Desça pra ver mais</p></div>
   </section>
 
   <!-- 5 · carta do dia -->
@@ -424,6 +436,21 @@ $('go0').onclick = () => { if (gratisUsada()) { abrirPagamento(PAGO_MODO); retur
 $('verUltima').onclick = () => { const u = LS.g('ultima'); if (u) mostrarLeitura(u, true) };
 if ((LS.g('leituras') || []).length) { const b = document.createElement('button'); b.className = 'link'; b.textContent = '📜 Minhas leituras pagas'; b.onclick = () => mostrarLeitura(LS.g('leituras')[0], true); $('s0').appendChild(b) }
 
+
+/* início rápido: abre direto nas cartas (sem tela de apresentação, tema e respiração) */
+let RAPIDO = false;
+function inicioRapido() {
+  RAPIDO = true; S.tipo = 'gratis'; $('s3').classList.add('rap'); $('rapido').hidden = false; $('abaixo').hidden = false;
+  const campos = $('rCampos'), cig = MODO === 'cigano', sim = MODO === 'sim';
+  if (cig) { $('rChips').hidden = true; $('pessoaL').hidden = false; campos.appendChild($('pessoaL')); $('rPill').textContent = 'GRÁTIS · BARALHO CIGANO'; $('rH').textContent = 'Pense na pessoa e toque em 3 cartas 👇'; S.tema = 'amor' }
+  if (sim) { $('rChips').hidden = true; $('rPill').textContent = 'SIM OU NÃO · CARTA GRÁTIS'; $('rH').textContent = 'Escreva a pergunta e toque em 1 carta 👇'; S.tema = S.tema || 'amor' }
+  campos.appendChild($('perg').parentElement);
+  if (sim) { $('perg').parentElement.firstChild.textContent = 'A sua pergunta'; } else $('perg').parentElement.firstChild.textContent = 'Sua pergunta (opcional)';
+  if (!cig && !sim) { S.tema = S.tema || 'amor'; document.querySelectorAll('#rChips .chip').forEach(b => { b.classList.toggle('on', b.dataset.t === S.tema); b.onclick = () => { S.tema = b.dataset.t; document.querySelectorAll('#rChips .chip').forEach(x => x.classList.toggle('on', x === b)); track('tarot-tema', { tema: S.tema }) } }) }
+  ['contador', 'lembBox', 'credBox', 'diaMini'].forEach(id => $('abaixo').appendChild($(id)));
+  const m = document.createElement('div'); m.innerHTML = '<h3 style="margin-top:18px">Outros oráculos <span class="seta">→</span></h3><div class="mais">' + maisHTML(MODO === 'cigano' ? 'cigano' : MODO === 'sim' ? 'sim' : 'tarot') + '</div>'; $('abaixo').appendChild(m);
+  track('tarot-comecou', { rapido: 1 }); escolher();
+}
 /* 1 · tema */
 if (S.tema && MODO !== 'cigano') { const tb = document.querySelector('.tema[data-t="' + S.tema + '"]'); if (tb) { tb.classList.add('on'); $('go1').disabled = false } }
 document.querySelectorAll('.tema').forEach(b => b.onclick = () => { document.querySelectorAll('.tema').forEach(x => x.classList.toggle('on', x === b)); S.tema = b.dataset.t; $('go1').disabled = false });
@@ -448,6 +475,7 @@ const QTD = { gratis: 3, completa: 5, profunda: 10, cigano: 9 };
 const TOTAL = () => S.modo === 'cigano' || (MODO === 'cigano' && S.tipo !== 'completa' && S.tipo !== 'profunda') ? 36 : 78;
 const N = () => MODO === 'sim' && S.tipo === 'gratis' ? 1 : (QTD[S.tipo] || 3);
 async function escolher() {
+  const rap = RAPIDO && S.tipo === 'gratis'; $('s3').classList.toggle('rap', rap); $('rapido').hidden = !rap; $('abaixo').hidden = !rap;
   tela(3); S.escolhas = []; $('t3').textContent = 'Escolha ' + N() + ' cartas'; atualizaEsc();
   const tr = $('trilho'); tr.innerHTML = '';
   const T = TOTAL(); $('totC').textContent = T; tr.style.setProperty('--n', T);
@@ -471,6 +499,7 @@ function toca(c) {
 function atualizaEsc() { $('escN').innerHTML = '<b>' + S.escolhas.length + '</b> de ' + N() + ' escolhidas'; $('go3').disabled = S.escolhas.length < N() }
 $('limpar').onclick = () => { const i = S.escolhas.pop(); if (i === undefined) return; const c = document.querySelector('.cb[data-i="' + i + '"]'); c && c.classList.remove('sel'); atualizaEsc() };
 $('go3').onclick = async () => {
+  if (RAPIDO && S.tipo === 'gratis') { S.perg = $('perg').value.trim(); S.pessoa = $('pessoa').value.trim(); if (MODO === 'sim' && S.perg.length < 4) { toast('Escreva a sua pergunta ✦'); $('perg').focus(); scrollTo(0, 0); return } }
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
     const l = await api('/api/tarot/ler', { fv: FUNIL, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
@@ -730,6 +759,7 @@ async function cartaDia() {
   if (LS.g('dia_visto') === hoje()) $('diaFlip').click(); else LS.s('dia_visto', hoje());
 }
 if (MODO === 'dia') cartaDia();
+else if (!gratisUsada() && !pagoGuardado() && !pendAtivo() && !new URLSearchParams(location.search).has('inicio')) inicioRapido();
 if (LS.g('dia_visto') === hoje()) $('diaMiniT').textContent = 'Você já viu a de hoje. Toque pra rever.';
 
 /* céu */
