@@ -531,7 +531,7 @@ function resultado() {
   $('respBox').hidden = !temResp; if (temResp) $('respBox').innerHTML = `<span class="r">${esc(l.resposta.sim.r)}</span><p>${esc(l.resposta.sim.t)}</p><p style="margin-top:8px">⏳ ${esc(l.resposta.quando)}</p>`;
   const simM = l.modo === 'sim', amorish = cig || l.tema === 'amor';
   const comprou = !!LS.g('fid') || l.tipo !== 'gratis'; // Cruz Celta e pacote só pra quem já comprou
-  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: comprou && !cig && !simM && l.tipo !== 'profunda', plProfunda: comprou && l.tipo !== 'profunda' && !simM,
+  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: comprou && simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: comprou && !cig && !simM && l.tipo !== 'profunda', plProfunda: comprou && l.tipo !== 'profunda' && !simM,
     plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'cigano') };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
   $('planos').hidden = limite || !Object.values(vis).some(Boolean);
