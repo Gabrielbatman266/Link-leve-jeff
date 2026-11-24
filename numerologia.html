@@ -152,6 +152,8 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .mini{font-size:.82rem;color:var(--dim);margin-top:10px}.qrd{margin-top:10px;color:var(--soft);font-size:.9rem}.qrd summary{cursor:pointer}#japaguei{color:var(--gold2);font-weight:700}
 #pendBar[hidden]{display:none!important}#pendBar{position:fixed;left:10px;right:10px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;padding:10px 10px 10px 14px;border-radius:16px;background:rgba(22,16,52,.96);border:1px solid var(--gold);box-shadow:0 10px 40px rgba(0,0,0,.6);font-size:.92rem;color:var(--ink)}
 #pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
+.preco{flex-wrap:wrap;row-gap:2px}.preco b{white-space:nowrap}.preco small{flex:1;min-width:150px}.preco .ancora{flex-basis:100%;margin-top:6px}
+.gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
@@ -186,7 +188,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <div class="phead"><span class="pico">🔢</span><div><span class="pill roxo">MAPA COMPLETO</span><h3>Tudo o que os seus números dizem</h3></div></div>
       <p class="gancho">O caminho de vida é só o começo do seu mapa.</p>
       <ul class="lks"><li>🔒 Seu talento, o desejo da sua alma e como te veem</li><li>🔒 Amor e dinheiro pelos seus números</li><li>🔒 O que este ano reserva: ano e mês pessoal</li><li>🔒 Seu desafio de vida + Arcano do ano</li></ul>
-      <div class="pfoot"><div class="preco"><b class="pc" data-t="numero">R$ 9,90</b><small>no Pix · libera na hora</small></div></div>
+      <div class="pfoot"><div class="preco"><b class="pc" data-t="numero">R$ 9,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
       <button class="btn" id="nComprar">Quero o mapa completo</button>
     </div>
     <button class="btn ghost" id="nShare">📤 Compartilhar o meu Arcano</button>
@@ -216,6 +218,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <button class="btn" id="copiar">📋 Copiar código Pix</button>
     <div class="pixbox" id="code"></div>
     <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <p class="gar">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
     <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
     <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
     <button class="link" id="japaguei">Já paguei, verificar agora</button>

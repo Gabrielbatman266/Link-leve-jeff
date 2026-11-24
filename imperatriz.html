@@ -183,6 +183,8 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
 .carta{display:flex;justify-content:center;margin:16px 0 8px}.carta img{width:min(62%,250px);height:auto;border-radius:14px;box-shadow:0 0 0 1px rgba(245,201,106,.6),0 0 50px rgba(255,143,208,.45);animation:resp 8s ease-in-out infinite}
 .sosCarta{width:min(48vw,200px);border-radius:12px;box-shadow:0 0 50px rgba(255,143,208,.55);animation:resp 8s ease-in-out infinite}
 .sigBox{color:var(--gold);display:flex;justify-content:center;margin:10px 0}.sigBox .sig{width:200px;height:200px;filter:drop-shadow(0 0 14px rgba(245,201,106,.55))}.sigBox.borr .sig{filter:blur(5px) drop-shadow(0 0 14px rgba(245,201,106,.55));opacity:.8}
+.preco{flex-wrap:wrap;row-gap:2px}.preco b{white-space:nowrap}.preco small{flex:1;min-width:150px}.preco .ancora{flex-basis:100%;margin-top:6px}
+.gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
@@ -236,8 +238,9 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
     <div class="box oferta">
       <div class="pill">ATIVAÇÃO DE 7 DIAS</div>
       <div class="pr" id="preco" style="margin-top:12px">R$ 7,90</div>
-      <small>no Pix · libera na hora, aqui mesmo</small>
+      <small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small>
       <button class="btn" id="comprar">👑 Ativar a Imperatriz</button>
+      <ul class="inclui" style="text-align:left;margin-top:12px"><li><b>Começa hoje,</b> libera na hora, aqui mesmo</li><li><b>10 minutos por dia,</b> ou a versão de 1 minuto nos dias corridos</li><li><b>Sem decorar nada:</b> cada dia já vem pronto, é só seguir</li></ul><p class="gar">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
       <p class="nota">Isso é uma prática espiritual e de lei da suposição. Ninguém controla o sentimento de ninguém: a ativação trabalha você, o seu estado e a sua energia.</p>
     </div>
     <button class="link" id="jaTenho">Já ativei e quero voltar pro meu acesso</button>
@@ -278,6 +281,7 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
     <button class="btn" id="copiar">📋 Copiar código Pix</button>
     <div class="pixbox" id="code"></div>
     <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <p class="gar">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
     <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
     <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
     <button class="link" id="japaguei">Já paguei, verificar agora</button>

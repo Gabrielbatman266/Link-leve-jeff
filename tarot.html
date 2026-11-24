@@ -161,6 +161,8 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 #pendBar span{flex:1}#pendBar button{border:0;border-radius:99px;font:inherit;font-weight:800;cursor:pointer}#pbAbrir{padding:9px 16px;background:var(--gold);color:#1c1203}#pbX{background:none;color:var(--dim);padding:6px 8px}
 .mini2{display:block;width:100%;margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:14px;background:none;color:var(--soft);font:inherit;font-size:.92rem;cursor:pointer}.mini2 b{color:var(--gold2)}
 .plano.imp{margin-top:14px;text-decoration:none;color:var(--ink);border-color:rgba(255,143,208,.6);background:linear-gradient(160deg,rgba(255,143,208,.18),rgba(22,16,52,.88) 60%)}
+.preco{flex-wrap:wrap;row-gap:2px}.preco b{white-space:nowrap}.preco small{flex:1;min-width:150px}.preco .ancora{flex-basis:100%;margin-top:6px}
+.gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
@@ -269,9 +271,9 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <div class="planos" id="planos">
         <div class="plano degrau" id="plResposta">
           <div class="phead"><span class="pico">⚡</span><div><span class="pill">A SUA RESPOSTA JÁ SAIU</span><h3>Sim ou não? E quando?</h3></div></div>
-          <p class="gancho">Sobre essas mesmas cartas que você acabou de tirar.</p>
+          <p class="gancho">Sai da dúvida em 10 segundos, nessas mesmas cartas que você acabou de tirar.</p>
           <div class="blur"><span>SIM · NÃO · DEPENDE</span><small>tendência de tempo: ██████████</small></div>
-          <div class="pfoot"><div class="preco"><b class="pc" data-t="resposta">R$ 1,99</b><small>no Pix · libera na hora</small></div></div>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="resposta">R$ 1,99</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
           <button class="btn" data-comprar="resposta">Ver a minha resposta</button>
         </div>
         <div class="plano" id="plSim3">
@@ -283,10 +285,10 @@ label.f input:focus{outline:none;border-color:var(--gold)}
         </div>
         <div class="box" id="simCredBox" hidden><p>✨ Você tem <b id="simCredN">0</b> perguntas pagas.</p><button class="btn" id="simCredUsar">Usar uma nesta pergunta</button></div>
         <div class="plano" id="plCompleta">
-          <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>O que te trava e o que fazer</h3></div></div>
-          <p class="gancho">A grátis mostrou o rumo. A completa mostra o resto da história.</p>
+          <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>Durma hoje sabendo o que fazer</h3></div></div>
+          <p class="gancho">A grátis mostrou o rumo. A completa te tira da dúvida: o que vai acontecer, quando e o seu próximo passo.</p>
           <ul class="lks"><li>🔒 Sim ou não pra sua pergunta</li><li>🔒 Quando isso tende a acontecer</li><li>🔒 O que te trava e onde se apoiar</li><li>🔒 Sua carta-guia + ritual de 7 dias</li></ul>
-          <div class="pfoot"><div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix · libera na hora</small></div></div>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small><small class="ancora">Uma consulta com taróloga costuma custar R$ 29 ou mais, e você ainda espera ser atendida(o).</small></div></div>
           <button class="btn" data-comprar="completa">Abrir a leitura completa</button>
         </div>
         <div class="plano" id="plPacote">
@@ -297,17 +299,17 @@ label.f input:focus{outline:none;border-color:var(--gold)}
           <button class="btn ghost" data-comprar="pacote">Quero o pacote</button>
         </div>
         <div class="plano destaque" id="plCigano">
-          <div class="phead"><span class="pico">💞</span><div><span class="pill roxo">MESA CIGANA · 9 CARTAS</span><h3>O que ele(a) sente e pensa</h3></div></div>
-          <p class="gancho">As 9 cartas mostram vocês dois: você, a pessoa e pra onde isso vai.</p>
+          <div class="phead"><span class="pico">💞</span><div><span class="pill roxo">MESA CIGANA · 9 CARTAS</span><h3>Pare de adivinhar o que ele(a) sente</h3></div></div>
+          <p class="gancho">Em 9 cartas: o que ele(a) sente e pensa de você, o que atrapalha vocês e o seu próximo passo. Agora, sem precisar perguntar pra ninguém.</p>
           <ul class="lks"><li>🔒 Como ele(a) está e o que pensa de você</li><li>🔒 O que atrapalha e o que ajuda vocês</li><li>🔒 Sim ou não + quando</li><li>🔒 Combinações das cartas + ritual do amor</li></ul>
-          <div class="pfoot"><div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix · libera na hora</small></div></div>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
           <button class="btn" data-comprar="cigano">Abrir a mesa cigana</button>
         </div>
         <div class="plano destaque" id="plProfunda">
           <div class="phead"><span class="pico">✨</span><div><span class="pill roxo">CRUZ CELTA · 10 CARTAS</span><h3>A leitura mais completa</h3></div></div>
           <p class="gancho">Tudo da completa, e mais o que está escondido.</p>
           <ul class="lks"><li>🔒 A carta-sombra: o que age sem você ver</li><li>🔒 Seus medos e esperanças</li><li>🔒 Se a sua mente está alinhada com o resultado</li><li>🔒 Plano de 21 dias pro seu caso</li></ul>
-          <div class="pfoot"><div class="preco"><b class="pc" data-t="profunda">R$ 14,90</b><small>no Pix · libera na hora</small></div></div>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="profunda">R$ 14,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
           <button class="btn" data-comprar="profunda">Abrir a Cruz Celta</button>
         </div>
       </div>
@@ -350,6 +352,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <button class="btn" id="copiar">📋 Copiar código Pix</button>
     <div class="pixbox" id="code"></div>
     <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <p class="gar">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
     <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
     <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
     <button class="link" id="japaguei">Já paguei, verificar agora</button>

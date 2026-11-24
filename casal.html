@@ -193,6 +193,8 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
 .sec{margin-top:12px}.sec h4{color:var(--gold2);margin-bottom:4px}
 .lockl{list-style:none;margin-top:8px}.lockl li{padding:6px 0;color:var(--soft)}.lockl li::before{content:'🔒 '}
 .af{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;line-height:1.25}
+.preco{flex-wrap:wrap;row-gap:2px}.preco b{white-space:nowrap}.preco small{flex:1;min-width:150px}.preco .ancora{flex-basis:100%;margin-top:6px}
+.gar{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(126,224,168,.08);border:1px solid rgba(126,224,168,.35);font-size:.85rem;color:var(--soft);text-align:left}.gar b{color:#7ee0a8}.ancora{display:block;font-size:.78rem;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
@@ -229,8 +231,9 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
     <div class="box lock" id="cLock"><p><b>A compatibilidade completa revela:</b></p><ul class="lockl" id="cLocks"></ul></div>
     <div class="plano destaque" id="cOferta" style="margin-top:16px">
       <div class="phead"><span class="pico">💞</span><div><span class="pill roxo">COMPATIBILIDADE COMPLETA</span><h3 id="cOfT">Tudo o que os números dizem de vocês</h3></div></div>
-      <p class="gancho">A porcentagem é só a superfície. O que importa é o porquê.</p>
-      <div class="pfoot"><div class="preco"><b id="cPreco">R$ 9,90</b><small>no Pix · libera na hora</small></div></div>
+      <p class="gancho">A porcentagem é só a superfície. A completa mostra o que a pessoa precisa no amor, o que te torna irresistível pra ela e onde vocês travam.</p>
+      <div class="pfoot"><div class="preco"><b id="cPreco">R$ 9,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
+      <p class="gar" style="margin-bottom:10px">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
       <button class="btn" id="cComprar">Ver a compatibilidade completa</button>
     </div>
     <h3>Pra vocês dois</h3>
@@ -255,6 +258,7 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
     <button class="btn" id="copiar">📋 Copiar código Pix</button>
     <div class="pixbox" id="code"></div>
     <p class="mini">O recebedor aparece como <b>Gabriel Faria</b> (Jeff Insane), pelo Mercado Pago.</p>
+    <p class="gar">🛡️ <b>Garantia de 7 dias:</b> não gostou? Me chama no WhatsApp que eu devolvo o seu Pix, sem pergunta.</p>
     <details class="qrd"><summary>Vai pagar por outro celular? Mostrar QR Code</summary><div class="qr" id="qr"></div></details>
     <div class="wait"><span class="spin"></span><span id="w">Aguardando o pagamento…</span></div>
     <button class="link" id="japaguei">Já paguei, verificar agora</button>
