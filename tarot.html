@@ -414,8 +414,9 @@ const AB = 'B';   // o teste da síntese terminou: todos veem a síntese cortada
 /* Teste A/B/C de funis (sorteio por aparelho, fica sempre no mesmo): A atual · B preço de mercado · C pessoa específica primeiro */
 let FUNIL = 'D'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'D' && FUNIL !== 'P') FUNIL = 'DP'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // teste de preço 2 (25/11): D barato × P premium
 let BIO = null; try { BIO = JSON.parse(localStorage.getItem('tarot_bio')) } catch (e) {} // teste da roleta na bio: R × S
+let TOM = 'N'; try { TOM = JSON.parse(localStorage.getItem('tarot_tom')); if (TOM !== 'N' && TOM !== 'X') { TOM = Math.random() < .5 ? 'N' : 'X'; localStorage.setItem('tarot_tom', JSON.stringify(TOM)) } } catch (e) {} // teste de tom: N normal × X Jeff sem filtro
 const MODO = ['cigano', 'dia', 'sim'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
-function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, bio: BIO || '-', modo: MODO }) } catch (e) {} }
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, bio: BIO || '-', tom: TOM, modo: MODO }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const hoje = () => new Date().toLocaleDateString('sv-SE');
@@ -478,7 +479,7 @@ function inicioRapido() {
   if (!cig && !sim) { S.tema = S.tema || 'amor'; document.querySelectorAll('#rChips .chip').forEach(b => { b.classList.toggle('on', b.dataset.t === S.tema); b.onclick = () => { S.tema = b.dataset.t; document.querySelectorAll('#rChips .chip').forEach(x => x.classList.toggle('on', x === b)); track('tarot-tema', { tema: S.tema }) } }) }
   ['contador', 'lembBox', 'credBox', 'diaMini'].forEach(id => $('abaixo').appendChild($(id)));
   const m = document.createElement('div'); m.innerHTML = '<h3 style="margin-top:18px">Outros oráculos <span class="seta">→</span></h3><div class="mais">' + maisHTML(MODO === 'cigano' ? 'cigano' : MODO === 'sim' ? 'sim' : 'tarot') + '</div>'; $('abaixo').appendChild(m);
-  track('tarot-comecou', { rapido: 1 }); escolher();
+  aplicarTom(); track('tarot-comecou', { rapido: 1 }); escolher();
 }
 
 /* dossiê: abre os 4 itens com os tokens pagos */
@@ -491,6 +492,22 @@ function abrirDossie() {
     if (!S.pessoa) { $('temas').hidden = true; $('pessoaL').hidden = false; $('s1').insertBefore($('pessoaL'), $('go1')); $('go1').disabled = false; tela(1) } else respirar() };
   $('dsComp').hidden = !D.completa; $('dsComp').onclick = () => { $('sD').hidden = true; S.tipo = 'completa'; S.modo = 'tarot'; S.baralho = D.completa; S.tema = S.tema || 'amor'; S.leitura = null; $('temas').hidden = false; tela(1) };
   $('dsCruz').onclick = () => { $('sD').hidden = true; track('dossie-cruz'); S.tipo = 'profunda'; S.modo = 'tarot'; S.baralho = D.profunda; S.tema = S.tema || 'amor'; S.leitura = null; $('temas').hidden = false; tela(1) };
+}
+
+/* tom X: "Jeff sem filtro" (teste de texto; preços e conteúdo iguais) */
+const SEMFILTRO = {
+  rH: { tarot: 'Para de enrolar e toca em 3 cartas, caralho 👇', cigano: 'Tá com medo de saber o que ele sente? Toca em 3 cartas 👇', sim: 'Escreve a porra da pergunta e tira 1 carta 👇' },
+  plResposta: ['Sim ou não, porra?', 'Pergunta logo. Em 10 segundos acaba a tua agonia.'],
+  plCompleta: ['Você tem medo, ô filha da puta?', 'Tira a porra da carta e paga. Você não vai ficar mais na dúvida: vai saber a verdade, doa a quem doer.'],
+  plCigano: ['Para de stalkear e descobre o que ele(a) sente', 'Vai ficar aí olhando o visto por último que nem trouxa? Em 9 cartas você sabe o que ele(a) sente, pensa e o que atrapalha vocês.'],
+  plDossie: [null, 'Chega de ficar no escuro feito trouxa: tudo sobre vocês dois num pacote só, e acabou a palhaçada.'],
+  desb: 'Vai ficar sem saber o resto? Desbloqueia, caralho',
+};
+function aplicarTom() {
+  if (TOM !== 'X') return;
+  for (const id of ['plResposta', 'plCompleta', 'plCigano', 'plDossie']) { const el = $(id); if (!el) continue; const [h, g] = SEMFILTRO[id]; if (h) el.querySelector('h3').textContent = h; if (g) el.querySelector('.gancho').textContent = g }
+  if ($('desb')) $('desb').textContent = SEMFILTRO.desb;
+  if (RAPIDO) $('rH').textContent = SEMFILTRO.rH[MODO === 'cigano' ? 'cigano' : MODO === 'sim' ? 'sim' : 'tarot'];
 }
 /* 1 · tema */
 if (S.tema && MODO !== 'cigano') { const tb = document.querySelector('.tema[data-t="' + S.tema + '"]'); if (tb) { tb.classList.add('on'); $('go1').disabled = false } }
@@ -543,7 +560,7 @@ $('go3').onclick = async () => {
   if (RAPIDO && S.tipo === 'gratis') { S.perg = $('perg').value.trim(); S.pessoa = $('pessoa').value.trim(); if (MODO === 'sim' && S.perg.length < 4) { toast('Escreva a sua pergunta ✦'); $('perg').focus(); scrollTo(0, 0); return } }
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
-    const l = await api('/api/tarot/ler', { fv: FUNIL, bio: BIO, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
+    const l = await api('/api/tarot/ler', { fv: FUNIL, bio: BIO, tom: TOM, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
     else { LS.s(KG, hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
     if (l.tipo === 'gratis') Object.assign(l, { pergunta: S.perg, modo: MODO === 'sim' ? 'sim' : l.modo, _b: S.baralho, _e: S.escolhas.slice(0, 3), _tema: S.tema, _pessoa: S.pessoa, _d: hoje() });
@@ -582,6 +599,7 @@ function resultado() {
   $('extra').innerHTML = l.extra ? extras(l.extra, l) : '';
   document.querySelectorAll('.rit input').forEach(cb => { const k = 'rit_' + cb.dataset.k; cb.checked = !!LS.g(k); cb.onchange = () => LS.s(k, cb.checked) });
   $('sint').innerHTML = esc(l.sintese) + (l.cortada ? ' <span class="cad">🔒 continua na leitura completa</span><button class="btn ghost" id="desb">Desbloquear a síntese inteira</button>' + (l.tipo === 'gratis' && l._b && !l.resposta ? '<button class="mini2" id="desbR">Ou só a resposta: <b>sim ou não + quando</b> · <span class="pc" data-t="resposta">R$ 1,99</span></button>' : '') : '');
+  aplicarTom();
   if (l.cortada) { $('desb').onclick = () => { track('tarot-desbloquear-sintese'); abrirPagamento(l.modo === 'cigano' ? 'cigano' : 'completa') }; if ($('desbR')) $('desbR').onclick = () => { track('tarot-desbloquear-resposta'); abrirPagamento('resposta') } }
   $('pad').innerHTML = l.padroes.map(p => `<p style="margin-top:10px">✦ ${esc(p)}</p>`).join('');
   $('cons').textContent = l.conselho; $('chave').textContent = l.chave; $('aviso').textContent = l.aviso;
@@ -681,7 +699,7 @@ $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) $('email').value = '';
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, bio: BIO, email: $('email').value, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: ['resposta', 'sim3'].includes(compraTipo) && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, dossie: j.dossie || null, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, bio: BIO, tom: TOM, email: $('email').value, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: ['resposta', 'sim3'].includes(compraTipo) && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, dossie: j.dossie || null, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = (e.message || 'Não deu certo.') + ' Toque pra tentar de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
