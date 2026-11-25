@@ -292,8 +292,9 @@ details.ab{margin-top:12px}details.ab summary{cursor:pointer;font-weight:800;col
 <script>
 const CFG = { loja: 'https://loja-jeff.loja-cf.workers.dev', umami: 'c77e97b7-a4ea-4600-8a2a-b5ac09d91243' };
 if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
-let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'A' && FUNIL !== 'B') FUNIL = 'AB'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // funil C encerrado em 23/11
-function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), modo: 'imperatriz', funil: FUNIL }) } catch (e) {} }
+let FUNIL = 'D'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'D' && FUNIL !== 'P') FUNIL = 'DP'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // teste de preço 2 (25/11): D barato × P premium
+let BIO = null; try { BIO = JSON.parse(localStorage.getItem('tarot_bio')) } catch (e) {} // teste da roleta na bio: R × S
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), bio: BIO || '-', modo: 'imperatriz', funil: FUNIL }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const brl = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
@@ -379,7 +380,7 @@ document.querySelector('[data-close]').onclick = fechar; $('pay').onclick = e =>
 $('gerar').onclick = async () => {
   if ($('gerar').disabled) return; $('perr').textContent = '';
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…';
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email: LS.g('email') || '', tipo: 'imperatriz', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, t: Date.now() }; LS.s('imp_pend', o); track('imp-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, bio: BIO, email: LS.g('email') || '', tipo: 'imperatriz', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, t: Date.now() }; LS.s('imp_pend', o); track('imp-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = (e.message || 'Não deu certo.') + ' Toque pra tentar de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
@@ -406,13 +407,16 @@ $('pbX').onclick = async () => { const p = pendAtivo(); if (p && await checar(p)
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { const p = pendAtivo(); if (p) checar(p) } });
 
 /* entrada: link de acesso guardado, acesso salvo ou Pix pendente */
-function entrada() {
-  const h = new URLSearchParams(location.hash.slice(1)).get('a'); if (h) { LS.s('imp_acesso', h); history.replaceState(null, '', location.pathname + location.search) }
+async function entrada() {
+  const hp = new URLSearchParams(location.hash.slice(1)), h = hp.get('a'), im = hp.get('im');
+  if (h) { LS.s('imp_acesso', h); history.replaceState(null, '', location.pathname + location.search) }
+  if (im && !LS.g('imp_acesso')) { history.replaceState(null, '', location.pathname + location.search);
+    try { const j = await api('/api/imperatriz/ativar', { chave: im }); LS.s('imp_acesso', j.acesso); LS.s('imp_inicio', hojeL()); track('imp-dossie'); toast('Do seu Dossiê ✦ A Imperatriz está ativa'); abrirArea(j.conteudo); return true } catch (e) { toast(e.message || 'Não consegui ativar agora. Tente de novo.') } }
   if (LS.g('imp_acesso')) { abrirArea(); return true }
 }
 addEventListener('hashchange', entrada);
-(function () {
-  if (entrada()) return;
+(async function () {
+  if (await entrada()) return;
   const p = pendAtivo(); if (p) { track('imp-pix-voltou'); $('comprar').click(); checar(p) }
 })();
 /* céu */

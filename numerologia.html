@@ -230,8 +230,9 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 <script>
 const CFG = { loja: 'https://loja-jeff.loja-cf.workers.dev', whatsapp: '5537999459674', umami: 'c77e97b7-a4ea-4600-8a2a-b5ac09d91243' };
 if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('script'); sc.defer = true; sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami; document.head.appendChild(sc); }
-let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'A' && FUNIL !== 'B') FUNIL = 'AB'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // funil C encerrado em 23/11
-function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), modo: 'numero', funil: FUNIL }) } catch (e) {} }
+let FUNIL = 'D'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'D' && FUNIL !== 'P') FUNIL = 'DP'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // teste de preço 2 (25/11): D barato × P premium
+let BIO = null; try { BIO = JSON.parse(localStorage.getItem('tarot_bio')) } catch (e) {} // teste da roleta na bio: R × S
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), bio: BIO || '-', modo: 'numero', funil: FUNIL }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const brl = v => 'R$ ' + (+v).toFixed(2).replace('.', ',');
@@ -290,7 +291,7 @@ $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) $('email').value = '';
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email: $('email').value, tipo: 'numero', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, nome: D.nome, nasc: D.nasc, t: Date.now() }; LS.s('num_pend', o); track('numero-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, bio: BIO, email: $('email').value, tipo: 'numero', fidelidade: LS.g('fid') }); const o = { id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', chave: j.chave, valor: j.valor, nome: D.nome, nasc: D.nasc, t: Date.now() }; LS.s('num_pend', o); track('numero-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = e.message || 'Não deu certo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };

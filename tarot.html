@@ -168,6 +168,11 @@ label.f input:focus{outline:none;border-color:var(--gold)}
 .desca{text-align:center;color:var(--dim);font-size:.85rem;margin:22px 0 10px;animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(4px)}}
 #abaixo>*{margin-top:12px}
 .seta{display:inline-block;animation:seta 1.4s ease-in-out infinite}@keyframes seta{50%{transform:translateX(4px)}}
+.plano.dossie{border:1.5px solid #ff8fd0;background:linear-gradient(160deg,rgba(255,143,208,.2),rgba(245,201,106,.08) 50%,rgba(22,16,52,.9));box-shadow:0 0 30px rgba(255,143,208,.2)}
+.lks.ds li{list-style:none;padding:5px 0;color:var(--soft)}.lks.ds b{color:var(--ink)}.dsSoma{margin-top:8px;color:var(--dim);font-size:.9rem}.dsSoma s{color:var(--soft)}
+.dsItem{display:flex;gap:12px;align-items:center;width:100%;margin-top:12px;padding:14px;border-radius:18px;border:1px solid rgba(255,143,208,.45);background:rgba(22,16,52,.85);color:var(--ink);font:inherit;text-align:left;text-decoration:none;cursor:pointer}.dsItem>span:first-child{font-size:1.7rem}.dsItem small{display:block;color:var(--soft);font-size:.84rem}.dsItem .ar{margin-left:auto;color:var(--gold2)}
+.seta{display:inline-block;animation:seta 1.4s ease-in-out infinite}@keyframes seta{50%{transform:translateX(4px)}}
+.box.carta p{font-family:'Cormorant Garamond',serif;font-size:1.22rem;line-height:1.45;color:#fff;font-style:italic}
 </style>
 </head>
 <body>
@@ -192,6 +197,18 @@ label.f input:focus{outline:none;border-color:var(--gold)}
       <button class="link" id="verUltima">Ver minha leitura de hoje</button>
     </div>
     <p class="aviso">Uma tiragem grátis por dia. Ferramenta de reflexão e autoconhecimento.</p>
+  </section>
+
+  <!-- dossiê da pessoa específica -->
+  <section id="sD" hidden class="fade">
+    <span class="pill" style="background:linear-gradient(90deg,#ff8fd0,#f5c96a);color:#1c1203">💎 SEU DOSSIÊ</span>
+    <h2>Dossiê da Pessoa Específica</h2>
+    <p>Está tudo liberado aqui. Faça na ordem que quiser: cada item fica guardado neste celular.</p>
+    <button class="dsItem" id="dsCig"><span>💞</span><span><b>Mesa cigana · 9 cartas</b><small>O que ele(a) sente e pensa de você</small></span><span class="ar seta">→</span></button>
+    <button class="dsItem" id="dsCruz"><span>✨</span><span><b>Cruz Celta · 10 cartas</b><small>O que está escondido e o plano de 21 dias</small></span><span class="ar seta">→</span></button>
+    <a class="dsItem" id="dsCasal" href="#"><span>💑</span><span><b>Compatibilidade completa</b><small>Coloque os dois nomes e veja tudo</small></span><span class="ar seta">→</span></a>
+    <a class="dsItem" id="dsImp" href="#"><span>👑</span><span><b>Ativação da Imperatriz · 7 dias</b><small>Começa hoje, um dia por vez</small></span><span class="ar seta">→</span></a>
+    <p class="aviso">Guarde este celular: o Dossiê fica salvo nele. Se trocar de aparelho, me chama no WhatsApp com o comprovante do Pix.</p>
   </section>
 
   <!-- 1 · tema e pergunta -->
@@ -299,7 +316,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
         <div class="plano" id="plCompleta">
           <div class="phead"><span class="pico">🔮</span><div><span class="pill">LEITURA COMPLETA · 5 CARTAS</span><h3>Durma hoje sabendo o que fazer</h3></div></div>
           <p class="gancho">A grátis mostrou o rumo. A completa te tira da dúvida: o que vai acontecer, quando e o seu próximo passo.</p>
-          <ul class="lks"><li>🔒 Sim ou não pra sua pergunta</li><li>🔒 Quando isso tende a acontecer</li><li>🔒 O que te trava e onde se apoiar</li><li>🔒 Sua carta-guia + ritual de 7 dias</li></ul>
+          <ul class="lks"><li>🔒 Sim ou não pra sua pergunta</li><li>🔒 Quando isso tende a acontecer</li><li>🔒 O que te trava e onde se apoiar</li><li>🔒 Os próximos 30 dias, semana a semana</li><li>🔒 Uma carta escrita pra você + ritual de 7 dias</li></ul>
           <div class="pfoot"><div class="preco"><b class="pc" data-t="completa">R$ 5,00</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small><small class="ancora">Uma consulta com taróloga costuma custar R$ 29 ou mais, e você ainda espera ser atendida(o).</small></div></div>
           <button class="btn" data-comprar="completa">Abrir a leitura completa</button>
         </div>
@@ -316,6 +333,14 @@ label.f input:focus{outline:none;border-color:var(--gold)}
           <ul class="lks"><li>🔒 Como ele(a) está e o que pensa de você</li><li>🔒 O que atrapalha e o que ajuda vocês</li><li>🔒 Sim ou não + quando</li><li>🔒 Combinações das cartas + ritual do amor</li></ul>
           <div class="pfoot"><div class="preco"><b class="pc" data-t="cigano">R$ 9,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
           <button class="btn" data-comprar="cigano">Abrir a mesa cigana</button>
+        </div>
+        <div class="plano dossie" id="plDossie">
+          <div class="phead"><span class="pico">💎</span><div><span class="pill" style="background:linear-gradient(90deg,#ff8fd0,#f5c96a);color:#1c1203">TUDO SOBRE VOCÊS DOIS</span><h3>Dossiê da Pessoa Específica</h3></div></div>
+          <p class="gancho">Pra quem não quer mais ficar no escuro: as 4 leituras mais profundas sobre você e essa pessoa, num pacote só.</p>
+          <ul class="lks ds"><li>💞 <b>Mesa cigana · 9 cartas:</b> o que ele(a) sente, pensa e o que atrapalha vocês</li><li>✨ <b>Cruz Celta · 10 cartas:</b> o que está escondido, medos, resultado e plano de 21 dias</li><li>💑 <b>Compatibilidade completa:</b> o que ele(a) precisa no amor e onde vocês travam</li><li>👑 <b>Ativação da Imperatriz · 7 dias:</b> pra você sair do lugar de quem corre atrás</li></ul>
+          <p class="dsSoma">Separado: <s id="dsSoma">R$ 0</s></p>
+          <div class="pfoot"><div class="preco"><b class="pc" data-t="dossie">R$ 34,90</b><small>no Pix · libera na hora · 🛡️ 7 dias de garantia</small></div></div>
+          <button class="btn" data-comprar="dossie">💎 Quero o Dossiê completo</button>
         </div>
         <div class="plano destaque" id="plProfunda">
           <div class="phead"><span class="pico">✨</span><div><span class="pill roxo">CRUZ CELTA · 10 CARTAS</span><h3>A leitura mais completa</h3></div></div>
@@ -386,9 +411,10 @@ if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) { const sc = document.createElement('scr
 /* Teste A/B da tiragem grátis: A = síntese inteira, B = síntese cortada no meio. Cada pessoa fica sempre na mesma versão. */
 const AB = 'B';   // o teste da síntese terminou: todos veem a síntese cortada (curiosidade aberta)
 /* Teste A/B/C de funis (sorteio por aparelho, fica sempre no mesmo): A atual · B preço de mercado · C pessoa específica primeiro */
-let FUNIL = 'A'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'A' && FUNIL !== 'B') FUNIL = 'AB'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // funil C encerrado em 23/11
+let FUNIL = 'D'; try { FUNIL = JSON.parse(localStorage.getItem('tarot_funil')); if (FUNIL !== 'D' && FUNIL !== 'P') FUNIL = 'DP'[Math.floor(Math.random() * 2)]; localStorage.setItem('tarot_funil', JSON.stringify(FUNIL)) } catch (e) {} // teste de preço 2 (25/11): D barato × P premium
+let BIO = null; try { BIO = JSON.parse(localStorage.getItem('tarot_bio')) } catch (e) {} // teste da roleta na bio: R × S
 const MODO = ['cigano', 'dia', 'sim'].includes(new URLSearchParams(location.search).get('m')) ? new URLSearchParams(location.search).get('m') : 'tarot';
-function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, modo: MODO }) } catch (e) {} }
+function track(ev, d) { try { window.umami && window.umami.track(ev, { ...(d || {}), funil: FUNIL, bio: BIO || '-', modo: MODO }) } catch (e) {} }
 const $ = id => document.getElementById(id);
 const LS = { g: k => { try { return JSON.parse(localStorage.getItem('tarot_' + k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem('tarot_' + k, JSON.stringify(v)) } catch (e) {} } };
 const hoje = () => new Date().toLocaleDateString('sv-SE');
@@ -404,7 +430,7 @@ const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(
 
 /* estado */
 const S = { tema: MODO === 'cigano' ? 'amor' : '', perg: '', nome: '', pessoa: '', tipo: 'gratis', baralho: '', escolhas: [], leitura: null };
-function tela(n) { ['s0', 's1', 's2', 's3', 's4', 's5'].forEach((s, i) => $(s).hidden = i !== n); scrollTo(0, 0) }
+function tela(n) { ['s0', 's1', 's2', 's3', 's4', 's5'].forEach((s, i) => $(s).hidden = i !== n); const d = $('sD'); if (d) d.hidden = true; scrollTo(0, 0) }
 track('tarot-abriu', { origem: new URLSearchParams(location.search).get('utm_source') || '' });
 
 /* 0 · gancho */
@@ -435,6 +461,7 @@ if (MODO === 'cigano') {
 if (gratisUsada()) { $('go0').textContent = MODO === 'cigano' ? '✦ Fazer a mesa cigana completa (9 cartas)' : '✦ Fazer a leitura completa (5 cartas)'; $('jaFez').hidden = !LS.g('ultima') }
 $('go0').onclick = () => { if (gratisUsada()) { abrirPagamento(PAGO_MODO); return } S.tipo = 'gratis'; tela(1); track('tarot-comecou') };
 $('verUltima').onclick = () => { const u = LS.g('ultima'); if (u) mostrarLeitura(u, true) };
+if (LS.g('dossie')) { const b = document.createElement('button'); b.className = 'btn ghost'; b.textContent = '💎 Abrir o meu Dossiê'; b.onclick = abrirDossie; $('s0').insertBefore(b, $('s0').firstChild); const b2 = b.cloneNode(true); b2.onclick = abrirDossie; setTimeout(() => $('abaixo') && $('abaixo').prepend(b2), 0) }
 if ((LS.g('leituras') || []).length) { const b = document.createElement('button'); b.className = 'link'; b.textContent = '📜 Minhas leituras pagas'; b.onclick = () => mostrarLeitura(LS.g('leituras')[0], true); $('s0').appendChild(b) }
 
 
@@ -451,6 +478,17 @@ function inicioRapido() {
   ['contador', 'lembBox', 'credBox', 'diaMini'].forEach(id => $('abaixo').appendChild($(id)));
   const m = document.createElement('div'); m.innerHTML = '<h3 style="margin-top:18px">Outros oráculos <span class="seta">→</span></h3><div class="mais">' + maisHTML(MODO === 'cigano' ? 'cigano' : MODO === 'sim' ? 'sim' : 'tarot') + '</div>'; $('abaixo').appendChild(m);
   track('tarot-comecou', { rapido: 1 }); escolher();
+}
+
+/* dossiê: abre os 4 itens com os tokens pagos */
+function abrirDossie() {
+  const D = LS.g('dossie'); if (!D) return;
+  ['s0', 's1', 's2', 's3', 's4', 's5'].forEach(x => $(x).hidden = true); $('sD').hidden = false; scrollTo(0, 0); track('dossie-abriu');
+  $('dsCasal').href = 'casal.html?utm_source=dossie#cs=' + encodeURIComponent(D.casal) + (S.pessoa ? '&pessoa=' + encodeURIComponent(S.pessoa) : '');
+  $('dsImp').href = 'imperatriz.html?utm_source=dossie#im=' + encodeURIComponent(D.imperatriz);
+  $('dsCig').onclick = () => { $('sD').hidden = true; track('dossie-cigano'); S.tipo = 'cigano'; S.modo = 'cigano'; S.baralho = D.cigano; S.tema = 'amor'; S.leitura = null;
+    if (!S.pessoa) { $('temas').hidden = true; $('pessoaL').hidden = false; $('s1').insertBefore($('pessoaL'), $('go1')); $('go1').disabled = false; tela(1) } else respirar() };
+  $('dsCruz').onclick = () => { $('sD').hidden = true; track('dossie-cruz'); S.tipo = 'profunda'; S.modo = 'tarot'; S.baralho = D.profunda; S.tema = S.tema || 'amor'; S.leitura = null; $('temas').hidden = false; tela(1) };
 }
 /* 1 · tema */
 if (S.tema && MODO !== 'cigano') { const tb = document.querySelector('.tema[data-t="' + S.tema + '"]'); if (tb) { tb.classList.add('on'); $('go1').disabled = false } }
@@ -503,7 +541,7 @@ $('go3').onclick = async () => {
   if (RAPIDO && S.tipo === 'gratis') { S.perg = $('perg').value.trim(); S.pessoa = $('pessoa').value.trim(); if (MODO === 'sim' && S.perg.length < 4) { toast('Escreva a sua pergunta ✦'); $('perg').focus(); scrollTo(0, 0); return } }
   $('go3').disabled = true; $('go3').textContent = 'Lendo as cartas…';
   try {
-    const l = await api('/api/tarot/ler', { fv: FUNIL, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
+    const l = await api('/api/tarot/ler', { fv: FUNIL, bio: BIO, u: uid, ref: LS.g('ref') || '', v: AB, baralho: S.baralho, escolhas: S.escolhas, tema: S.tema, pergunta: S.perg, nome: S.nome, pessoa: S.pessoa, fidelidade: LS.g('fid') });
     if (l.fidelidade) { LS.s('fid', l.fidelidade); const d = LS.g('pagas') || {}; d[hoje()] = (d[hoje()] || 0) + 1; LS.s('pagas', d); LS.s('pend', null); const ls = LS.g('leituras') || []; ls.unshift({ ...l, quando: Date.now() }); LS.s('leituras', ls.slice(0, 10)); track('tarot-leitura-' + l.tipo) }
     else { LS.s(KG, hoje()); track('tarot-leitura-gratis', { tema: S.tema }) }
     if (l.tipo === 'gratis') Object.assign(l, { pergunta: S.perg, modo: MODO === 'sim' ? 'sim' : l.modo, _b: S.baralho, _e: S.escolhas.slice(0, 3), _tema: S.tema, _pessoa: S.pessoa, _d: hoje() });
@@ -561,7 +599,8 @@ function resultado() {
   $('respBox').hidden = !temResp; if (temResp) $('respBox').innerHTML = `<span class="r">${esc(l.resposta.sim.r)}</span><p>${esc(l.resposta.sim.t)}</p><p style="margin-top:8px">⏳ ${esc(l.resposta.quando)}</p>`;
   const simM = l.modo === 'sim', amorish = cig || l.tema === 'amor';
   const comprou = !!LS.g('fid') || l.tipo !== 'gratis'; // Cruz Celta e pacote só pra quem já comprou
-  const vis = { plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: comprou && simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: comprou && !cig && !simM && l.tipo !== 'profunda', plProfunda: comprou && l.tipo !== 'profunda' && !simM,
+  const temDossie = !!LS.g('dossie');
+  const vis = { plDossie: (amorish || cig) && !temDossie && l.tipo !== 'profunda', plResposta: l.tipo === 'gratis' && !temResp && !!l._b, plSim3: comprou && simM && !temResp, plCompleta: !cig && l.tipo === 'gratis' && (!simM || temResp), plPacote: comprou && !cig && !simM && l.tipo !== 'profunda', plProfunda: comprou && l.tipo !== 'profunda' && !simM,
     plCigano: cig ? l.tipo === 'gratis' : (l.tema === 'amor' && l.tipo !== 'cigano') };
   Object.entries(vis).forEach(([k, v]) => $(k).hidden = !v);
   $('planos').hidden = limite || !Object.values(vis).some(Boolean);
@@ -575,7 +614,7 @@ function resultado() {
   $('impLink').hidden = !(amorish || l.tipo !== 'gratis');
   $('casalLink').hidden = !(amorish || cig); $('casalLink').href = 'casal.html?utm_source=tarot' + (S.pessoa ? '&pessoa=' + encodeURIComponent(S.pessoa) : '');
   simCredUI(simM && !temResp && l.tipo === 'gratis');
-  precosAtuais().then(p => { document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])); document.querySelectorAll('#planos [data-comprar]').forEach(b => { b.dataset.base = b.dataset.base || b.textContent; if (p[b.dataset.comprar]) b.textContent = b.dataset.base + ' · ' + brl(p[b.dataset.comprar]) }); $('pacCada').textContent = 'Sai ' + brl(p.pacote / 3) + ' cada'; $('sim3Cada').textContent = 'Sai ' + brl(p.sim3 / 3) + ' cada' });
+  precosAtuais().then(p => { document.querySelectorAll('.pc').forEach(e => e.textContent = brl(p[e.dataset.t])); if (p.dossie) $('dsSoma').textContent = brl(['cigano', 'profunda', 'casal', 'imperatriz'].reduce((t, k) => t + (+p[k] || 0), 0)); document.querySelectorAll('#planos [data-comprar]').forEach(b => { b.dataset.base = b.dataset.base || b.textContent; if (p[b.dataset.comprar]) b.textContent = b.dataset.base + ' · ' + brl(p[b.dataset.comprar]) }); $('pacCada').textContent = 'Sai ' + brl(p.pacote / 3) + ' cada'; $('sim3Cada').textContent = 'Sai ' + brl(p.sim3 / 3) + ' cada' });
   if (!$('planos').hidden) track('tarot-viu-oferta', { depois: l.tipo });
   indicacaoUI();
 }
@@ -590,6 +629,8 @@ function extras(x, l) {
   if (x.sombra) h += `<h3>Carta-sombra</h3><div class="box guia"><span class="sy">${esc(x.sombra.s)}</span><p><b>${esc(x.sombra.nome)}</b><br>${esc(x.sombra.texto)}</p></div>`;
   if (x.profundo) h += `<h3>Leitura profunda</h3><div class="box">${x.profundo.map(t => `<p style="margin-bottom:10px">✦ ${esc(t)}</p>`).join('')}</div>`;
   const key = (l.cartas[0].id || '') + l.tipo + l.tema;
+  if (x.mes) h += `<h3>📅 Os próximos 30 dias</h3>${x.mes.map(m => `<div class="box"><p><b>${esc(m.t)}</b></p><p style="margin-top:4px">${esc(m.x)}</p></div>`).join('')}`;
+  if (x.carta) h += `<h3>💌 Uma carta pra você</h3><div class="box carta"><p>${esc(x.carta)}</p></div>`;
   h += `<h3>Ritual de 7 dias</h3><div class="box rit"><p style="margin-bottom:6px">Marque cada dia que fizer. Fica salvo aqui.</p>${x.ritual.map((t, i) => `<label><input type="checkbox" data-k="${esc(key)}_${i}"><span>${esc(t)}</span></label>`).join('')}</div>`;
   return h;
 }
@@ -610,7 +651,7 @@ document.querySelectorAll('[id^="up"]').forEach(a => a.addEventListener('click',
 
 /* pagamento da leitura completa */
 let compraTipo = 'completa';
-const PEND_MS = 3600e3, TIPOS_PAGOS = ['profunda', 'cigano', 'pacote', 'resposta', 'sim3'];
+const PEND_MS = 3600e3, TIPOS_PAGOS = ['profunda', 'cigano', 'pacote', 'resposta', 'sim3', 'dossie'];
 const pendAtivo = () => { const p = LS.g('pend'); return p && p.id && !p.pago && Date.now() - p.t < PEND_MS ? p : null };
 const pagoGuardado = () => { const p = LS.g('pend'); return p && p.id && p.pago && Date.now() - p.t < 864e5 ? p : null };
 function barra() { const p = pendAtivo(), ver = !!p && $('pay').hidden; $('pendBar').hidden = !ver; if (ver) $('pbV').textContent = brl(p.valor) }
@@ -623,7 +664,7 @@ async function abrirPagamento(tipo) {
     if (quer !== pend.tipo) { if (await checar(pend) === 'pago') return; descartarPend(); pend = null; track('tarot-pix-trocado') } }
   $('pay').hidden = false; document.body.style.overflow = 'hidden'; barra();
   if (pend) { mostrarPix(pend); return }
-  compraTipo = ['profunda', 'cigano', 'pacote', 'resposta', 'sim3'].includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
+  compraTipo = TIPOS_PAGOS.includes(tipo) ? tipo : 'completa'; track('tarot-clicou-pagar', { tipo: compraTipo });
   $('pn').textContent = { sim3: '3 perguntas sim ou não', resposta: 'Sim ou não + quando', completa: 'Leitura completa', profunda: 'Cruz Celta · 10 cartas', cigano: 'Mesa cigana · 9 cartas', pacote: 'Pacote 3 leituras' }[compraTipo];
   $('pq').parentElement.innerHTML = compraTipo === 'sim3' ? 'Pague no Pix: esta resposta abre na hora e sobram 2 perguntas guardadas aqui.' : compraTipo === 'resposta' ? 'Pague no Pix e a resposta sobre as suas cartas aparece na hora.' : compraTipo === 'pacote' ? 'Pague no Pix e use as 3 leituras completas quando quiser.' : 'Pague no Pix e escolha suas <span id="pq">' + QTD[compraTipo] + '</span> cartas na hora.';
   $('p1').hidden = false; $('p2').hidden = true; precosAtuais().then(p => $('pv').textContent = brl(p[compraTipo]));
@@ -638,7 +679,7 @@ $('gerar').onclick = async () => {
   const email = $('email').value.trim(); $('perr').textContent = '';
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) $('email').value = '';
   $('gerar').disabled = true; $('gerar').textContent = 'Gerando o Pix…'; LS.s('email', email);
-  try { const j = await api('/api/tarot/pedido', { v: FUNIL, email: $('email').value, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: ['resposta', 'sim3'].includes(compraTipo) && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
+  try { const j = await api('/api/tarot/pedido', { v: FUNIL, bio: BIO, email: $('email').value, tipo: compraTipo, fidelidade: LS.g('fid') }); const o = { leit: ['resposta', 'sim3'].includes(compraTipo) && S.leitura ? { b: S.leitura._b, e: S.leitura._e, tema: S.leitura._tema, pessoa: S.leitura._pessoa } : null, tipo: j.tipo || compraTipo, id: j.pedido, pix: j.pix_code, qr: j.qr_base64 || '', baralho: j.baralho, chave: j.chave, dossie: j.dossie || null, pessoa: S.pessoa, valor: j.valor, tema: S.tema || 'caminho', perg: S.perg, nome: S.nome, t: Date.now() }; LS.s('pend', o); track('tarot-pix-gerado', { valor: j.valor }); mostrarPix(o) }
   catch (e) { $('perr').textContent = (e.message || 'Não deu certo.') + ' Toque pra tentar de novo.' }
   finally { $('gerar').disabled = false; $('gerar').textContent = 'Gerar Pix' }
 };
@@ -654,6 +695,7 @@ async function checar(o) {
 function entregar(o) {
   if (entregues.has(o.id)) return; entregues.add(o.id); clearInterval(poll);
   if (!o.pago) track('tarot-pago', { valor: o.valor, tipo: o.tipo }); $('pay').hidden = true; document.body.style.overflow = '';
+  if (o.tipo === 'dossie') { LS.s('pend', null); barra(); LS.s('dossie', { ...o.dossie, id: o.id, t: Date.now() }); toast('Pagamento confirmado ✦ O seu Dossiê está liberado'); abrirDossie(); return }
   if (['pacote', 'resposta', 'sim3'].includes(o.tipo)) { LS.s('pend', null); barra(); if (o.tipo === 'pacote') ativarPacote(o.chave); else if (o.tipo === 'resposta') abrirResposta(o); else ativarSim3(o); return }
   // leitura paga: guarda até as cartas serem abertas (se fechar a página antes, não perde)
   o.pago = true; LS.s('pend', o); barra();

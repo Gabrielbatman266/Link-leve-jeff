@@ -150,6 +150,11 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
 .secT{margin:22px 4px 8px;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}.secT b{color:#7ee0a8}.links>.secT:first-child{margin-top:6px}
 .seta{display:inline-block;animation:seta 1.4s ease-in-out infinite}@keyframes seta{50%{transform:translateX(4px)}}
 .avatar{width:84px!important;height:84px!important;font-size:2rem!important}
+.bRol{margin:4px 0 6px;padding:16px;border-radius:22px;border:1.5px solid rgba(126,224,168,.55);background:linear-gradient(160deg,rgba(126,224,168,.12),rgba(22,16,52,.85) 55%);text-align:center}
+.bRolT{font-family:'Cormorant Garamond',serif;font-size:1.55rem;line-height:1.15;color:#fff}.bRolP{color:var(--soft);font-size:.92rem;margin-top:6px}
+.bRol .rWrap{position:relative;width:min(74vw,280px);margin:14px auto 10px}.bRol .rWrap svg{width:100%;height:auto;display:block;transition:transform 5s cubic-bezier(.12,.75,.12,1);filter:drop-shadow(0 0 24px rgba(180,140,255,.35))}
+.bRol .ponteiro{position:absolute;left:50%;top:-10px;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:26px solid #f5c96a;z-index:2}
+.bRes{margin-top:12px;animation:fadeUp .6s ease}.bRes .em{font-size:2.6rem;line-height:1}.bRes b{display:block;font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;margin-top:4px}.bRes p{color:var(--soft);font-size:.92rem;margin:6px 0 4px}@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
 </style>
 </head>
 <body>
@@ -164,6 +169,13 @@ footer{margin-top:28px;color:var(--dim);font-size:.75rem;text-align:center;line-
   <div class="proof"><span><b>7,5 mil</b> seguidores</span><span><b>195 mil</b> curtidas</span><span>no TikTok</span></div>
 
   <div class="links">
+    <div class="bRol" id="bRol" hidden>
+      <div class="bRolT">🎡 O que está pesando na sua vida agora?</div>
+      <p class="bRolP">Respire, pense na sua vida e gire. Onde parar é o que pede a sua atenção hoje.</p>
+      <div class="rWrap"><div class="ponteiro"></div><svg viewBox="0 0 300 300" id="bRoda" aria-hidden="true"><path d="M150 150 L150.0 10.0 A140 140 0 0 1 249.0 51.0 Z" fill="#3b1f6e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="186.4" y="62.2" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(22.5 186.4 62.2)">💞</text><path d="M150 150 L249.0 51.0 A140 140 0 0 1 290.0 150.0 Z" fill="#5a2a5e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="237.8" y="113.6" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(67.5 237.8 113.6)">💰</text><path d="M150 150 L290.0 150.0 A140 140 0 0 1 249.0 249.0 Z" fill="#3b1f6e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="237.8" y="186.4" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(112.5 237.8 186.4)">😰</text><path d="M150 150 L249.0 249.0 A140 140 0 0 1 150.0 290.0 Z" fill="#5a2a5e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="186.4" y="237.8" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(157.5 186.4 237.8)">🪞</text><path d="M150 150 L150.0 290.0 A140 140 0 0 1 51.0 249.0 Z" fill="#3b1f6e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="113.6" y="237.8" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(202.5 113.6 237.8)">🔁</text><path d="M150 150 L51.0 249.0 A140 140 0 0 1 10.0 150.0 Z" fill="#5a2a5e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="62.2" y="186.4" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(247.5 62.2 186.4)">🧭</text><path d="M150 150 L10.0 150.0 A140 140 0 0 1 51.0 51.0 Z" fill="#3b1f6e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="62.2" y="113.6" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(292.5 62.2 113.6)">💼</text><path d="M150 150 L51.0 51.0 A140 140 0 0 1 150.0 10.0 Z" fill="#5a2a5e" stroke="rgba(245,201,106,.55)" stroke-width="1.5"/><text x="113.6" y="62.2" font-size="30" text-anchor="middle" dominant-baseline="central" transform="rotate(337.5 113.6 62.2)">🌙</text><circle cx="150" cy="150" r="142" fill="none" stroke="#f5c96a" stroke-width="4"/><circle cx="150" cy="150" r="26" fill="#140d33" stroke="#f5c96a" stroke-width="3"/><text x="150" y="150" font-size="22" text-anchor="middle" dominant-baseline="central">✦</text></svg></div>
+      <button class="btn" id="bGirar">🎡 Girar a roleta</button>
+      <div class="bRes" id="bRes" hidden><div class="em" id="bE"></div><b id="bT"></b><p id="bX"></p><a class="btn" id="bGo" href="#">Tirar as cartas sobre isso <span class="seta">→</span></a></div>
+    </div>
     <div class="secT">👇 Comece aqui · <b>grátis</b></div>
     <div class="oraculo" style="animation-delay:0s">
       <div class="orT">🔮 Tire suas cartas agora <span class="free">GRÁTIS</span></div>
@@ -346,7 +358,7 @@ if (/^[0-9a-f-]{36}$/i.test(CFG.umami)) {
   sc.src = 'https://cloud.umami.is/script.js'; sc.dataset.websiteId = CFG.umami;
   document.head.appendChild(sc);
 }
-function track(ev, data) { try { if (window.umami) window.umami.track(ev, data); } catch (e) {} }
+function track(ev, data) { try { if (window.umami) window.umami.track(ev, { ...(data || {}), bio: BIO || '-' }); } catch (e) {} }
 document.addEventListener('click', e => { const t = e.target.closest('[data-ev]'); if (t) track(t.dataset.ev, t.dataset.evd ? { tipo: t.dataset.evd } : undefined); });
 
 const wa = t => 'https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(t);
@@ -490,6 +502,22 @@ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function sz(){const d=devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;st=Array.from({length:Math.round(innerWidth*innerHeight/3200)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:(Math.random()*1.3+.3)*d,p:Math.random()*6,s:Math.random()*.02+.005}))}
 sz();addEventListener('resize',sz);
 (function dr(){cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='#fff';for(const s of st){if(!still)s.p+=s.s;cx.globalAlpha=.3+.7*Math.abs(Math.sin(s.p));cx.beginPath();cx.arc(s.x,s.y,s.r,0,7);cx.fill()}if(!still)requestAnimationFrame(dr)})();
+
+/* teste A/B da bio: R = roleta no topo × S = sem roleta (sorteio fixo por aparelho) */
+var BIO = null; try { BIO = JSON.parse(localStorage.getItem('tarot_bio')); if (BIO !== 'R' && BIO !== 'S') { BIO = Math.random() < .5 ? 'R' : 'S'; localStorage.setItem('tarot_bio', JSON.stringify(BIO)) } } catch (e) { BIO = 'S' }
+(function () {
+  const ev = () => { try { window.umami && window.umami.track('bio-variante', { bio: BIO }) } catch (e) {} }; setTimeout(ev, 1500);
+  if (BIO !== 'R') return;
+  const F = [["💞", "Uma pessoa específica", "Tem alguém ocupando a sua cabeça mais do que deveria. Enquanto você não entender o que existe entre vocês, a sua energia fica presa nessa história.", "tarot.html?m=cigano&p=pensa&utm_source=roleta", "Ver o que ele(a) sente · 3 cartas grátis", "casal.html?utm_source=roleta", "💑 Ou veja se vocês combinam"], ["💰", "Dinheiro travado", "O dinheiro entra e escorre, ou nem entra. Não é só falta de sorte: tem algo no seu caminho financeiro pedindo atenção.", "tarot.html?m=tarot&t=dinheiro&p=O%20que%20est%C3%A1%20travando%20o%20meu%20dinheiro%3F&utm_source=roleta", "Ver o que trava o seu dinheiro · grátis", "", ""], ["😰", "Ansiedade e dúvida", "Você está vivendo no “e se…”. A cabeça não para e qualquer silêncio vira motivo pra se preocupar.", "tarot.html?m=sim&utm_source=roleta", "Fazer a pergunta que te tira o sono · 1 carta", "", ""], ["🪞", "Autoestima", "Você está duvidando do seu valor e aceitando menos do que merece. Isso muda tudo em volta: o amor, o trabalho, as escolhas.", "tarot.html?m=tarot&t=caminho&p=O%20que%20eu%20preciso%20enxergar%20sobre%20mim%3F&utm_source=roleta", "Ver o que as cartas dizem de você · grátis", "imperatriz.html?utm_source=roleta", "👑 Ativação da Imperatriz · 7 dias"], ["🔁", "Um ciclo que não fecha", "Uma história antiga ainda está aberta: um ex, uma briga, um “e se tivesse sido diferente”. Ela ocupa o espaço do que é novo.", "tarot.html?m=cigano&p=volta&utm_source=roleta", "Ver se essa história volta ou fecha · grátis", "", ""], ["🧭", "Um caminho a decidir", "Você está numa encruzilhada e com medo de escolher errado. Ficar parado também é uma escolha.", "tarot.html?m=tarot&t=caminho&p=Qual%20caminho%20eu%20devo%20seguir%3F&utm_source=roleta", "Ver qual caminho as cartas apontam · grátis", "", ""], ["💼", "Trabalho e propósito", "O trabalho está pesando ou parece não ter sentido. Tem uma mudança querendo acontecer.", "tarot.html?m=tarot&t=dinheiro&p=emprego&utm_source=roleta", "Ver o que vem no trabalho · grátis", "", ""], ["🌙", "Energia pesada", "Cansaço sem motivo, coisas dando errado em sequência, sensação de olho grande. A sua energia está pedindo limpeza.", "tarot.html?m=tarot&t=caminho&p=O%20que%20est%C3%A1%20pesando%20na%20minha%20energia%3F&utm_source=roleta", "Ver o que está pesando em você · grátis", "imperatriz.html?utm_source=roleta", "👑 Elevar a energia em 7 dias"]], $b = id => document.getElementById(id), hoje = () => new Date().toLocaleDateString('sv-SE');
+  $b('bRol').hidden = false; const lr = document.querySelector('a.lk.roleta'); if (lr) lr.hidden = true; let ang = 0, gir = false;
+  const tr = (e, d) => { try { window.umami && window.umami.track(e, { ...(d || {}), bio: BIO, modo: 'roleta', origem: 'bio' }) } catch (x) {} };
+  const mostrar = i => { const f = F[i]; $b('bE').textContent = f[0]; $b('bT').textContent = f[1]; $b('bX').textContent = f[2]; $b('bGo').href = f[3].replace('utm_source=roleta', 'utm_source=bio-roleta'); $b('bGo').firstChild.textContent = f[4] + ' ';
+    $b('bGo').onclick = () => tr('roleta-foi-pra-tiragem', { tema: f[1] }); $b('bRes').hidden = false; $b('bGirar').hidden = true };
+  $b('bGirar').onclick = () => { if (gir) return; gir = true; $b('bGirar').disabled = true; $b('bGirar').textContent = 'Girando…'; tr('roleta-girou');
+    const i = Math.floor(Math.random() * F.length); ang += 360 * 6 + (360 - (i * 45 + 22.5)) - (ang % 360); $b('bRoda').style.transform = 'rotate(' + ang + 'deg)';
+    setTimeout(() => { try { localStorage.setItem('tarot_roleta', JSON.stringify({ d: hoje(), i })) } catch (e) {} gir = false; mostrar(i); tr('roleta-resultado', { tema: F[i][1] }) }, 5200) };
+  try { const r = JSON.parse(localStorage.getItem('tarot_roleta')); if (r && r.d === hoje() && F[r.i]) { ang = 360 - (r.i * 45 + 22.5); $b('bRoda').style.transition = 'none'; $b('bRoda').style.transform = 'rotate(' + ang + 'deg)'; mostrar(r.i) } } catch (e) {}
+})();
 </script>
 </body>
 </html>
