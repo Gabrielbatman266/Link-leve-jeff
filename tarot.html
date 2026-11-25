@@ -206,6 +206,7 @@ label.f input:focus{outline:none;border-color:var(--gold)}
     <p>Está tudo liberado aqui. Faça na ordem que quiser: cada item fica guardado neste celular.</p>
     <button class="dsItem" id="dsCig"><span>💞</span><span><b>Mesa cigana · 9 cartas</b><small>O que ele(a) sente e pensa de você</small></span><span class="ar seta">→</span></button>
     <button class="dsItem" id="dsCruz"><span>✨</span><span><b>Cruz Celta · 10 cartas</b><small>O que está escondido e o plano de 21 dias</small></span><span class="ar seta">→</span></button>
+    <button class="dsItem" id="dsComp" hidden><span>🔮</span><span><b>Leitura completa · 5 cartas</b><small>Modo de teste do dono</small></span><span class="ar seta">→</span></button>
     <a class="dsItem" id="dsCasal" href="#"><span>💑</span><span><b>Compatibilidade completa</b><small>Coloque os dois nomes e veja tudo</small></span><span class="ar seta">→</span></a>
     <a class="dsItem" id="dsImp" href="#"><span>👑</span><span><b>Ativação da Imperatriz · 7 dias</b><small>Começa hoje, um dia por vez</small></span><span class="ar seta">→</span></a>
     <p class="aviso">Guarde este celular: o Dossiê fica salvo nele. Se trocar de aparelho, me chama no WhatsApp com o comprovante do Pix.</p>
@@ -488,6 +489,7 @@ function abrirDossie() {
   $('dsImp').href = 'imperatriz.html?utm_source=dossie#im=' + encodeURIComponent(D.imperatriz);
   $('dsCig').onclick = () => { $('sD').hidden = true; track('dossie-cigano'); S.tipo = 'cigano'; S.modo = 'cigano'; S.baralho = D.cigano; S.tema = 'amor'; S.leitura = null;
     if (!S.pessoa) { $('temas').hidden = true; $('pessoaL').hidden = false; $('s1').insertBefore($('pessoaL'), $('go1')); $('go1').disabled = false; tela(1) } else respirar() };
+  $('dsComp').hidden = !D.completa; $('dsComp').onclick = () => { $('sD').hidden = true; S.tipo = 'completa'; S.modo = 'tarot'; S.baralho = D.completa; S.tema = S.tema || 'amor'; S.leitura = null; $('temas').hidden = false; tela(1) };
   $('dsCruz').onclick = () => { $('sD').hidden = true; track('dossie-cruz'); S.tipo = 'profunda'; S.modo = 'tarot'; S.baralho = D.profunda; S.tema = S.tema || 'amor'; S.leitura = null; $('temas').hidden = false; tela(1) };
 }
 /* 1 · tema */
@@ -801,7 +803,9 @@ async function cartaDia() {
       $('diaTxt').textContent = c.texto.charAt(0).toUpperCase() + c.texto.slice(1) + '. ' + c.intuicao; $('diaCons').textContent = c.conselho; $('diaAf').textContent = '“' + c.afirmacao + '”' }, 900) };
   if (LS.g('dia_visto') === hoje()) $('diaFlip').click(); else LS.s('dia_visto', hoje());
 }
-if (MODO === 'dia') cartaDia();
+const DONO = new URLSearchParams(location.search).get('dono');
+if (DONO) { history.replaceState(null, '', location.pathname); api('/api/dono?k=' + encodeURIComponent(DONO)).then(j => { LS.s('dossie', { ...j.dossie, dono: true, t: Date.now() }); toast('Modo de teste do dono ✦ tudo liberado'); abrirDossie() }).catch(() => toast('Link de teste inválido')) }
+else if (MODO === 'dia') cartaDia();
 else if (!gratisUsada() && !pagoGuardado() && !pendAtivo() && !new URLSearchParams(location.search).has('inicio')) inicioRapido();
 if (LS.g('dia_visto') === hoje()) $('diaMiniT').textContent = 'Você já viu a de hoje. Toque pra rever.';
 
