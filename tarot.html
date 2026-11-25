@@ -414,7 +414,8 @@ const PAGO_MODO = MODO === 'cigano' ? 'cigano' : 'completa';
 // perguntas prontas pros links dos vídeos (?p=volta etc.)
 const PERG = { volta: 'Ele(a) vai voltar pra mim?', pensa: 'Ele(a) pensa em mim?', gosta: 'Ele(a) gosta de mim?', certo: 'Vai dar certo entre nós?', procura: 'Ele(a) vai me procurar?', dinheiro: 'O dinheiro vai chegar?', emprego: 'Vou conseguir esse emprego?' };
 const pURL = new URLSearchParams(location.search).get('p');
-if (pURL) { const q = PERG[pURL] || pURL.slice(0, 140); setTimeout(() => { $('perg').value = q }, 0); if (PERG[pURL] && !['dinheiro', 'emprego'].includes(pURL)) S.tema = 'amor' }
+if (pURL) { const q = PERG[pURL] || pURL.slice(0, 140); setTimeout(() => { $('perg').value = q }, 0); if (PERG[pURL]) S.tema = ['dinheiro', 'emprego'].includes(pURL) ? 'dinheiro' : 'amor' }
+const tURL = new URLSearchParams(location.search).get('t'); if (['amor', 'dinheiro', 'caminho'].includes(tURL)) S.tema = tURL; // tema vindo da roleta
 if (MODO === 'sim') {
   document.title = 'Sim ou não? · Oráculo do Jeff';
   $('h0').textContent = 'Faça a sua pergunta. A carta responde.'; $('pill0').textContent = 'SIM OU NÃO · CARTA GRÁTIS';
@@ -594,7 +595,7 @@ function extras(x, l) {
 }
 async function precosAtuais() { try { return await api('/api/tarot/precos?v=' + FUNIL + '&f=' + encodeURIComponent(LS.g('fid') || '')) } catch (e) { return { completa: 5, profunda: 14.9, cigano: 9.9, pacote: 12, numero: 9.9 } } }
 function maisHTML(atual) {
-  const T = [['cigano', '💞', 'Ele(a) vai voltar?', 'Pessoa específica · cigano', '?m=cigano&p=volta'], ['imperatriz', '👑', 'Ativação da Imperatriz', '7 dias · egrégora', 'imperatriz.html?utm_source=mais'], ['casal', '💞', 'Vocês combinam?', 'Numerologia do casal', 'casal.html?utm_source=mais'], ['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
+  const T = [['cigano', '💞', 'Ele(a) vai voltar?', 'Pessoa específica · cigano', '?m=cigano&p=volta'], ['roleta', '🎡', 'Roleta da energia', 'O que está pesando em você?', 'roleta.html?utm_source=mais'], ['imperatriz', '👑', 'Ativação da Imperatriz', '7 dias · egrégora', 'imperatriz.html?utm_source=mais'], ['casal', '💞', 'Vocês combinam?', 'Numerologia do casal', 'casal.html?utm_source=mais'], ['sim', '❓', 'Sim ou não', 'Pergunta rápida', '?m=sim'], ['dia', '🌅', 'Carta do dia', 'Grátis, todo dia', '?m=dia'], ['tarot', '🔮', 'Tarot', '3 cartas grátis', '?m=tarot'], ['numero', '🔢', 'Numerologia', '+ Arcano pessoal', 'numerologia.html']];
   return T.filter(t => t[0] !== atual).map(t => `<a href="${t[4]}" data-mais="${t[0]}"><span>${t[1]}</span>${t[2]}<small>${t[3]}</small></a>`).join('');
 }
 document.addEventListener('click', e => { const a = e.target.closest('[data-mais]'); if (a) track('clicou-mais', { para: a.dataset.mais }); const b = e.target.closest('[data-ev2]'); if (b) track(b.dataset.ev2) });
